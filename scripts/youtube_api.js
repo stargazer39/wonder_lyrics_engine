@@ -122,7 +122,7 @@ function lyricsArrary(array,seperator){
 
 var rsplit,lsplit,tsplit,srcURL;
 async function waitforme(){
-	let data2 = await makeRequest('GET', 'url here')
+	let data2 = await makeRequest('GET', 'http://localhost:8080/')
 	var data = processLyrics(data2);
 	rsplit = lyricsArrary(data["lyrics"]["romaji"],"<br>");
 	lsplit = lyricsArrary(data["lyrics"]["english"],"<br>");

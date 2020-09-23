@@ -210,7 +210,7 @@ function lyricsArrary(array,seperator){
 }
 //Begin the main programm
 async function mainFunction() {
-	let response = await makeRequest('GET', 'url is here');
+	let response = await makeRequest('GET', 'http://localhost:8080/');
 	var data = processLyrics(response);
 	console.log(data);
 	rsplit = lyricsArrary(data["lyrics"]["romaji"],"<br>");

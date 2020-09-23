@@ -150,4 +150,4 @@
 |3iMdlFaiO4s
 
 [localfile]
-|..\assets\video.mkv
+|../../none_git_assets/video.mkv

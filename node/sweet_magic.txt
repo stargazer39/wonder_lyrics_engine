@@ -136,4 +136,4 @@
 |
 
 [localfile]
-|C:\Users\StargazeR\Desktop\Stuff\Html Projects\assets\sweet_magic.mp4
+|../../none_git_assets/sweet_magic.mp4

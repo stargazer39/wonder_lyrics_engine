@@ -226,4 +226,4 @@
 |9SKA6PmcLuQ
 
 [localfile]
-|../assets/video.mp4
+|../../none_git_assets/video.mp4
