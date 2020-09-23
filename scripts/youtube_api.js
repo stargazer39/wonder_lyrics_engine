@@ -2,6 +2,7 @@
 var intro = document.getElementById('intro');
 var waiting = document.getElementById('waiting');
 var startshow = document.getElementById('startshow');
+var playalt = document.getElementsByClassName("playalt")
 //Animation for controls
 var settings = document.getElementById('settings');
 var controls = document.getElementById('controls');
@@ -274,10 +275,30 @@ function playerBegin(){
 		}
 	  }
 	});
+	var playalt_ = function(){ 
+		switch(player.getPlayerState()){
+	  		case -1:
+	  			player.seekTo(0,true);
+	  			player.playVideo();
+	  			break;
+			case 1:
+	        	//player.pauseVideo();
+	        	break;
+	        case 2:
+	        case 5:
+	        case 0:
+	        	player.playVideo();
+	        	break;
+	    }
+	  }
+	console.log(playalt[0]);
+	console.log(playalt_);
+	playalt[0].addEventListener("click",playalt_);
 	var control_return = new Array();
 	control_return[0] = start_;
 	control_return[1] = stop_;
 	control_return[2] = seek_;
+	control_return[3] = playalt_;
 	return control_return;
 }
 var begin = false;
