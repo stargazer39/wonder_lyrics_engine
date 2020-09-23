@@ -1,3 +1,7 @@
+//Animation for Intro
+var intro = document.getElementById('intro');
+var waiting = document.getElementById('waiting');
+var startshow = document.getElementById('startshow');
 //Animation for controls
 var settings = document.getElementById('settings');
 var controls = document.getElementById('controls');
@@ -44,6 +48,10 @@ function makeRequest(method, url) {
     };
     xhr.send();
   });
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function processLyrics(data){
@@ -142,7 +150,6 @@ async function onYouTubeIframeAPIReady() {
 	player = new YT.Player('player', {
 			videoId : srcURL,
 			playerVars: {
-	      'autoplay': 1,
 	      'controls': 0,
 	      'enablejsapi' : 1,
 	      'start' : 0,
@@ -164,6 +171,8 @@ function onPlayerReady(event){
 	//var hack = document.querySelector("video.video-stream.html5-main-video");
 	//Get the created player
 	control_return = playerBegin();
+	waiting.classList.add("fadeout");
+	startshow.classList.add("fadein");
 	//control_return[0]();
 	player_next = document.getElementById("player")
 	player_next.classList.add("play");
@@ -172,7 +181,7 @@ function onPlayerReady(event){
 	seeker.addEventListener('mousedown',function () { seeking = true;});
 	seeker.addEventListener('mouseup',function () { seeking = false; player.seekTo(seeker.value,true);player.playVideo();})
 
-	player.playVideo();
+	//player.playVideo();
 }
 
 for (var child of wholepage) {
@@ -271,13 +280,24 @@ function playerBegin(){
 	control_return[2] = seek_;
 	return control_return;
 }
+var begin = false;
+async function animation1(){
+	if(!begin){
+		player_next.classList.remove("play");
+		intro.classList.add("introanim");
+		await sleep(1000);
+		intro.classList.add("disnone");
+		begin = true;
+		}
+}
+				
 function onPlayerStateChange(event){
 	console.log('changed' + player.getPlayerState())
 	switch(player.getPlayerState()){
 		case 1:
 			control_return[2]();
 			control_return[0]();
-			player_next.classList.remove("play");
+			animation1();
         	break;
         //If player state changed by any(other) means
         case 2:

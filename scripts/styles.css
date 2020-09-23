@@ -108,5 +108,37 @@
 	bottom: 0;
 	min-width: 100%;
 	min-height: 100%;
-	background-color: black; 
+	background-color: black;
+	z-index: 200;
+}
+.introanim {
+	opacity: 0;
+	transition: opacity 1s;
+}
+.disnone{
+	display: none !important;
+}
+.fadein{
+	opacity: 1 !important;
+	transition: opacity 1s;
+}
+.fadeout2{
+	opacity: 0;
+	transition: opacity 1s;
+}
+#intro > div {
+	position: absolute; 
+	font-family: 'Teko', sans-serif;
+	text-align: center;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%,-50%);
+	color:white;
+}
+#startshow{
+	opacity: 0;
+}
+#waiting{
+	opacity: 1;
 }
