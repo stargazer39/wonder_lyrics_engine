@@ -1,10 +1,10 @@
 //Animation for controls
-var settings = document.getElementById('controls');
-var container = document.getElementById('container');
+var settings = document.getElementById('settings');
+var controls = document.getElementById('controls');
 
-container.addEventListener('mouseout',function(){ container.classList.remove("anisettings")});
-settings.addEventListener('mouseover',function(){ container.classList.add("anisettings")});
-settings.addEventListener('mouseout',function(){ container.classList.remove("anisettings")});
+controls.addEventListener('mouseout',function(){ controls.classList.remove("anisettings")});
+controls.addEventListener('mouseover',function(){ controls.classList.add("anisettings")});
+settings.addEventListener('mouseover',function(){ controls.classList.add("anisettings")});
 
 //Seeker
 var seeking = false;

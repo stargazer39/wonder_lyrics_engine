@@ -60,38 +60,44 @@
 }
 .fadetrans{  transition: opacity 1s; }
 .fadeout { opacity: 0 !important; }
-#controls{
-	position: absolute;
+#settings{
 	width: 70px;
 	height: 70px;
+	top: 0;
+	left:0;
+	z-index: 101;
+	transition: transform 500ms;
+	position: fixed;
+	z-index: 101;
+	background-color: white;
+}
+#settings >img {
+	max-width: 100%;
+	max-height: 100%;
+	padding: 8px;
+	position: absolute;
+}
+#controls{
+	position: fixed;
 	background-color: white;
 	top: 0;
 	left:0;
-	background-image: url('settings.svg');
-	background-size: contain;
-	z-index: 101;
-}
-#controls *{
 	z-index: 102;
-}
-#container{
 	transform: translate(-70px);
 	transition: transform 500ms;
 }
-#container > div{
-	position: relative;
-	width: inherit;
-	height: inherit;
+#controls > div{
+	width: 70px;
+	height: 70px;
 	background-color: white;
 }
 #controls img{
 	max-width: 100%;
 	max-height: 100%;
 	padding: 8px;
-}
-#container > img {
 	position: absolute;
 }
+
 .anisettings{
 	transform: translate(0) !important;
 }
