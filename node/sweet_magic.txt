@@ -1,0 +1,139 @@
+[lyrics-romaji]
+|-
+|amakute shiawase na koto
+|kakushi aji nani ni shiyou
+|junsui na otome gokoro
+|amai koi mo karame nakucha
+|setsuna sa kasanete mirufiiyu
+|sanmi mo tsumiage taruto
+|nigami mo chokoreeto keeki?
+|mahou kaketa amai kiseki
+|amasa wo osaete bitaa toka
+|miruku nashi no koohii toka
+|amai dakeja otona ni narenai no?
+|sonna no zettai ni zettai yada yada yada
+|-
+|nee ageyou ka amai wana
+|hora toriko ni shite ageru
+|sonna mahou kakeru kara
+|chotto dake matase tageru wa
+|-
+|"Sweetie, Sweetie, Sweetie, Magical!"
+|"Sweetie, Sweetie, Sweetie, Yeah! Yeah!"
+|"Sweetie, Sweetie, Sweetie, Magical!"
+|"Sweetie, Sweetie..."
+|-
+|tatta hitoku chi ga tari nakute
+|akai ichigo mitaku iji hatte
+|amai tokoro nante misenai wa
+|kanpeki ni tsukuru mon
+|hitori demo, demo, demo
+|-
+|nee, kizuiterun desho?
+|wakatterun desho?
+|kakushi aji no koi gokoro
+|nigami toka sanmi to ka
+|souiu no mo tama ni wa ii wa
+|ijippari de wagamama na
+|sonna "amai mahou" tsukai
+|-
+|wowow Lest Dance!
+|-
+|For you Love!
+|-
+
+[lyrics-english]
+|-
+|Making something happy and sweet,
+|What secret ingredient should I use?
+|Perhaps the true feelings in my heart
+|Sweet love must also be mixed in!
+|A Mille-feuille layered with sorrow,
+|A tart piled high with sour memories,
+|Even a bitter-tasting chocolate cake?
+|When I cast my spell, it's a Sweet Miracle!
+|Should I tone down the sweetness to make it bitter?
+|Like coffee without milk?
+|"Having only sweets isn't very mature, right?"
+|Something like that, I absolutely, completely won't accept!
+|-
+|Hey! You want to, right? To get caught in this sweet trap?
+|Now I've made you my prisoner!
+|I'll begin to cast this magic spell,
+|You'll only have to wait a moment and...
+|-
+|"Sweetie, Sweetie, Sweetie, Magical!"
+|"Sweetie, Sweetie, Sweetie, Yeah! Yeah!"
+|"Sweetie, Sweetie, Sweetie, Magical!"
+|"Sweetie, Sweetie..."
+|-
+|Just one bite won't be enough!
+|This red strawberry (me) won't give up!
+|Don't go looking for other sweet places,
+|The perfect person for you
+|There is still only one of those!
+|-
+|Hey, have you realized it, right?
+|You get it, right?
+|The secret ingredient of true love
+|Bitter things, Sour things,
+|Even those things are fine sometimes
+|Because of this determined selfishness of mine,
+|I'll use this "Sweet Magic"
+|-
+|English translation by descentsubs
+|-
+|For you Love!
+|-
+
+
+[time]
+|0
+|27.083418
+|30.988999
+|34.950486
+|37.898006
+|42.827165
+|46.64807
+|50.465346
+|53.634615
+|57.912917
+|61.810997
+|65.385034
+|69.415638
+|73.561279
+|77.435021
+|82.245449
+|86.138887
+|90.066849
+|93.476978
+|116.852888
+|120.673649
+|124.673155
+|128.51735
+|130.568624
+|132.051432
+|135.731676
+|139.558446
+|143.555041
+|145.330987
+|148.055219
+|155.439464
+|158.289488
+|160.414878
+|164.172685
+|168.130342
+|172.015784
+|175.918646
+|179.734997
+|185.705665
+|188.232326
+|193.46079
+|195.422682
+|213.926
+
+[youtube]
+|
+
+[localfile]
+|C:\Users\StargazeR\Desktop\Stuff\Html Projects\assets\sweet_magic.mp4

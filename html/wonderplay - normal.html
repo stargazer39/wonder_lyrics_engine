@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Wonder Style</title>
+	<link rel="stylesheet" href="..\scripts\seek.css">
+	<link rel="stylesheet" href="..\scripts\styles.css">
+	<link rel="stylesheet" href="..\scripts\browser.css">
+	<style type="text/css">
+		#player { 
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			-webkit-transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%);
+			min-width: 100%;
+			min-height: 100%;
+		}
+		.play{
+			z-index: 100 !important;
+		}
+		
+	</style>
+</head>
+<body>
+	<video id="player" autoplay="">
+	</video>
+	<div id="overlay"></div>
+	<div id="lyrics"></div>
+	<div id="overlay2"></div>
+	<div class="bottom" id="bottombg">
+		<div id="display2"></div>
+	</div>
+	<div id="seekcontainer"><input type="range" id="seeker" min="0" max="100" value="0" step="0.1"></div>
+	<div id="controls" >
+		<div id="container">
+			<img src="..\assets\settings.svg">
+			<div id="play">
+				<img src="..\assets\play.svg">
+			</div>
+			<div id="begining">
+				<img src="..\assets\re.svg">
+			</div>
+			<div id="hide">
+				<img src="..\assets\hide.svg">
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="..\scripts\local.js"></script>
+</body>
+</html>

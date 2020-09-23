@@ -1,0 +1,153 @@
+[lyrics-romaji]
+|kono yoru ni koishite
+|ichibyou goto ni sekai wa kawaru
+|onegai konna jikan ga zutto tsuzukimasu you ni
+|So take me, for me
+|-
+|mawaru miraabooru nariyamanai oto
+|tsutawaru kodou wa majikku
+|haneru you na biito asagata made gimme
+|kinou no nayami nara mou throw out
+|nee kikoeru?
+|kokoro yurasu sutoorii
+|mada tarinai?
+|suwiito ni odoru no
+|watashi wa sou Wonder Style
+|-
+|kono yoru ni koishite
+|kirameita furoa o nagameta
+|ashita no mukougawa made mitooseru mitai
+|kono yoru ni koishite
+|ichibyou goto ni sekai wa kawaru
+|onegai konna jikan ga zutto tsuzukimasu you ni
+|So take me, for me
+|-
+|kessen wa shuumatsu doyou no kuuhaku
+|choushi ga denai weekdays doushite?
+|ano hi kiita song hameta iyafon
+|kimochi dake sukoshi taimusurippu
+|nee kikoeru?
+|kokoro hazumu merodii
+|mada tarinai?
+|suwiito ni odoru no
+|watashi wa sou Wonder style
+|-
+|ijiwaru na everyday
+|kimagure ni sotto te o nobashite kureru kara
+|-
+|kono yoru ni koishite
+|kirameita furoa o nagameta
+|ashita no mukougawa made mitooseru mitai
+|kono yoru ni koishite
+|ichibyou goto ni sekai wa kawaru
+|onegai konna jikan ga zutto tsuzukimasu you ni
+|So take me, for me
+|-
+|So take me, for me
+|-
+|Made By StargazeR for Hatsune Miku
+
+[lyrics-english]
+|Falling in love with the night
+|The world changes second by second
+|Please, let this time last forever
+|So take me, for me
+|-
+|Spinning mirrorball, sounds that won't stop
+|This rhythm transmits magic
+|Gimme the hopping beat until the morning
+|Throw out yesterday's woes
+|Hey, can you hear?
+|A story that will shake your heart
+|Not enough yet?
+|Dancing sweetly
+|Yes, I'm Wonder Style
+|-
+|Falling in love with the night
+|Watching the glittering floor
+|As if you can see through beyond tomorrow
+|Falling in love with the night
+|The world changes second by second
+|Please, let this time last forever
+|So take me, for me
+|-
+|A decisive weekend, an empty Saturday
+|Out of tune on weekends: why?
+|That song I heard that day, put on my earphones
+|Emotions time slip just a bit
+|Hey, can you hear?
+|A melody that will make your heart jump
+|Not enough yet?
+|Dancing sweetly
+|Yes, I'm Wonder Style
+|-
+|Unkind everyday
+|But sometimes it reaches out
+|-
+|Falling in love with the night
+|Watching the glittering floor
+|As if you can see through beyond tomorrow
+|Falling in love with the night
+|The world changes second by second
+|Please, let this time last forever
+|So take me, for me
+|-
+|So take me, for me
+|-
+|Made By StargazeR for Hatsune Miku
+
+[time]
+|3.900394
+|6.539555
+|11.412276
+|17.699743
+|22.531823
+|27.004868
+|30.668105
+|34.580447
+|38.147682
+|41.916005
+|45.527035
+|49.371856
+|52.595986
+|54.516624
+|59.892814
+|71.299989
+|74.061191
+|78.883821
+|86.299808
+|89.019651
+|93.860018
+|100.107824
+|105.035895
+|109.419724
+|113.292197
+|116.595889
+|120.611861
+|124.395918
+|128.17973
+|131.925674
+|135.107326
+|137.004066
+|142.436623
+|155.267891
+|158.931902
+|167.828695
+|169.099908
+|171.571981
+|176.44309
+|183.774773
+|186.683613
+|191.436283
+|197.627804
+|201.628209
+|205.222736
+|208.756443
+|210
+|215
+
+[youtube]
+|3iMdlFaiO4s
+
+[localfile]
+|..\assets\video.mkv

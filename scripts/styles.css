@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@600&display=swap');
+* {box-sizing: border-box;}
+#overlay {
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	min-width: 100%;
+	min-height: 100%;
+	background-color: black;
+	opacity: 0.5;
+}
+.bottom{
+	position: fixed;
+	#opacity: 0.7;
+	bottom:0;
+	right: 0;
+	min-width: 100%;
+	
+	/*min-height: 15%;*/
+	font-size:  50px; 
+ 	color: white;
+ 	font-family: 'Teko', sans-serif;
+ 	text-align: center;
+ 	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
+	z-index: 3;
+}
+#lyrics {
+ font-size:  50px; 
+ color: white;
+ position: fixed;
+ top: 50%;
+ left: 50%;
+ -webkit-transform: translate(-50%, 0);
+ transform: translate(-50%, 0);
+ text-align: center;
+ font-family: 'Teko', sans-serif;
+ transition: opacity 200ms,transform 200ms;
+ z-index: 2;
+ min-width: 100%;
+ white-space: nowrap;
+}
+#overlay2 {
+	position: fixed;
+ 	top: 50%;
+ 	left: 50%;
+ 	-webkit-transform: translate(-50%, -50%);
+ 	transform: translate(-50%,-50%);
+ 	min-height: 72px;
+ 	min-width: 100%;
+ 	background-color: black;
+ 	z-index: 1;
+}
+#display2 {
+	#z-index:4;
+	#mix-blend-mode: difference;
+	text-shadow: 2px 2px black;
+	padding-bottom: 20px;
+	white-space: nowrap;
+}
+.fadetrans{  transition: opacity 1s; }
+.fadeout { opacity: 0 !important; }
+#controls{
+	position: absolute;
+	width: 70px;
+	height: 70px;
+	background-color: white;
+	top: 0;
+	left:0;
+	background-image: url('settings.svg');
+	background-size: contain;
+	z-index: 101;
+}
+#controls *{
+	z-index: 102;
+}
+#container{
+	transform: translate(-70px);
+	transition: transform 500ms;
+}
+#container > div{
+	position: relative;
+	width: inherit;
+	height: inherit;
+	background-color: white;
+}
+#controls img{
+	max-width: 100%;
+	max-height: 100%;
+	padding: 8px;
+}
+#container > img {
+	position: absolute;
+}
+.anisettings{
+	transform: translate(0) !important;
+}

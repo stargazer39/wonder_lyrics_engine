@@ -1,0 +1,7 @@
+@-moz-document url-prefix() {
+ 
+    .bottom {
+    	background-color: black;
+    }
+ 
+}

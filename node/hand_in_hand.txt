@@ -1,0 +1,229 @@
+[lyrics-romaji]
+|me o tojite mieru sono
+|yubisaki e megaketa
+|kuchizusamu sono uta o
+|tsuzukete
+|sou
+|Hand in hand kimi no sono te wa
+|shiranai dareka no te mo
+|Hand in hand nigitterun da
+|zutto zutto
+|mirai made
+|-
+|mada nakanaide
+|kizukanai dake da yo
+|kotoba ya omoi
+|miezurai kara ne
+|suki na hito suki na koto
+|suki na basho megaketa
+|yasashisa ga kaerun da
+|ashita o
+|sou
+|Hand in hand kimi ga sakenda
+|uta wa dareka no te mo
+|Hand in hand tsutsumikomu kara
+|togirenai de
+|dakara ne
+|Hand in hand tsuyoi kimochi wa
+|dare ka no kata o daku
+|Hand in hand oboete ite ne
+|zutto zutto
+|mirai made
+|-
+|nanigenai kotoba
+|oboetenai merodii
+|shiranai uchi ni
+|egao o tsukutteru
+|sono koe de sono yubi de
+|sono mune de egaita
+|itoshisa wa tsutawaru yo
+|ashita e
+|sou
+|Hand in hand kimi ga tsukanda
+|sono te wa tooku made
+|Hand in hand chigau dareka no
+|namida nuguu
+|dakara ne
+|Hand in hand tsuyoi kimochi wa
+|dare ka no kata o daku
+|Hand in hand oboete ite ne
+|zutto zutto
+|mirai made
+|-
+|me o tojite mieru sono
+|yubisaki e megaketa
+|kuchizusamu sono uta o
+|tsuzukete
+|sou
+|Hand in hand kimi ga tsukanda
+|sono te wa tooku made
+|Hand in hand chigau dareka no
+|namida nuguu
+|dakara ne
+|Hand in hand kimi ga sakenda
+|uta wa dare ka no te mo
+|Hand in hand tsutsumi komu kara
+|togirenai de
+|dakara ne
+|Hand in hand tsuyoi kimochi wa
+|dare ka no kata o daku
+|Hand in hand oboete ite ne
+|zutto zutto
+|mirai made
+|-
+
+[lyrics-english]
+|I'm humming a song
+|A song I release
+|To where my finger points out
+|The point I see with my eyes closed
+|See
+|Hand in hand, that hand of yours
+|May be someone else's hand I don't know
+|Hand in hand, I'm holding the hand
+|Forever, forever
+|To the future
+|-
+|Don't cry
+|You don't just understand this yet
+|Words and feelings
+|Are something you barely see
+|The gentleness changes tomorrow
+|The gentleness I release
+|To people I love, things I like
+|And places I like
+|See
+|Hand in hand, a song you shouted
+|Will wrap around
+|Hand in hand, someone's else's hand
+|Without any hesitation
+|So
+|Hand in hand, these strong feelings
+|Will embrace someone else's shoulder
+|Hand in hand, remember this
+|Forever, forever
+|To the future
+|-
+|These casual words
+|And these forgotten melodies
+|Create smiles
+|Before I know
+|This affection
+|You draw with your voice, with your finger
+|And with your heart will spread
+|To tomorrow
+|See
+|Hand in hand, the hand you're holding
+|Will wipe away
+|Hand in hand, someone else's tears
+|In a faraway place
+|So
+|Hand in hand, these strong feelings
+|Will embrace someone else's shoulder
+|Hand in hand, remember this
+|Forever, forever
+|To the future
+|-
+|I'm humming a song
+|A song I release
+|To where my finger points out
+|The point I see with my eyes closed
+|See
+|Hand in hand, the hand you're holding
+|Will wipe away
+|Hand in hand, someone's else's tears
+|In a faraway place
+|So
+|Hand in hand, a song you shouted
+|Will wrap around
+|Hand in hand, someone else's hand
+|Without any hesitation
+|So
+|Hand in hand, these strong feelings
+|Will embrace someone else's shoulder
+|Hand in hand, remember this
+|Forever, forever
+|To the future
+|-
+|English translation by Damesukekun‎
+
+[time]
+|2.271782
+|6.146579
+|9.827207
+|13.563738
+|16.221883
+|16.742194
+|20.432259
+|24.310487
+|27.543635
+|30.690056
+|34.175339
+|46.377901
+|49.730745
+|53.698592
+|57.147746
+|62.212336
+|65.605702
+|69.860122
+|73.588855
+|76.355919
+|77
+|80.408867
+|84.050676
+|87.767595
+|90.79537
+|91.735781
+|95.384689
+|98.888208
+|102.375015
+|105.592954
+|110.043149
+|121.404895
+|124.718575
+|128.739273
+|132.305117
+|137.489186
+|141.134904
+|144.955303
+|148.762636
+|151.395841
+|151.878642
+|155.592576
+|159.340091
+|162.837839
+|165.910805
+|166.903033
+|170.566973
+|174.365244
+|177.696369
+|180.62328
+|184.540046
+|197.602728
+|201.304615
+|205.040977
+|208.81976
+|211.362091
+|211.934272
+|215.516428
+|219.382908
+|222.871387
+|225.947022
+|226.949164
+|230.450205
+|234.392011
+|237.826887
+|240.838803
+|241.954886
+|245.586503
+|249.33362
+|252.743094
+|255.765361
+|259.157416
+|261
+
+[youtube]
+|9SKA6PmcLuQ
+
+[localfile]
+|../assets/video.mp4
