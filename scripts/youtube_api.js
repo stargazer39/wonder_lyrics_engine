@@ -257,32 +257,17 @@ function playerBegin(){
 			done = true;
 		}
 	}
-	document.addEventListener('keydown', function (event) {
-	  if (event.key === ' ') {
-	  	switch(player.getPlayerState()){
-	  		case -1:
-	  			player.seekTo(0,true);
-	  			player.playVideo();
-	  			break;
-			case 1:
-	        	player.pauseVideo();
-	        	break;
-	        case 2:
-	        case 5:
-	        case 0:
-	        	player.playVideo();
-	        	break;
-		}
-	  }
-	});
-	var playalt_ = function(){ 
+	
+	var playalt_ = function(pause_available){ 
 		switch(player.getPlayerState()){
 	  		case -1:
 	  			player.seekTo(0,true);
 	  			player.playVideo();
 	  			break;
 			case 1:
-	        	//player.pauseVideo();
+				if(pause_available){
+					player.pauseVideo();
+				}
 	        	break;
 	        case 2:
 	        case 5:
@@ -291,9 +276,10 @@ function playerBegin(){
 	        	break;
 	    }
 	  }
-	console.log(playalt[0]);
-	console.log(playalt_);
-	playalt[0].addEventListener("click",playalt_);
+	document.addEventListener('keydown', function (event) {if (event.key === ' ') { playalt_(true);}});
+	playalt[0].addEventListener("click",function(){playalt_(false)});
+
+	//Returning the control to outside
 	var control_return = new Array();
 	control_return[0] = start_;
 	control_return[1] = stop_;
