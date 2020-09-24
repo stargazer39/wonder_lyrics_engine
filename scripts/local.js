@@ -1,3 +1,9 @@
+//Animation for Intro
+var intro = document.getElementById('intro');
+var waiting = document.getElementById('waiting');
+var startshow = document.getElementById('startshow');
+var playalt = document.getElementsByClassName("playalt")
+
 //Animation for controls
 var settings = document.getElementById('settings');
 var controls = document.getElementById('controls');
@@ -31,6 +37,21 @@ function makeRequest(method, url) {
   });
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+//Ainmation
+var begin = false;
+async function animation1(){
+	if(!begin){
+		intro.classList.add("introanim");
+		await sleep(1000);
+		intro.classList.add("disnone");
+		begin = true;
+		}
+}
+
 //The Engine Starts Here
 var display = document.getElementById("lyrics");
 var display2 = document.getElementById("display2");
@@ -53,6 +74,9 @@ function playerBegin() {
 	var seeker = document.getElementById("seeker")
 	player.oncanplay = function() {
 	   	seeker.max = player.duration;
+
+	   	waiting.classList.add("fadeout");
+		startshow.classList.add("fadein");
 	};
 	var i = 0,sync = 0,y = -36,fade = true;
 	var done;
@@ -102,10 +126,12 @@ function playerBegin() {
 	}
 
 	player.addEventListener("seeked",function() {seek(); start();player.play();});
-	player.addEventListener("play",function() {seek(); start();});
+	player.addEventListener("play",function() {seek(); start(); animation1();});
 	player.addEventListener("pause",function(){stop();});
 	player.addEventListener("ended",function(){ console.log("ended"); stop();});
 	
+	playalt[0].addEventListener("click",function(){player.play();});
+
 	function seek(){
 		done = false;
 		//player.pause();

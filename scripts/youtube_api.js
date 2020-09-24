@@ -172,6 +172,7 @@ function onPlayerReady(event){
 	//var hack = document.querySelector("video.video-stream.html5-main-video");
 	//Get the created player
 	control_return = playerBegin();
+
 	waiting.classList.add("fadeout");
 	startshow.classList.add("fadein");
 	//control_return[0]();
@@ -277,7 +278,7 @@ function playerBegin(){
 	    }
 	  }
 	document.addEventListener('keydown', function (event) {if (event.key === ' ') { playalt_(true);}});
-	playalt[0].addEventListener("click",function(){playalt_(false)});
+	playalt[0].addEventListener("click",function(){playalt_(false);});
 
 	//Returning the control to outside
 	var control_return = new Array();
@@ -287,6 +288,8 @@ function playerBegin(){
 	control_return[3] = playalt_;
 	return control_return;
 }
+
+//Animation
 var begin = false;
 async function animation1(){
 	if(!begin){
