@@ -80,11 +80,17 @@ function playerBegin() {
 	};
 	var i = 0,sync = 0,y = -36,fade = true;
 	var done;
+	console.log(tsplit[tsplit.length - 1]);
 	function update() {
 		//console.log(player.currentTime);
 		//Seeker's Stuff
 		if(!seeking){
 			seeker.value = player.currentTime;
+		}
+		if(player.currentTime < tsplit[0] || player.currentTime > tsplit[tsplit.length - 1]){
+			for (var child of wholepage) {
+				  child.classList.add("fadeout");
+				}
 		}
 		if(player.currentTime + sync > tsplit[i] && player.currentTime + sync < tsplit[i+1]){
 			//display.classList.remove("fadeout");

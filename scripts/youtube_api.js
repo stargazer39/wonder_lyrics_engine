@@ -204,6 +204,11 @@ function playerBegin(){
 		if(!seeking){
 			seeker.value = player.getCurrentTime()
 		}
+		if(player.getCurrentTime() < tsplit[0] || player.getCurrentTime() > tsplit[tsplit.length - 1]){
+			for (var child of wholepage) {
+				  child.classList.add("fadeout");
+				}
+		}
 		if(player.getCurrentTime() + sync > tsplit[i] && player.getCurrentTime() + sync < tsplit[i+1]){
 			//display.classList.remove("fadeout");
 
