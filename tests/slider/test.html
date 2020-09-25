@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>sider test</title>
+	<link rel="stylesheet" href="slider.css">
+</head>
+<body>
+<div style="padding : 10px">
+	<div class="slider_parent" data-min="0" data-max="100" >
+		<div class="container slider_mousemove">
+			<div class="thumb"></div>
+			<div class="slider_fill"> </div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var slider_parent = document.querySelectorAll(".slider_parent");
+	var slider_fill = document.querySelectorAll(".slider_parent .container");
+	var thumb = document.querySelectorAll(".slider_parent .thumb");
+
+	var slider_val;
+	var slider_global_val=0,slider_temp=0;
+	var offset = [0,0];
+	var mousePosition;
+	var isDown = false;
+
+	var slider_max = slider_parent[0].dataset.max;
+	var slider_min = slider_parent[0].dataset.min;
+
+	thumb[0].addEventListener('mousedown', function(e) {
+	    isDown = true;
+	    slider_fill[0].classList.remove("slider_mousemove");
+	    offset = [
+	        thumb[0].offsetLeft - e.clientX + slider_temp,
+	    ]; 
+	    console.log(thumb[0].offsetLeft);
+	}, true);
+
+	document.addEventListener('mouseup', function() {
+		if(isDown){
+			isDown = false;
+	    	slider_fill[0].classList.add("slider_mousemove");
+		}
+	}, true);
+
+	document.addEventListener('mousemove', function(event) {
+	event.preventDefault();
+    if (isDown) {
+        mousePosition = {
+    
+            x : event.clientX,
+    
+        };
+        var real = mousePosition.x + offset[0];
+        var max = slider_parent[0].clientWidth-thumb[0].clientWidth
+
+        if( real <= max && real >= 0){
+        	slider_fill[0].style.transform = 'translateX(' + (mousePosition.x + offset[0]) + 'px' + ')';
+       	 	slider_temp = mousePosition.x + offset[0];
+       	 	slider_global_val = (slider_temp/(slider_parent[0].clientWidth-thumb[0].clientWidth))*slider_max;
+        }
+    }
+	}, true);
+
+	function update(value){
+		var value_now = value/slider_max*(slider_parent[0].clientWidth-thumb[0].clientWidth);
+		slider_fill[0].style.transform = 'translateX(' + value_now + 'px' + ')';
+		slider_temp = value_now;
+		value = slider_global_val;
+	}
+
+	window.addEventListener("resize", function(){ 
+		update(slider_global_val);
+	});
+
+	function get(){
+		return slider_global_val;
+	}
+</script>
+</body>
+</html>

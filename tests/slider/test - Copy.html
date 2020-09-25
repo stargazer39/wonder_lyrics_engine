@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>sider test</title>
+	<link rel="stylesheet" href="slider.css">
+</head>
+<body>
+<div class="slider_parent" data-min="0" data-max="100" >
+	<div class="container slider_mousemove">
+		<div class="thumb"></div>
+		<div class="slider_fill"> </div>
+	</div>
+</div>
+<script type="text/javascript">
+	var slider_parent = document.querySelectorAll(".slider_parent");
+	var slider_fill = document.querySelectorAll(".slider_parent .container");
+	var thumb = document.querySelectorAll(".slider_parent .thumb");
+
+	var slider_val;
+	var slider_global_val,slider_temp;
+	var mousePosition,offset = 50;
+	var isDown = false;
+
+//for all elems
+	var slider_max = slider_parent[0].dataset.max;
+	var slider_min = slider_parent[0].dataset.min;
+
+	function slider_update(obj){
+		if (isDown) {
+	        mousePosition = {
+	            x : event.clientX,
+	        };
+	        slider_val = mousePosition.x - event.offsetX;
+	        slider_fill[obj].classList.remove("slider_mousemove");
+	        if(slider_val <= (slider_parent[obj].clientWidth-thumb[obj].clientWidth) && slider_val >= 0){
+	        	slider_fill[obj].style.transform = "translateX(" + slider_val  + "px)";
+	        	console.log(slider_val);
+	        	return slider_val;
+	        }
+	    }
+	}
+//for all elems
+var slider_new;
+	slider_fill[0].addEventListener('mousedown', function(e) {
+	    isDown = true; 
+	    slider_new = slider_update(0);  
+	}, true);
+
+//for all elems
+	document.addEventListener('mouseup', function() {
+		if(isDown){
+			isDown = false;
+			//console.log(slider_global_val);
+			slider_global_val = slider_new/(slider_parent[0].clientWidth-thumb[0].clientWidth)*slider_max;
+	    	slider_fill[0].classList.add("slider_mousemove");
+		}
+	}, true);
+
+	document.addEventListener('mousemove', function(event) {
+	    event.preventDefault();
+	    slider_update(0);
+	}, true);
+
+	window.addEventListener("resize", function(){ 
+		console.log("triggered " + slider_global_val)
+		//console.log(slider_max);
+		slider_temp = (slider_global_val*(slider_parent[0].clientWidth-thumb[0].clientWidth)/slider_max);
+		slider_fill[0].style.transform = "translateX(" + slider_temp + "px)";
+	});
+	function sliderAPI(value,object){
+		slider_temp = (value*(slider_parent[0].clientWidth-thumb[0].clientWidth)/slider_max);
+		slider_fill[0].style.transform = "translateX(" + slider_temp + "px)";
+		slider_global_val = value;
+	}
+	function update(vald) {
+		sliderAPI(vald,0);
+	}
+</script>
+</body>
+</html>
