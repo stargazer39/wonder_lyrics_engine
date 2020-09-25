@@ -65,6 +65,30 @@
 	    console.log(thumb[0].offsetLeft);
 	}, true);
 
+	track[0].addEventListener('mousedown', function(e) {
+	    isDown = true;
+	    offset = [
+	        - thumb[0].offsetLeft - e.clientX,
+	    ];
+	    event.preventDefault();
+	    if (isDown) {
+	        mousePosition = {
+	    
+	            x : event.clientX,
+	            y : event.clientY
+	    
+	        };
+	        val2 = mousePosition.x - 50;
+	        track[0].classList.remove("anim1");
+	        //console.log(val2);
+	        if(val2 <= (track[0].clientWidth-thumb[0].clientWidth) && val2 >= 0){
+	        	track[0].style.transform = "translateX(" + val2  + "px)";
+	        }
+	        //track[0].style.top  = (mousePosition.y + offset[1]) + 'px';
+	    }
+	    console.log(thumb[0].offsetLeft);
+	}, true);
+
 	document.addEventListener('mouseup', function() {
 	    isDown = false;
 	    player.currentTime = val2/(track[0].clientWidth-thumb[0].clientWidth)*player.duration;
