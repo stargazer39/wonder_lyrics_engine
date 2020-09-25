@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>sider test</title>
+	<style type="text/css">
+		.slidecontainer{
+			width:100%;
+			height: 50px;
+			background-color: black;
+			overflow: hidden;
+		}
+		.track{
+			width:100%;
+			position: absolute;
+			height: inherit;
+			background-color: red;
+			transform: translateX(-100%);
+		}
+		.thumb{
+			position: absolute;
+			height: inherit;
+			width: 50px;
+			background-color: white;
+			z-index: 1;
+		}
+		.container2{
+			width:100%;
+			height: inherit;
+			transition: transform 1000ms;
+			transition-timing-function: linear;
+		}
+	</style>
+</head>
+<body>
+<video id="player" controls="" style="height:80vh;width: auto;">
+	<source src="../../../none_git_assets/sweet_magic.mp4" type="">
+</video>
+<div style="width: 100%;"><input style="width: 100%;" type="range" name="" id="seeker" min="0"></div>
+<div class="slidecontainer">
+	<div class="container2">
+		<div class="thumb"></div>
+		<div class="track"> </div>
+	</div>
+</div>
+<script type="text/javascript">
+	var player = document.getElementById("player");
+	var seeker = document.getElementById("seeker");
+	var slidecontainer = document.getElementsByClassName("slidecontainer");
+	var track = document.getElementsByClassName("container2");
+	var thumb = document.getElementsByClassName("thumb");
+	var val;
+
+	player.oncanplay = function(){ seeker.max = player.duration; }
+	function update() {
+		 seeker.value = player.currentTime;
+		 val = (player.currentTime*(track[0].clientWidth-thumb[0].clientWidth)/player.duration);
+		 //console.log(val);
+		 track[0].style.transform = "translateX(" + val + "px)";
+	}
+	setInterval(update,1000);
+</script>
+</body>
+</html>
