@@ -19,9 +19,8 @@
 	var slider_fill = document.querySelectorAll(".slider_parent .container");
 	var thumb = document.querySelectorAll(".slider_parent .thumb");
 
-	var slider_val;
 	var slider_global_val=0,slider_temp=0;
-	var offset = [0,0];
+	var offset;
 	var mousePosition;
 	var isDown = false;
 
@@ -31,9 +30,7 @@
 	thumb[0].addEventListener('mousedown', function(e) {
 	    isDown = true;
 	    slider_fill[0].classList.remove("slider_mousemove");
-	    offset = [
-	        thumb[0].offsetLeft - e.clientX + slider_temp,
-	    ]; 
+	    offset = thumb[0].offsetLeft - e.clientX + slider_temp;
 	    console.log(thumb[0].offsetLeft);
 	}, true);
 
@@ -52,18 +49,18 @@
             x : event.clientX,
     
         };
-        var real = mousePosition.x + offset[0];
+        var real = mousePosition.x + offset;
         var max = slider_parent[0].clientWidth-thumb[0].clientWidth
 
         if( real <= max && real >= 0){
-        	slider_fill[0].style.transform = 'translateX(' + (mousePosition.x + offset[0]) + 'px' + ')';
-       	 	slider_temp = mousePosition.x + offset[0];
+        	slider_fill[0].style.transform = 'translateX(' + (mousePosition.x + offset) + 'px' + ')';
+       	 	slider_temp = mousePosition.x + offset;
        	 	slider_global_val = (slider_temp/(slider_parent[0].clientWidth-thumb[0].clientWidth))*slider_max;
         }
     }
 	}, true);
 
-	function update(value){
+	function update(value,obj){
 		var value_now = value/slider_max*(slider_parent[0].clientWidth-thumb[0].clientWidth);
 		slider_fill[0].style.transform = 'translateX(' + value_now + 'px' + ')';
 		slider_temp = value_now;
@@ -71,7 +68,7 @@
 	}
 
 	window.addEventListener("resize", function(){ 
-		update(slider_global_val);
+		update(slider_global_val,0);
 	});
 
 	function get(){
