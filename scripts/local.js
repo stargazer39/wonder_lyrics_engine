@@ -179,6 +179,7 @@ function playerBegin() {
 	console.log("down");
 }
 function slider_mouseup(id){ 
+	seeking =false;
 	console.log("up")
 	player.currentTime = slider0.slider_get();
 	control_return[0]();
