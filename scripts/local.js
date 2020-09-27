@@ -83,11 +83,18 @@ function playerBegin() {
 	var i = 0,sync = 0,y = -36,fade = true;
 	var done;
 	console.log(tsplit[tsplit.length - 1]);
+	var k = 0;
 	function update() {
 		//console.log(player.currentTime);
 		//Seeker's Stuff
-		if(!seeking){
+		console.log(Math.floor(player.currentTime)%2)
+		if(!seeking && (Math.floor(player.currentTime)%2) == k){
 			slider0.slider_update(player.currentTime);
+			if(k==0){
+				k=1;
+			}else{
+				k=0;
+			}
 		}
 		if(player.currentTime < tsplit[0] || player.currentTime > tsplit[tsplit.length - 1]){
 			for (var child of wholepage) {
@@ -133,7 +140,7 @@ function playerBegin() {
 		}
 	}
 
-	player.addEventListener("seeked", async function() {seeking = true;seek(); start();player.play();await sleep(100);seeking = false;});
+	player.addEventListener("seeked", async function() {seeking = true;seek(); start();player.play();await sleep(1000);seeking = false;});
 	player.addEventListener("play",function() {seek(); start(); animation1();});
 	player.addEventListener("pause",function(){stop();});
 	player.addEventListener("ended",function(){ console.log("ended"); stop();});

@@ -36,6 +36,6 @@
 	z-index: 0;
 }
 .slider_mousemove{
-	transition: transform 100ms;
-	transition-timing-function: ease;
+	transition: transform 1000ms;
+	transition-timing-function: ease-out;
 }
