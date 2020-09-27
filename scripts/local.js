@@ -76,7 +76,7 @@ function playerBegin() {
 	//Seeker seeker
 	player.oncanplay = function() {
 	   	//seeker.max = player.duration;
-	   	slider0 = new Slider("element0",0,player.duration);
+	   	slider0 = new Slider("element0",0,player.duration,1000);
 	   	waiting.classList.add("fadeout");
 		startshow.classList.add("fadein");
 	};
@@ -164,10 +164,6 @@ function playerBegin() {
 			done = true;
 		}
 	}
-	//Seek events
-	//slider0.addEventListener('mousedown',function () { seeking = true;});
-	//slider0.addEventListener('mouseup',function () { seeking = false; slider0.slider_update(player.currentTime); seek()})
-
 	document.addEventListener('keydown', function (event) {
 	  if (event.key === ' ') {
 	  	if(player.paused){
@@ -182,7 +178,7 @@ function playerBegin() {
 	seeking = true;
 	console.log("down");
 }
-async function slider_mouseup(id){ 
+function slider_mouseup(id){ 
 	console.log("up")
 	player.currentTime = slider0.slider_get();
 	control_return[0]();

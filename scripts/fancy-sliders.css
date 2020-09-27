@@ -35,7 +35,3 @@
 	background-color: red;
 	z-index: 0;
 }
-.slider_mousemove{
-	transition: transform 1000ms;
-	transition-timing-function: ease-out;
-}

@@ -1,33 +1,33 @@
 
 class Slider {
-	constructor(id,min,max){
+	constructor(id,min,max,delay){
 		this.id = id;
 		this.min = min;
 		this.max = max;
+		this.delay = delay;
 
-		var slider_global;
-		var slider_pixelval;
-
-		this.slider_global = slider_global;
-		var offset = [];
-		var isDown = false;
-		var mousePosition = [];
-		var slider_limits = [];
-		var allowed = true;
+		var slider_global,slider_pixelval;
+		var offset = [],isDown = false,mousePosition = [],slider_limits = [],allowed = true;
+		slider_limits = [ this.max, this.min ];
 
 		var slider_parent = document.querySelector("#" + this.id)
 		var slider_fill_left = document.querySelector("#" + this.id + " .slider_fill_left");
 		var slider_fill_right = document.querySelector("#" + this.id + " .slider_fill_right");
 		var slider_thumb = document.querySelector("#" + this.id + " .thumb");
 
-		slider_limits = [ this.max, this.min ];
+		//making th anime class
+		var style = document.createElement('style');
+		style.type = 'text/css';
+		style.innerHTML = '.slider_mousemove_' + id + ' { transition: transform ' + delay +'ms; transition-timing-function: ease-out; }';
+		document.getElementsByTagName('head')[0].appendChild(style);
+		slider_thumb.classList.add("slider_mousemove_"+id);
 
 		slider_thumb.addEventListener('mousedown', function(e) { 
 			window.slider_mousedown(id);
 			//console.log("down"); 
 			allowed = false;
 			isDown = true;
-			slider_thumb.classList.remove("slider_mousemove");
+			slider_thumb.classList.remove("slider_mousemove_"+id);
 			offset = [slider_parent.offsetLeft - (slider_thumb.clientWidth/2),0];
 		}, true);
 
@@ -37,59 +37,54 @@ class Slider {
 		function OnMouseDown(e) {
 			e.preventDefault();
 			isDown = true;
-			slider_thumb.classList.remove("slider_mousemove");
+			slider_thumb.classList.remove("slider_mousemove_"+id);
 			mousePosition = [e.clientX - slider_thumb.clientWidth + document.scrollingElement.scrollLeft,0]; 
 			slider_thumb.style.transform = "translate(" + (mousePosition[0] - slider_parent.offsetLeft + (slider_thumb.clientWidth/2)) + 'px)';
 			slider_pixelval = (mousePosition[0] - slider_parent.offsetLeft + (slider_thumb.clientWidth/2));
 		}
 
 		slider_fill_left.addEventListener('mousedown',function(e){
-			OnMouseDown(e)
+			OnMouseDown(e);
 			window.slider_mousedown(id);
 			allowed = false;
-			//console.log("down");
-			//console.log(slider_pixelval[0]);
 		});
 
 		slider_fill_right.addEventListener('mousedown',function(e){ 
 			OnMouseDown(e);
 			window.slider_mousedown(id);
 			console.log("down");
-			allowed = false;
-			//console.log(slider_pixelval[0]);
+			allowed = false;;
 		});
 		document.addEventListener('mousemove', function(e) {
-			e.preventDefault(); 
-			//allowed = false;
-			//console.log("moving"); 
+			e.preventDefault();
 			if (isDown) {
 				 mousePosition = [e.clientX - slider_thumb.clientWidth + document.scrollingElement.scrollLeft,0]; 
 				 slider_thumb.style.transform = "translate(" + (mousePosition[0] - offset[0]) + 'px)'; 
 				 slider_pixelval = (mousePosition[0] - offset[0]);
-				 //console.log(slider_pixelval[0]);
 				}
 		}, true);
 
 		document.addEventListener('mouseup', function() { 
-			//console.log("up");
 			if(isDown){
 				allowed = true;
 				isDown = false; 
-				slider_thumb.classList.add("slider_mousemove");
+				if(!slider_thumb.classList.contains("slider_mousemove_"+id)){
+					slider_thumb.classList.add("slider_mousemove_"+id);
+				}
 				slider_global = slider_pixelval/(slider_parent.clientWidth - slider_thumb.clientWidth)*slider_limits[0];
 				window.slider_mouseup(id);
-				/*if(slider_global < min){
-					window.slider_stateChanged(0,id);
-				}else if(slider_global > max){
-					window.slider_stateChanged(max,id);
-				}else{
-					window.slider_stateChanged(slider_global,id);
-				}*/
 			}
 		}, true);
 
 		var slider_get_meth = function(){
-			return slider_pixelval/(slider_parent.clientWidth - slider_thumb.clientWidth)*slider_limits[0];
+			var value = slider_pixelval/(slider_parent.clientWidth - slider_thumb.clientWidth)*slider_limits[0];
+			if(value < min){
+					return min;
+				}else if(value > max){
+					return max;
+				}else{
+					return value;
+				}
 		}
 
 		var slider_update_meth = function(val){
