@@ -171,15 +171,14 @@ function playerBegin() {
 	  }
 	});
 }
-
- async function slider_mouseup(id){ 
-	console.log("up")
-	player.currentTime = slider0.slider_get();
-	control_return[0]();
-}
  function slider_mousedown(id){
 	seeking = true;
 	console.log("down");
+}
+async function slider_mouseup(id){ 
+	console.log("up")
+	player.currentTime = slider0.slider_get();
+	control_return[0]();
 }
 function processLyrics(data){
 	//Loop will check the tags and work accordingly

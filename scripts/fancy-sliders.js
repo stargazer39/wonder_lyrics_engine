@@ -101,7 +101,7 @@ class Slider {
 		window.addEventListener("resize", async function(){
 			allowed = false;
 			slider_update_meth(slider_global);
-			await sleep(1000);
+			await sleep(100);
 			allowed = true;
 		});
 
