@@ -140,7 +140,7 @@ function playerBegin() {
 		}
 	}
 
-	player.addEventListener("seeked", async function() {seeking = true;seek(); start();player.play();await sleep(1000);seeking = false;});
+	player.addEventListener("seeked", async function() {seek(); start();player.play();});
 	player.addEventListener("play",function() {seek(); start(); animation1();});
 	player.addEventListener("pause",function(){stop();});
 	player.addEventListener("ended",function(){ console.log("ended"); stop();});
