@@ -8,6 +8,7 @@ class Slider {
 		var slider_global;
 		var slider_pixelval;
 
+		this.slider_global = slider_global;
 		var offset = [];
 		var isDown = false;
 		var mousePosition = [];
@@ -22,6 +23,7 @@ class Slider {
 		slider_limits = [ this.max, this.min ];
 
 		slider_thumb.addEventListener('mousedown', function(e) { 
+			window.slider_mousedown(id);
 			//console.log("down"); 
 			allowed = false;
 			isDown = true;
@@ -43,6 +45,7 @@ class Slider {
 
 		slider_fill_left.addEventListener('mousedown',function(e){
 			OnMouseDown(e)
+			window.slider_mousedown(id);
 			allowed = false;
 			//console.log("down");
 			//console.log(slider_pixelval[0]);
@@ -50,6 +53,7 @@ class Slider {
 
 		slider_fill_right.addEventListener('mousedown',function(e){ 
 			OnMouseDown(e);
+			window.slider_mousedown(id);
 			console.log("down");
 			allowed = false;
 			//console.log(slider_pixelval[0]);
@@ -73,13 +77,14 @@ class Slider {
 				isDown = false; 
 				slider_thumb.classList.add("slider_mousemove");
 				slider_global = slider_pixelval/(slider_parent.clientWidth - slider_thumb.clientWidth)*slider_limits[0];
-				if(slider_global < min){
+				window.slider_mouseup(id);
+				/*if(slider_global < min){
 					window.slider_stateChanged(0,id);
 				}else if(slider_global > max){
 					window.slider_stateChanged(max,id);
 				}else{
 					window.slider_stateChanged(slider_global,id);
-				}
+				}*/
 			}
 		}, true);
 

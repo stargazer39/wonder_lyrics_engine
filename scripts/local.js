@@ -68,11 +68,15 @@ var rsplit;
 var lsplit;
 var time,tsplit;
 
+var slider0;
+var control_return = [];
+var seeking = false;
+var alter;
 function playerBegin() {
-	//Seeker
-	var slider0;
+	//Seeker seeker
 	player.oncanplay = function() {
-		slider0 = new Slider("element0",0,player.duration);
+	   	//seeker.max = player.duration;
+	   	slider0 = new Slider("element0",0,player.duration);
 	   	waiting.classList.add("fadeout");
 		startshow.classList.add("fadein");
 	};
@@ -82,7 +86,9 @@ function playerBegin() {
 	function update() {
 		//console.log(player.currentTime);
 		//Seeker's Stuff
-		slider0.slider_update(player.currentTime);
+		if(!seeking){
+			slider0.slider_update(player.currentTime);
+		}
 		if(player.currentTime < tsplit[0] || player.currentTime > tsplit[tsplit.length - 1]){
 			for (var child of wholepage) {
 				  child.classList.add("fadeout");
@@ -127,19 +133,20 @@ function playerBegin() {
 		}
 	}
 
-	player.addEventListener("seeked",function() {seek(); start();player.play();});
+	player.addEventListener("seeked", async function() {seeking = true;seek(); start();player.play();await sleep(100);seeking = false;});
 	player.addEventListener("play",function() {seek(); start(); animation1();});
 	player.addEventListener("pause",function(){stop();});
 	player.addEventListener("ended",function(){ console.log("ended"); stop();});
 	
 	playalt[0].addEventListener("click",function(){player.play();});
 
-	function seek(){
+	var seek = function(){
 		done = false;
 		//player.pause();
 		tsplit.forEach(check);
 		//player.play();
 	}
+	control_return[0] = seek;
 	function check(item,index) {
 		if(item > player.currentTime + sync && !done){
 			console.log(index);
@@ -151,8 +158,8 @@ function playerBegin() {
 		}
 	}
 	//Seek events
-	//seeker.addEventListener('mousedown',function () { seeking = true;});
-	//seeker.addEventListener('mouseup',function () { seeking = false; player.currentTime = seeker.value; seek()})
+	//slider0.addEventListener('mousedown',function () { seeking = true;});
+	//slider0.addEventListener('mouseup',function () { seeking = false; slider0.slider_update(player.currentTime); seek()})
 
 	document.addEventListener('keydown', function (event) {
 	  if (event.key === ' ') {
@@ -163,6 +170,16 @@ function playerBegin() {
 	  	}
 	  }
 	});
+}
+
+ async function slider_mouseup(id){ 
+	console.log("up")
+	player.currentTime = slider0.slider_get();
+	control_return[0]();
+}
+ function slider_mousedown(id){
+	seeking = true;
+	console.log("down");
 }
 function processLyrics(data){
 	//Loop will check the tags and work accordingly
@@ -216,12 +233,6 @@ function processLyrics(data){
 	return langr;
 }
 
-function slider_stateChanged(val,id){
-			if(id == "element0"){
-				console.log("changed" + val + "|" + id);
-				player.currentTime = val;
-			}
-		}
 function lyricsArrary(array,seperator){
 	console.log(Object.keys(array).length);
 	var k = 0;
