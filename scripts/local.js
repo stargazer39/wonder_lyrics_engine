@@ -70,11 +70,9 @@ var time,tsplit;
 
 function playerBegin() {
 	//Seeker
-	var seeking = false;
-	var seeker = document.getElementById("seeker")
+	var slider0;
 	player.oncanplay = function() {
-	   	seeker.max = player.duration;
-
+		slider0 = new Slider("element0",0,player.duration);
 	   	waiting.classList.add("fadeout");
 		startshow.classList.add("fadein");
 	};
@@ -84,9 +82,7 @@ function playerBegin() {
 	function update() {
 		//console.log(player.currentTime);
 		//Seeker's Stuff
-		if(!seeking){
-			seeker.value = player.currentTime;
-		}
+		slider0.slider_update(player.currentTime);
 		if(player.currentTime < tsplit[0] || player.currentTime > tsplit[tsplit.length - 1]){
 			for (var child of wholepage) {
 				  child.classList.add("fadeout");
@@ -155,8 +151,8 @@ function playerBegin() {
 		}
 	}
 	//Seek events
-	seeker.addEventListener('mousedown',function () { seeking = true;});
-	seeker.addEventListener('mouseup',function () { seeking = false; player.currentTime = seeker.value; seek()})
+	//seeker.addEventListener('mousedown',function () { seeking = true;});
+	//seeker.addEventListener('mouseup',function () { seeking = false; player.currentTime = seeker.value; seek()})
 
 	document.addEventListener('keydown', function (event) {
 	  if (event.key === ' ') {
@@ -220,6 +216,12 @@ function processLyrics(data){
 	return langr;
 }
 
+function slider_stateChanged(val,id){
+			if(id == "element0"){
+				console.log("changed" + val + "|" + id);
+				player.currentTime = val;
+			}
+		}
 function lyricsArrary(array,seperator){
 	console.log(Object.keys(array).length);
 	var k = 0;
