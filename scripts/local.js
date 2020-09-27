@@ -76,7 +76,11 @@ function playerBegin() {
 	//Seeker seeker
 	player.oncanplay = function() {
 	   	//seeker.max = player.duration;
-	   	slider0 = new Slider("element0",0,player.duration,1000);
+	   	slider0 = new Slider("element0",{ 
+			'min' : 0,
+			'max' : player.duration,
+			'rate' : 1000
+		});
 	   	waiting.classList.add("fadeout");
 		startshow.classList.add("fadein");
 	};

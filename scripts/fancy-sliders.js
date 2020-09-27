@@ -1,24 +1,44 @@
 
 class Slider {
-	constructor(id,min,max,delay){
+	constructor(id,args){
+		this.args = args;
 		this.id = id;
-		this.min = min;
-		this.max = max;
-		this.delay = delay;
+		var min = args.min;
+		var max = args.max;
+		var rate = args.rate;
+		var slider_color = args.slider;
+		var thumb_color = args.thumb;
+		var background_color = args.background;
+		//console.log(typeof(min),typeof(max),typeof(rate),typeof(id),typeof(slider),typeof(background));
+
+		rate = rate ? rate : 10;
+		max = max ? max : 100;
+		min = min ? min  : 0;
+		slider_color = slider_color ? slider_color : "#00b5d8";
+		background_color = background_color ? background_color : "#ff00cd";
+		thumb_color = thumb_color ? thumb_color : "#000000";
+
+		if(!id) { throw "wtf? id is bullshiz" }
 
 		var slider_global,slider_pixelval;
 		var offset = [],isDown = false,mousePosition = [],slider_limits = [],allowed = true;
-		slider_limits = [ this.max, this.min ];
+		slider_limits = [ max, min ];
 
-		var slider_parent = document.querySelector("#" + this.id)
-		var slider_fill_left = document.querySelector("#" + this.id + " .slider_fill_left");
-		var slider_fill_right = document.querySelector("#" + this.id + " .slider_fill_right");
-		var slider_thumb = document.querySelector("#" + this.id + " .thumb");
+		var slider_parent = document.querySelector("#" + id)
+		var slider_fill_left = document.querySelector("#" + id + " .slider_fill_left");
+		var slider_fill_right = document.querySelector("#" + id + " .slider_fill_right");
+		var slider_thumb = document.querySelector("#" + id + " .thumb");
 
+		//colors
+		slider_fill_left.style.backgroundColor = background_color;
+		slider_fill_right.style.backgroundColor = slider_color;
+		slider_thumb.style.backgroundColor = thumb_color;
+
+		if(!slider_parent || !slider_fill_left || !slider_fill_right || !slider_thumb ){ throw "the slider element missing. id :" + id }
 		//making th anime class
 		var style = document.createElement('style');
 		style.type = 'text/css';
-		style.innerHTML = '.slider_mousemove_' + id + ' { transition: transform ' + delay +'ms; transition-timing-function: ease-out; }';
+		style.innerHTML = '.slider_mousemove_' + id + ' { transition: transform ' + rate +'ms; transition-timing-function: ease-out; }';
 		document.getElementsByTagName('head')[0].appendChild(style);
 		slider_thumb.classList.add("slider_mousemove_"+id);
 

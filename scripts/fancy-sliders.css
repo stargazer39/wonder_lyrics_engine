@@ -14,7 +14,6 @@
 	position: relative;
 	height: var(--slider_thumb-h);
 	width: var(--slider_thumb-w);
-	background-color: teal;
 	z-index: 10;
 }
 .slider_parent > .thumb >.slider_fill_right{
@@ -24,7 +23,6 @@
 	right:var(--slider_thumb-w);
 	width:10000px;
 	height: var(--slider_height);
-	background-color: blue;
 	z-index: 0;
 }
 .slider_parent > .thumb > .slider_fill_left {
@@ -32,6 +30,5 @@
 	left:var(--slider_thumb-w);
 	width:10000px;
 	height: var(--slider_height);
-	background-color: red;
 	z-index: 0;
 }

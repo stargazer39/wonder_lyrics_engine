@@ -180,7 +180,11 @@ function onPlayerReady(event){
 	player_next = document.getElementById("player")
 	player_next.classList.add("play");
 	//Seerker stuff
-	slider0 = new Slider("element0",0,player.getDuration(),1000);
+	slider0 = new Slider("element0",{ 
+			'min' : 0,
+			'max' : player.duration,
+			'rate' : 1000
+		});
 	//seeker.max = player.getDuration();
 	//seeker.addEventListener('mousedown',function () { seeking = true;});
 	//seeker.addEventListener('mouseup',function () { seeking = false; player.seekTo(seeker.value,true);player.playVideo();})
