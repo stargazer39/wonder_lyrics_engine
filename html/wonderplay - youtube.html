@@ -6,6 +6,8 @@
 	<link rel="stylesheet" href="..\scripts\styles.css">
 	<link rel="stylesheet" href="..\scripts\browser.css">
 	<script async defer src="https://buttons.github.io/buttons.js"></script>
+	<link rel="stylesheet" href="..\scripts\fancy-sliders.css">
+	<script src="..\scripts\fancy-sliders.js"></script>
 	<style type="text/css">
 		#player { 
 			height: 100vh;
@@ -36,7 +38,13 @@
 	<div class="bottom" id="bottombg">
 		<div id="display2"></div>
 	</div>
-	<div id="seekcontainer"><input type="range" id="seeker" min="0" max="100" value="0" step="0.1"></div>
+	<div id="seekcontainer">
+		<div class="slider_parent" id="element0">
+		<div class="thumb slider_mousemove">
+			<div class="slider_fill_left"></div>
+			<div class="slider_fill_right"> </div>
+		</div>
+	</div>
 	<div id="settings"><img style src="..\assets\settings.svg"></div>
 	<div id="controls">
 		<div id="play">
