@@ -1,0 +1,171 @@
+[lyrics-romaji]
+|happii shinsesaiza kimi no mune no oku made
+|todoku you na merodi kanaderu yo
+|-
+|hakanaku chitta awai kataomoi
+|waraibanashi da ne ima to nareba
+|miru mono subete kagayaite mieta
+|ano hibi ga kirei ni waratteru yo
+|gaman suru koto dake oboenakya ikenai no?
+|"otona ni natte choudai ne?" naranakute ii yo
+|shiranai koto bakari shiranai nante ienakute
+|"taihen oniai de" uso tsuite gomen ne
+|happii shinsesaiza kimi no mune no oku made
+|todoku you na merodi kanaderu yo
+|tsumaranai "tatemae" ya 'ya na koto zenbu
+|keshite ageru kara kono oto de
+|nan no torie mo nai boku ni tada hitotsu
+|sukoshi da kedo dekiru koto
+|kokoro odoraseru kazaranai kotoba
+|denshion de tsutaeru yo
+|-
+|suki ni naru koto rikutsu nanka ja nakute
+|"kojitsuke" nante iranai n ja nai?
+|jidai no sei to akirametara soko made
+|fumidasanakucha nani mo hajimaranai
+|"gomen ne yoru osoku neru tokoro datta desho?"
+|"odoroita watashi mo kakeyou to shiteta"
+|kokoro no uragawa o kusugurareteru you na
+|hikareau futari ni shiawase na oto o
+|happii shinsesaiza hora ne tanoshiku naru yo
+|namida nuguu merodi kanaderu yo
+|tsuyogaranakutatte ii n ja nai? betsu ni
+|jibun ni sunao ni nareba ii
+|nan no torie mo nai boku ni tada hitotsu
+|sukoshi da kedo dekiru koto
+|chotto tereru you na tanjun na kimochi
+|denshion de tsutaeru yo
+|-
+|happii shinsesaiza kimi no mune no oku made
+|todoku you na merodi kanaderu yo
+|tsumaranai "tatemae" ya 'ya na koto zenbu
+|keshite ageru kara kono oto de
+|nan no torie mo nai boku ni tada hitotsu
+|sukoshi da kedo dekiru koto
+|kokoro odoraseru kazaranai kotoba
+|denshion de tsutaeru yo
+|happii shinsesaiza hora ne tanoshiku naru yo
+|namida nuguu merodi kanaderu yo
+|tsuyogaranakutatte ii n ja nai? betsu ni
+|jibun ni sunao ni nareba ii
+|nan no torie mo nai boku ni tada hitotsu
+|sukoshi da kedo dekiru koto
+|chotto tereru you na tanjun na kimochi
+|denshion de tsutaeru yo
+
+[lyrics-english]
+|Happy Synthesizer, I'll play you a melody
+|that will reach into your heart
+|-
+|Fleeting one-sided love that is quickly lost
+|is a funny story now that I think about it.
+|Everything I saw looked like it sparkled
+|Those days were smiling beautifully
+|Is all I have to remember grinning and bearing it?
+|Will you become an adult? I don't have to.
+|So much I didn't know, but I couldn't admit it.
+|We're just right for each other. I'm sorry, it was a lie.
+|Happy Synthesizer, I'll play you a melody
+|that will reach into your heart.
+|Pointless "facades" and things you dislike,
+|I'll erase them all for you with this sound.
+|I'm not much good for anything, but there's just one thing
+|I can do even though it's not much.
+|I'll convey plain but rousing words
+|through electronic sounds.
+|-
+|Falling in love with someone doesn't need reasons
+|No need for "twisting the truth", right?
+|Blaming it on the era and giving up, that's as far as you'll go.
+|Nothing will start, until you step forward.
+|I'm sorry to call you late at night...you were going to bed, right?
+|How funny you just called! I was about to do the same.
+|Like they're being tickled at the back of their hearts,
+|a happy sound to an attracted couple.
+|Happy Synthesizer, see, you'll be pleased.
+|I'll play you this melody that will wipe away tears.
+|Do you have to pretend you're stronger than you truly are? Not really.
+|Embrace the real you inside.
+|I'm not much good for anything, but there's just one thing
+|I can do even though it's not much.
+|I'll convey simple feelings that are a bit shy
+|through electronic sounds.
+|-
+|Happy Synthesizer, I'll play you a melody
+|that will reach into your heart.
+|Pointless "facades" and things you dislike,
+|I'll erase them all for you with this sound.
+|Although I have no strengths inside,
+|I know one thing I can do
+|I'll convey plain but rousing words
+|through electronic sounds.
+|Happy Synthesizer, see, you'll be pleased.
+|I'll play you this melody that will wipe away tears.
+|Do you have to pretend you're stronger than you truly are? Not really.
+|Embrace the real you inside
+|I'm not much good for anything, but there's just one thing
+|I can do even though it's not much.
+|I'll convey simple feelings that are a bit shy
+|through electronic sounds.
+
+[time]
+|2.937248
+|7.101798
+|11.167553
+|26.243383
+|30.011532
+|33.84922
+|37.619146
+|41.383992
+|45.171476
+|48.882905
+|52.670526
+|56.498913
+|59.973024
+|63.972656
+|67.57798
+|71.898041
+|75.66286
+|79.3442
+|83.087944
+|87.551736
+|90.452485
+|94.300727
+|97.946166
+|101.824257
+|105.544022
+|109.371338
+|113.109623
+|116.910284
+|120.746027
+|124.38762
+|128.259634
+|131.908724
+|135.987778
+|139.942837
+|143.608042
+|147.357315
+|150.794858
+|167.938821
+|171.322593
+|175.452328
+|178.99555
+|183.378174
+|186.903384
+|190.878082
+|194.626375
+|198.157227
+|201.540112
+|205.707012
+|209.236141
+|213.466488
+|217.154361
+|221.04731
+|224.879166
+|228
+
+[youtube]
+|3iMdlFaiO4s
+
+[localfile]
+|../../none_git_assets/smile.mp4
