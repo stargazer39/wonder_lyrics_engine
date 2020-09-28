@@ -71,7 +71,7 @@ var time,tsplit;
 var slider0;
 var control_return = [];
 var seeking = false;
-var alter;
+var sync = 0;
 function playerBegin() {
 	//Seeker seeker
 	player.oncanplay = function() {
@@ -84,23 +84,23 @@ function playerBegin() {
 	   	waiting.classList.add("fadeout");
 		startshow.classList.add("fadein");
 	};
-	var i = 0,sync = 0,y = -36,fade = true;
+	var i = 0,y = -36,fade = true;
 	var done;
 	console.log(tsplit[tsplit.length - 1]);
 	var k = 0;
 	function update() {
 		//console.log(player.currentTime);
 		//Seeker's Stuff
-		console.log(Math.floor(player.currentTime)%2)
-		if(!seeking && (Math.floor(player.currentTime)%2) == k){
-			slider0.slider_update(player.currentTime);
+		console.log(Math.floor(player.currentTime + sync)%2)
+		if(!seeking && (Math.floor(player.currentTime + sync)%2) == k){
+			slider0.slider_update(player.currentTime + sync);
 			if(k==0){
 				k=1;
 			}else{
 				k=0;
 			}
 		}
-		if(player.currentTime < tsplit[0] || player.currentTime > tsplit[tsplit.length - 1]){
+		if(player.currentTime + sync < tsplit[0] || player.currentTime + sync > tsplit[tsplit.length - 1]){
 			for (var child of wholepage) {
 				  child.classList.add("fadeout");
 				}
@@ -122,7 +122,7 @@ function playerBegin() {
 			display.style.transform = "translate(-50%," + y + "px)";
 			//display.innerHTML = rsplit[i];
 			display2.innerHTML = lsplit[i]
-			console.log(player.currentTime + 'in');
+			console.log((player.currentTime + sync) + 'in');
 			console.log(i + '###############');
 			i++;
 		}
@@ -185,7 +185,7 @@ function playerBegin() {
 function slider_mouseup(id){ 
 	seeking =false;
 	console.log("up")
-	player.currentTime = slider0.slider_get();
+	player.currentTime = slider0.slider_get() + sync;
 	control_return[0]();
 }
 function processLyrics(data){

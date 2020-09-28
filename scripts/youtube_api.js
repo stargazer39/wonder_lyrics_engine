@@ -198,7 +198,7 @@ function onPlayerReady(event){
 function slider_mouseup(id){ 
 	seeking =false;
 	console.log("up")
-	player.seekTo(slider0.slider_get(),true);
+	player.seekTo(slider0.slider_get() + sync,true);
 	player.playVideo();
 }
 
@@ -207,26 +207,27 @@ for (var child of wholepage) {
 	  child.classList.add("fadetrans");
 	}
 
+var sync = 0;
 function playerBegin(){
 	player_next = document.getElementById("player");
 	player_next.requestFullscreen;
 	//var hack = player_next.contentWindow.document.querySelector("video.video-stream.html5-main-video");
 	//hack.classList.add("hack");
-	var i = 0,sync = 0,y = -36,fade = true;
+	var i = 0,y = -36,fade = true;
 	var done;
 	var k = 0;
 	function update() {
 		//console.log(player.getCurrentTime());
 		//Seeker's Stuff
-		if(!seeking && (Math.floor(player.getCurrentTime())%2) == k){
-			slider0.slider_update(player.getCurrentTime());
+		if(!seeking && (Math.floor(player.getCurrentTime() + sync)%2) == k){
+			slider0.slider_update(player.getCurrentTime() + sync);
 			if(k==0){
 				k=1;
 			}else{
 				k=0;
 			}
 		}
-		if(player.getCurrentTime() < tsplit[0] || player.getCurrentTime() > tsplit[tsplit.length - 1]){
+		if(player.getCurrentTime() + sync < tsplit[0] || player.getCurrentTime() + sync> tsplit[tsplit.length - 1]){
 			for (var child of wholepage) {
 				  child.classList.add("fadeout");
 				}
@@ -289,7 +290,7 @@ function playerBegin(){
 	var playalt_ = function(pause_available){ 
 		switch(player.getPlayerState()){
 	  		case -1:
-	  			player.seekTo(0,true);
+	  			player.seekTo(0 + sync,true);
 	  			player.playVideo();
 	  			break;
 			case 1:
