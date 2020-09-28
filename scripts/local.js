@@ -68,24 +68,37 @@ var rsplit;
 var lsplit;
 var time,tsplit;
 
+var slider0;
+var control_return = [];
+var seeking = false;
+var alter;
 function playerBegin() {
-	//Seeker
-	var seeking = false;
-	var seeker = document.getElementById("seeker")
+	//Seeker seeker
 	player.oncanplay = function() {
-	   	seeker.max = player.duration;
-
+	   	//seeker.max = player.duration;
+	   	slider0 = new Slider("element0",{ 
+			'min' : 0,
+			'max' : player.duration,
+			'rate' : 1000
+		});
 	   	waiting.classList.add("fadeout");
 		startshow.classList.add("fadein");
 	};
 	var i = 0,sync = 0,y = -36,fade = true;
 	var done;
 	console.log(tsplit[tsplit.length - 1]);
+	var k = 0;
 	function update() {
 		//console.log(player.currentTime);
 		//Seeker's Stuff
-		if(!seeking){
-			seeker.value = player.currentTime;
+		console.log(Math.floor(player.currentTime)%2)
+		if(!seeking && (Math.floor(player.currentTime)%2) == k){
+			slider0.slider_update(player.currentTime);
+			if(k==0){
+				k=1;
+			}else{
+				k=0;
+			}
 		}
 		if(player.currentTime < tsplit[0] || player.currentTime > tsplit[tsplit.length - 1]){
 			for (var child of wholepage) {
@@ -131,19 +144,20 @@ function playerBegin() {
 		}
 	}
 
-	player.addEventListener("seeked",function() {seek(); start();player.play();});
+	player.addEventListener("seeked", async function() {seek(); start();player.play();});
 	player.addEventListener("play",function() {seek(); start(); animation1();});
 	player.addEventListener("pause",function(){stop();});
 	player.addEventListener("ended",function(){ console.log("ended"); stop();});
 	
 	playalt[0].addEventListener("click",function(){player.play();});
 
-	function seek(){
+	var seek = function(){
 		done = false;
 		//player.pause();
 		tsplit.forEach(check);
 		//player.play();
 	}
+	control_return[0] = seek;
 	function check(item,index) {
 		if(item > player.currentTime + sync && !done){
 			console.log(index);
@@ -154,10 +168,6 @@ function playerBegin() {
 			done = true;
 		}
 	}
-	//Seek events
-	seeker.addEventListener('mousedown',function () { seeking = true;});
-	seeker.addEventListener('mouseup',function () { seeking = false; player.currentTime = seeker.value; seek()})
-
 	document.addEventListener('keydown', function (event) {
 	  if (event.key === ' ') {
 	  	if(player.paused){
@@ -167,6 +177,16 @@ function playerBegin() {
 	  	}
 	  }
 	});
+}
+ function slider_mousedown(id){
+	seeking = true;
+	console.log("down");
+}
+function slider_mouseup(id){ 
+	seeking =false;
+	console.log("up")
+	player.currentTime = slider0.slider_get();
+	control_return[0]();
 }
 function processLyrics(data){
 	//Loop will check the tags and work accordingly

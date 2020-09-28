@@ -142,3 +142,14 @@
 #waiting{
 	opacity: 1;
 }
+#seekcontainer{
+    position: fixed;
+    bottom: 0;
+    z-index: 100;
+    text-align: center;
+    width: 100%;
+}
+#element0{
+	width: 80vw;
+	margin: auto;
+}

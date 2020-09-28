@@ -13,7 +13,8 @@ settings.addEventListener('mouseover',function(){ controls.classList.add("aniset
 
 //Seeker
 var seeking = false;
-var seeker = document.getElementById("seeker")
+//var seeker = document.getElementById("seeker")
+var slider0;
 
 var display = document.getElementById("lyrics");
 var display2 = document.getElementById("display2");
@@ -179,11 +180,26 @@ function onPlayerReady(event){
 	player_next = document.getElementById("player")
 	player_next.classList.add("play");
 	//Seerker stuff
-	seeker.max = player.getDuration();
-	seeker.addEventListener('mousedown',function () { seeking = true;});
-	seeker.addEventListener('mouseup',function () { seeking = false; player.seekTo(seeker.value,true);player.playVideo();})
+	slider0 = new Slider("element0",{ 
+			'min' : 0,
+			'max' : player.duration,
+			'rate' : 1000
+		});
+	//seeker.max = player.getDuration();
+	//seeker.addEventListener('mousedown',function () { seeking = true;});
+	//seeker.addEventListener('mouseup',function () { seeking = false; player.seekTo(seeker.value,true);player.playVideo();})
 
 	//player.playVideo();
+}
+ function slider_mousedown(id){
+	seeking = true;
+	console.log("down");
+}
+function slider_mouseup(id){ 
+	seeking =false;
+	console.log("up")
+	player.seekTo(slider0.slider_get(),true);
+	player.playVideo();
 }
 
 for (var child of wholepage) {
@@ -198,11 +214,17 @@ function playerBegin(){
 	//hack.classList.add("hack");
 	var i = 0,sync = 0,y = -36,fade = true;
 	var done;
+	var k = 0;
 	function update() {
 		//console.log(player.getCurrentTime());
 		//Seeker's Stuff
-		if(!seeking){
-			seeker.value = player.getCurrentTime()
+		if(!seeking && (Math.floor(player.getCurrentTime())%2) == k){
+			slider0.slider_update(player.getCurrentTime());
+			if(k==0){
+				k=1;
+			}else{
+				k=0;
+			}
 		}
 		if(player.getCurrentTime() < tsplit[0] || player.getCurrentTime() > tsplit[tsplit.length - 1]){
 			for (var child of wholepage) {
