@@ -182,7 +182,7 @@ function onPlayerReady(event){
 	//Seerker stuff
 	slider0 = new Slider("element0",{ 
 			'min' : 0,
-			'max' : player.duration,
+			'max' : player.getDuration(),
 			'rate' : 1000
 		});
 	//seeker.max = player.getDuration();
