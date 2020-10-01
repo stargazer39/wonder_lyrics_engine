@@ -79,7 +79,11 @@ function playerBegin() {
 	   	slider0 = new Slider("element0",{ 
 			'min' : 0,
 			'max' : player.duration,
-			'rate' : 1000
+			'rate' : 200,
+			 events : {
+				'mouseup':mouseup0,
+				'mousedown':mousedown0,
+			},
 		});
 	   	waiting.classList.add("fadeout");
 		startshow.classList.add("fadein");
@@ -178,11 +182,11 @@ function playerBegin() {
 	  }
 	});
 }
- function slider_mousedown(id){
+ function mousedown0(id){
 	seeking = true;
 	console.log("down");
 }
-function slider_mouseup(id){ 
+function mouseup0(id){ 
 	seeking =false;
 	console.log("up")
 	player.currentTime = slider0.slider_get() + sync;

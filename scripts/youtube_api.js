@@ -183,19 +183,18 @@ function onPlayerReady(event){
 	slider0 = new Slider("element0",{ 
 			'min' : 0,
 			'max' : player.getDuration(),
-			'rate' : 1000
+			'rate' : 200,
+			 events : {
+				'mouseup':mouseup0,
+				'mousedown':mousedown0
+			},
 		});
-	//seeker.max = player.getDuration();
-	//seeker.addEventListener('mousedown',function () { seeking = true;});
-	//seeker.addEventListener('mouseup',function () { seeking = false; player.seekTo(seeker.value,true);player.playVideo();})
-
-	//player.playVideo();
 }
- function slider_mousedown(id){
+ function mousedown0(){
 	seeking = true;
 	console.log("down");
 }
-function slider_mouseup(id){ 
+function mouseup0(){ 
 	seeking =false;
 	console.log("up")
 	player.seekTo(slider0.slider_get() + sync,true);
