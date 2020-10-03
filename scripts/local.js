@@ -57,7 +57,7 @@ var display = document.getElementById("lyrics");
 var display2 = document.getElementById("display2");
 var player = document.getElementById("player");
 
-var wholepage = document.querySelectorAll(".bottom,#lyrics,#display2,#display,#overlay,#overlay2");
+var wholepage = document.querySelectorAll(".bottom,#lyrics,#display2,#display,#overlay");
 for (var child of wholepage) {
   child.classList.add("fadeout");
   child.classList.add("fadetrans");
@@ -120,6 +120,8 @@ function playerBegin() {
 				  child.classList.remove("fadeout");
 				}
 			}
+			line[i].style.backgroundColor = "red";
+			if(i){line[i-1].style.backgroundColor = "rgb(0 0 0 / 0%)";};
 			y -= line[i].offsetHeight;
 			display.style.transform = "translate(-50%," + y + "px)";
 			//display.innerHTML = rsplit[i];
