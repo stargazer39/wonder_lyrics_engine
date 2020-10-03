@@ -120,7 +120,7 @@ function playerBegin() {
 				  child.classList.remove("fadeout");
 				}
 			}
-			line[i].style.backgroundColor = "red";
+			line[i].style.backgroundColor = getComputedStyle(document.body).getPropertyValue('--overlay-ticker');
 			if(i){line[i-1].style.backgroundColor = "rgb(0 0 0 / 0%)";};
 			y -= line[i].offsetHeight;
 			display.style.transform = "translate(-50%," + y + "px)";

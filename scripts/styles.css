@@ -153,3 +153,18 @@
 	width: 80vw;
 	margin: auto;
 }
+.line{
+	height:100%;
+	transition: background-color 0.2s;
+}
+:root{
+	--overlay-ticker:teal;
+}
+@media screen and (max-width: 680px) {
+  #lyrics{
+  	font-size: 40px;
+  }
+  #display2{
+  	font-size: 40px;
+  }
+}
