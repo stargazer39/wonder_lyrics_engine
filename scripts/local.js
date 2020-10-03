@@ -110,12 +110,12 @@ function playerBegin() {
 		if(player.currentTime + sync > tsplit[i] && player.currentTime + sync < tsplit[i+1]){
 			//display.classList.remove("fadeout");
 
-			if(rsplit[i] == "<br>"){
+			if(rsplit[i] == "<div class = 'line line_space' style = 'height:72px;'></div>"){
 				for (var child of wholepage) {
 				  child.classList.add("fadeout");
 				}
 			}
-			if(!(rsplit[i] == "<br>")){
+			if(!(rsplit[i] == "<div class = 'line line_space' style = 'height:72px;'></div>")){
 				for (var child of wholepage) {
 				  child.classList.remove("fadeout");
 				}
@@ -150,12 +150,13 @@ function playerBegin() {
 	player.addEventListener("play",function() {seek(); start(); animation1();});
 	player.addEventListener("pause",function(){stop();});
 	player.addEventListener("ended",function(){ console.log("ended"); stop();});
-	
+
 	playalt[0].addEventListener("click",function(){player.play();});
 
 	var seek = function(){
 		done = false;
 		//player.pause();
+		console.log("seeking")
 		y = 36;
 		i = 0;
 		tsplit.forEach(check);
@@ -176,7 +177,7 @@ function playerBegin() {
 			}
 		}
 	}
-	//window.addEventListener("resize", seek());
+	window.addEventListener("resize", seek);
 	document.addEventListener('keydown', function (event) {
 	  if (event.key === ' ') {
 	  	if(player.paused){
