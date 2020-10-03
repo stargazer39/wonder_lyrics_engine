@@ -160,6 +160,9 @@ function playerBegin() {
 		//player.pause();
 		console.log("seeking")
 		y = 36;
+		for(i=0;i<line.length;i++){
+			line[i].style.backgroundColor = "rgb(0 0 0 / 0%)";
+		}
 		i = 0;
 		tsplit.forEach(check);
 		//player.play();
