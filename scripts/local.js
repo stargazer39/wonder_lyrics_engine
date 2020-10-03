@@ -72,6 +72,7 @@ var slider0;
 var control_return = [];
 var seeking = false;
 var sync = 0;
+var line = document.getElementsByClassName("line");
 function playerBegin() {
 	//Seeker seeker
 	player.oncanplay = function() {
@@ -88,21 +89,18 @@ function playerBegin() {
 	   	waiting.classList.add("fadeout");
 		startshow.classList.add("fadein");
 	};
-	var i = 0,y = -36,fade = true;
+	var i = 0,y = 36,fade = true;
 	var done;
 	console.log(tsplit[tsplit.length - 1]);
 	var k = 0;
 	function update() {
 		//console.log(player.currentTime);
 		//Seeker's Stuff
-		console.log(Math.floor(player.currentTime + sync)%2)
+		//console.log(Math.floor(player.currentTime + sync)%2)
+		console.log(i + '************');
 		if(!seeking && (Math.floor(player.currentTime + sync)%2) == k){
 			slider0.slider_update(player.currentTime + sync);
-			if(k==0){
-				k=1;
-			}else{
-				k=0;
-			}
+			k = (k==0) ? 1 : 0; 
 		}
 		if(player.currentTime + sync < tsplit[0] || player.currentTime + sync > tsplit[tsplit.length - 1]){
 			for (var child of wholepage) {
@@ -122,7 +120,7 @@ function playerBegin() {
 				  child.classList.remove("fadeout");
 				}
 			}
-			y = -36 - (72*i);
+			y -= line[i].offsetHeight;
 			display.style.transform = "translate(-50%," + y + "px)";
 			//display.innerHTML = rsplit[i];
 			display2.innerHTML = lsplit[i]
@@ -158,20 +156,27 @@ function playerBegin() {
 	var seek = function(){
 		done = false;
 		//player.pause();
+		y = 36;
+		i = 0;
 		tsplit.forEach(check);
 		//player.play();
 	}
 	control_return[0] = seek;
 	function check(item,index) {
 		if(item > player.currentTime + sync && !done){
-			console.log(index);
 			i = index - 1;
+			//console.log(index + 'kkkkkkkkkkkk');
 			if(i<0){
 				i=0;
 			}
 			done = true;
+			for(var t = 0; t < i; t++){
+				//console.log(t + 'tttttttttttttt');
+				y -= line[t].offsetHeight;
+			}
 		}
 	}
+	//window.addEventListener("resize", seek());
 	document.addEventListener('keydown', function (event) {
 	  if (event.key === ' ') {
 	  	if(player.paused){
@@ -184,11 +189,11 @@ function playerBegin() {
 }
  function mousedown0(id){
 	seeking = true;
-	console.log("down");
+	//console.log("down");
 }
 function mouseup0(id){ 
 	seeking =false;
-	console.log("up")
+	//console.log("up")
 	player.currentTime = slider0.slider_get() + sync;
 	control_return[0]();
 }
@@ -244,18 +249,26 @@ function processLyrics(data){
 	return langr;
 }
 
-function lyricsArrary(array,seperator){
+function process(array,seperator,test){
 	console.log(Object.keys(array).length);
 	var k = 0;
 	var output = new Array();
 	for (var j = 0; j < Object.keys(array).length; j++){
 		if(array[j].slice(0,2) == "|-"){
 			//console.log(array[j]);
-			output[k] = seperator;
+			if (test) {
+				output[k] = "<div class = 'line line_space' style = 'height:72px;'></div>";
+			}else{
+				output[k] = seperator;
+			}
 			k++;
 			//array[j] = "[skip]";
 		}else if(array[j].slice(0,1) == "|"){
-			output[k] = array[j].slice(1) + seperator;
+			if(test){
+				output[k] = "<div class = \'line\'>" + array[j].slice(1)  + "</div>";
+			}else{
+				output[k] = array[j].slice(1) + seperator;
+			}
 			k++;
 		}
 	}
@@ -267,9 +280,9 @@ async function mainFunction() {
 	let response = await makeRequest('GET', 'http://localhost:8080/');
 	var data = processLyrics(response);
 	console.log(data);
-	rsplit = lyricsArrary(data["lyrics"]["romaji"],"<br>");
-	lsplit = lyricsArrary(data["lyrics"]["english"],"<br>");
-	tsplit = lyricsArrary(data["time"],"");
+	rsplit = process(data["lyrics"]["romaji"],"<br>",true);
+	lsplit = process(data["lyrics"]["english"],"<br>",true);
+	tsplit = process(data["time"],"",false);
 
 	for (var j = 0; j < rsplit.length; j++)
 	{
@@ -277,7 +290,7 @@ async function mainFunction() {
 		display.innerHTML += rsplit[j];
 	}
 	var source = document.createElement('source');
-	source.setAttribute('src',lyricsArrary(data["localfile"],""));
+	source.setAttribute('src',process(data["localfile"],""));
 	player.appendChild(source);
 	playerBegin();
 }

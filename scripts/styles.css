@@ -38,7 +38,7 @@
  transition: opacity 200ms,transform 200ms;
  z-index: 2;
  min-width: 100%;
- white-space: nowrap;
+ /*white-space: nowrap;*/
 }
 #overlay2 {
 	position: fixed;
@@ -52,11 +52,11 @@
  	z-index: 1;
 }
 #display2 {
-	#z-index:4;
-	#mix-blend-mode: difference;
+	/*z-index:4;*/
+	/*mix-blend-mode: difference;*/
 	text-shadow: 2px 2px black;
 	padding-bottom: 20px;
-	white-space: nowrap;
+	/*white-space: nowrap;*/
 }
 .fadetrans{  transition: opacity 1s; }
 .fadeout { opacity: 0 !important; }
