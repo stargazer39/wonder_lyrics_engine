@@ -11,3 +11,7 @@ Thumbs.db
 # Big videos #
 videos
 node
+
+# Logs and databases #
+######################
+*.log
