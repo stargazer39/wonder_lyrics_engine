@@ -283,7 +283,7 @@ function process(array,seperator,test){
 }
 //Begin the main programm
 async function mainFunction() {
-	let response = await makeRequest('GET', 'http://localhost:8080/');
+	let response = await makeRequest('GET', '/request');
 	var data = processLyrics(response);
 	console.log(data);
 	rsplit = process(data["lyrics"]["romaji"],"<br>",true);

@@ -168,4 +168,4 @@
 |yb8WuMVGLBM
 
 [localfile]
-|../none_git_assets/smile.mp4
+|videos/smile.mp4
