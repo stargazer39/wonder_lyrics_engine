@@ -70,6 +70,8 @@ var sync = 0;
 var line = document.getElementsByClassName("line");
 function playerBegin(data) {
 	//Seeker seeker
+	lang_main = data["lyrics"]["romaji"];
+	lang_second = data["lyrics"]["english"];
 	player.oncanplay = function() {
 	   	//seeker.max = player.duration;
 	   	slider0 = new Slider("element0",{ 
@@ -100,12 +102,12 @@ function playerBegin(data) {
 		}
 		if(player.currentTime + sync > data["time"][i] && player.currentTime + sync < data["time"][i+1]){
 
-			if(data["lyrics"]["romaji"][i] == "<div class ='line line_space'></div>"){
+			if(lang_main[i] == "<div class ='line line_space'></div>"){
 				for (var child of wholepage) {
 				  child.classList.add("fadeout");
 				}
 			}
-			if(!(data["lyrics"]["romaji"][i] == "<div class ='line line_space'></div>")){
+			if(!(lang_main[i] == "<div class ='line line_space'></div>")){
 				for (var child of wholepage) {
 				  child.classList.remove("fadeout");
 				}
@@ -116,7 +118,7 @@ function playerBegin(data) {
 			y -= line[i].offsetHeight;
 			display.style.transform = "translate(-50%," + y + "px)";
 			
-			display2.innerHTML = data["lyrics"]["english"][i]
+			display2.innerHTML = lang_second[i];
 			console.log((player.currentTime + sync) + 'in');
 			console.log(i + '###############');
 			i++;
