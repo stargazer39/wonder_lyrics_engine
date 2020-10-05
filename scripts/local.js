@@ -112,9 +112,10 @@ function playerBegin(data) {
 				  child.classList.remove("fadeout");
 				}
 			}
-
-			line[i].style.backgroundColor = getComputedStyle(document.body).getPropertyValue('--overlay-ticker');
-			if(i){line[i-1].style.backgroundColor = "rgb(0 0 0 / 0%)";};
+			if(line[i].innerHTML){
+				line[i].classList.add('line_style');
+			}
+			if(i){line[i-1].classList.remove('line_style');};
 			y -= line[i].offsetHeight;
 			display.style.transform = "translate(-50%," + y + "px)";
 			
@@ -154,7 +155,7 @@ function playerBegin(data) {
 		console.log("seeking")
 		y = 36;
 		for(i=0;i<line.length;i++){
-			line[i].style.backgroundColor = "rgb(0 0 0 / 0%)";
+			line[i].classList.remove('line_style');;
 		}
 		i = 0;
 		data["time"].forEach(check);

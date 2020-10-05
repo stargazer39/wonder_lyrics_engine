@@ -136,4 +136,4 @@
 |wZ1gEDquuyQ
 
 [localfile]
-|../../none_git_assets/sweet_magic.mp4
+|videos/sweet_magic.mp4

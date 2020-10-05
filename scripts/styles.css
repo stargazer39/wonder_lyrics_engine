@@ -6,8 +6,9 @@
 	bottom: 0;
 	min-width: 100%;
 	min-height: 100%;
-	background-color: black;
-	opacity: 0.5;
+	/*background-color: black;*/
+	background-image: var(--big-overlay);
+	opacity: 0.35;
 }
 .bottom{
 	position: fixed;
@@ -156,13 +157,21 @@
 }
 .line{
 	height:100%;
-	transition: background-color 0.2s;
+}
+.line_bg{
+	opacity: 0;
+}
+.line_style{
+	background-image:var(--overlay-ticker);
+	opacity: 1;
+	transition: opacity 0.5s;
 }
 .line_space{
 	min-height:50px;
 }
 :root{
-	--overlay-ticker:teal;
+	--overlay-ticker:linear-gradient(to right,#9C27B0, #ff0052);
+	--big-overlay:linear-gradient(#9C27B0, #ff0052);
 }
 @media screen and (max-aspect-ratio: 3/4) {
   #lyrics{
