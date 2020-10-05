@@ -26,7 +26,7 @@ var tag = document.createElement('script');
 	var firstScriptTag = document.getElementsByTagName('script')[0];
 	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-var wholepage = document.querySelectorAll(".bottom,#lyrics,#display2,#display,#overlay,#overlay2");
+var wholepage = document.querySelectorAll(".bottom,#lyrics,#display2,#display,#overlay");
 
 function makeRequest(method, url) {
   return new Promise(function (resolve, reject) {
@@ -112,45 +112,56 @@ function processLyrics(data){
 }
 
 function process(array,seperator){
-		console.log(Object.keys(array).length);
-		var k = 0;
-		var output = new Array();
-		for (var j = 0; j < Object.keys(array).length; j++){
-			if(array[j].slice(0,2) == "|-"){
-				//console.log(array[j]);
+	console.log(Object.keys(array).length);
+	var k = 0;
+	var output = new Array();
+	for (var j = 0; j < Object.keys(array).length; j++){
+		if(array[j].slice(0,2) == "|-"){
+			//console.log(array[j]);
+			if (seperator == "lyrics") {
+				output[k] = "<div class ='line line_space'></div>";
+			}else{
 				output[k] = seperator;
-				k++;
-				//array[j] = "[skip]";
-			}else if(array[j].slice(0,1) == "|"){
-				output[k] = array[j].slice(1) + seperator;
-				k++;
 			}
+			k++;
+			//array[j] = "[skip]";
+		}else if(array[j].slice(0,1) == "|"){
+			if(seperator == "lyrics"){
+				output[k] = "<div class = \'line\'>" + array[j].slice(1)  + "</div>";
+			}else{
+				output[k] = array[j].slice(1) + seperator;
+			}
+			k++;
 		}
-		//console.log(output);
-		return output;
 	}
+	//console.log(output);
+	return output;
+}
 
-var rsplit,lsplit,tsplit,srcURL;
+var data;
 async function waitforme(){
 	let data2 = await makeRequest('GET', '/request')
-	var data = processLyrics(data2);
-	rsplit = process(data["lyrics"]["romaji"],"<br>");
-	lsplit = process(data["lyrics"]["english"],"<br>");
-	tsplit = process(data["time"],"");
-	srcURL = process(data["youtube"],"");
+	data = processLyrics(data2);
+	data["lyrics"]["romaji"] = process(data["lyrics"]["romaji"],"lyrics");
+	data["lyrics"]["english"] = process(data["lyrics"]["english"],"lyrics");
+	data["time"] = process(data["time"],"");
+	data["youtube"] = process(data["youtube"],"");
 }
 //New YT Player
 var player;
+var lang_main,lang_second;
 async function onYouTubeIframeAPIReady() {
 	//API will wait until the server
 	await waitforme();
-	for (var j = 0; j < rsplit.length; j++) {
-		display.innerHTML += rsplit[j];
+	lang_main = data["lyrics"]["romaji"];
+	lang_second = data["lyrics"]["english"];
+	for (var j = 0; j < lang_main.length; j++) {
+		display.innerHTML += lang_main[j];
 	}
-	console.log(rsplit);
+	console.log(lang_main);
 	console.log("done");
 	player = new YT.Player('player', {
-			videoId : srcURL,
+			videoId : data["youtube"],
 			playerVars: {
 	      'controls': 0,
 	      'enablejsapi' : 1,
@@ -207,48 +218,46 @@ for (var child of wholepage) {
 	}
 
 var sync = 0;
+var line = document.getElementsByClassName("line");
 function playerBegin(){
 	player_next = document.getElementById("player");
 	player_next.requestFullscreen;
 	//var hack = player_next.contentWindow.document.querySelector("video.video-stream.html5-main-video");
 	//hack.classList.add("hack");
-	var i = 0,y = -36,fade = true;
+	var i = 0,y = 36,fade = true;
 	var done;
 	var k = 0;
 	function update() {
-		//console.log(player.getCurrentTime());
-		//Seeker's Stuff
 		if(!seeking && (Math.floor(player.getCurrentTime() + sync)%2) == k){
 			slider0.slider_update(player.getCurrentTime() + sync);
-			if(k==0){
-				k=1;
-			}else{
-				k=0;
-			}
+			k = (k==0) ? 1 : 0; 
 		}
-		if(player.getCurrentTime() + sync < tsplit[0] || player.getCurrentTime() + sync> tsplit[tsplit.length - 1]){
+		if(player.getCurrentTime() + sync < data["time"][0] || player.getCurrentTime() + sync > data["time"][data["time"].length - 1]){
 			for (var child of wholepage) {
 				  child.classList.add("fadeout");
 				}
 		}
-		if(player.getCurrentTime() + sync > tsplit[i] && player.getCurrentTime() + sync < tsplit[i+1]){
-			//display.classList.remove("fadeout");
+		if(player.getCurrentTime() + sync > data["time"][i] && player.getCurrentTime() + sync < data["time"][i+1]){
 
-			if(rsplit[i] == "<br>"){
+			if(lang_main[i] == "<div class ='line line_space'></div>"){
 				for (var child of wholepage) {
 				  child.classList.add("fadeout");
 				}
 			}
-			if(!(rsplit[i] == "<br>")){
+			if(!(lang_main[i] == "<div class ='line line_space'></div>")){
 				for (var child of wholepage) {
 				  child.classList.remove("fadeout");
 				}
 			}
-			y = -36 - (72*i);
+
+			line[i].style.backgroundColor = getComputedStyle(document.body).getPropertyValue('--overlay-ticker');
+			if(i){line[i-1].style.backgroundColor = "rgb(0 0 0 / 0%)";};
+			y -= line[i].offsetHeight;
 			display.style.transform = "translate(-50%," + y + "px)";
-			display2.innerHTML = lsplit[i]
-			//console.log(player.getCurrentTime() + 'in');
-			//console.log(i + '###############');
+			
+			display2.innerHTML = lang_second[i];
+			console.log((player.getCurrentTime() + sync) + 'in');
+			console.log(i + '###############');
 			i++;
 		}
 	}
@@ -272,20 +281,30 @@ function playerBegin(){
 	seek_ = function(){
 		done = false;
 		//player.pause();
-		tsplit.forEach(check);
+		console.log("seeking")
+		y = 36;
+		for(i=0;i<line.length;i++){
+			line[i].style.backgroundColor = "rgb(0 0 0 / 0%)";
+		}
+		i = 0;
+		data["time"].forEach(check);
 		//player.play();
 	}
 	function check(item,index) {
 		if(item > player.getCurrentTime() + sync && !done){
-			console.log(index);
 			i = index - 1;
+			//console.log(index + 'kkkkkkkkkkkk');
 			if(i<0){
 				i=0;
 			}
 			done = true;
+			for(var t = 0; t < i; t++){
+				//console.log(t + 'tttttttttttttt');
+				y -= line[t].offsetHeight;
+			}
 		}
 	}
-	
+	window.addEventListener("resize", seek_);
 	var playalt_ = function(pause_available){ 
 		switch(player.getPlayerState()){
 	  		case -1:
