@@ -8,10 +8,10 @@ var playalt = document.getElementsByClassName("playalt")
 var settings = document.getElementById('settings');
 var controls = document.getElementById('controls');
 
+//Control Panel lol
 controls.addEventListener('mouseout',function(){ controls.classList.remove("anisettings")});
 controls.addEventListener('mouseover',function(){ controls.classList.add("anisettings")});
 settings.addEventListener('mouseover',function(){ controls.classList.add("anisettings")});
-//settings.addEventListener('mouseout',function(){ controls.classList.remove("anisettings")});
 
 function makeRequest(method, url) {
   return new Promise(function (resolve, reject) {
@@ -63,17 +63,12 @@ for (var child of wholepage) {
   child.classList.add("fadetrans");
 }
 
-var romaji;
-var rsplit;
-var lsplit;
-var time,tsplit;
-
 var slider0;
 var control_return = [];
 var seeking = false;
 var sync = 0;
 var line = document.getElementsByClassName("line");
-function playerBegin() {
+function playerBegin(data) {
 	//Seeker seeker
 	player.oncanplay = function() {
 	   	//seeker.max = player.duration;
@@ -91,26 +86,26 @@ function playerBegin() {
 	};
 	var i = 0,y = 36,fade = true;
 	var done;
-	console.log(tsplit[tsplit.length - 1]);
+	console.log(data["time"][data["time"].length - 1]);
 	var k = 0;
 	function update() {
 		if(!seeking && (Math.floor(player.currentTime + sync)%2) == k){
 			slider0.slider_update(player.currentTime + sync);
 			k = (k==0) ? 1 : 0; 
 		}
-		if(player.currentTime + sync < tsplit[0] || player.currentTime + sync > tsplit[tsplit.length - 1]){
+		if(player.currentTime + sync < data["time"][0] || player.currentTime + sync > data["time"][data["time"].length - 1]){
 			for (var child of wholepage) {
 				  child.classList.add("fadeout");
 				}
 		}
-		if(player.currentTime + sync > tsplit[i] && player.currentTime + sync < tsplit[i+1]){
+		if(player.currentTime + sync > data["time"][i] && player.currentTime + sync < data["time"][i+1]){
 
-			if(rsplit[i] == "<div class ='line line_space'></div>"){
+			if(data["lyrics"]["romaji"][i] == "<div class ='line line_space'></div>"){
 				for (var child of wholepage) {
 				  child.classList.add("fadeout");
 				}
 			}
-			if(!(rsplit[i] == "<div class ='line line_space'></div>")){
+			if(!(data["lyrics"]["romaji"][i] == "<div class ='line line_space'></div>")){
 				for (var child of wholepage) {
 				  child.classList.remove("fadeout");
 				}
@@ -121,7 +116,7 @@ function playerBegin() {
 			y -= line[i].offsetHeight;
 			display.style.transform = "translate(-50%," + y + "px)";
 			
-			display2.innerHTML = lsplit[i]
+			display2.innerHTML = data["lyrics"]["english"][i]
 			console.log((player.currentTime + sync) + 'in');
 			console.log(i + '###############');
 			i++;
@@ -160,7 +155,7 @@ function playerBegin() {
 			line[i].style.backgroundColor = "rgb(0 0 0 / 0%)";
 		}
 		i = 0;
-		tsplit.forEach(check);
+		data["time"].forEach(check);
 		//player.play();
 	}
 	control_return[0] = seek;
@@ -282,18 +277,19 @@ async function mainFunction() {
 	let response = await makeRequest('GET', '/request');
 	var data = interpret(response);
 	console.log(data);
-	rsplit = process(data["lyrics"]["romaji"],"lyrics");
-	lsplit = process(data["lyrics"]["english"],"lyrics");
-	tsplit = process(data["time"],"");
 
-	for (var j = 0; j < rsplit.length; j++)
+	data["lyrics"]["romaji"] = process(data["lyrics"]["romaji"],"lyrics");
+	data["lyrics"]["english"] = process(data["lyrics"]["english"],"lyrics");
+	data["time"] = process(data["time"],"");
+
+	for (var j = 0; j < data["lyrics"]["romaji"].length; j++)
 	{
 		//console.log(data[j]);
-		display.innerHTML += rsplit[j];
+		display.innerHTML += data["lyrics"]["romaji"][j];
 	}
 	var source = document.createElement('source');
 	source.setAttribute('src',process(data["localfile"],""));
 	player.appendChild(source);
-	playerBegin();
+	playerBegin(data);
 }
 mainFunction();
