@@ -94,10 +94,6 @@ function playerBegin() {
 	console.log(tsplit[tsplit.length - 1]);
 	var k = 0;
 	function update() {
-		//console.log(player.currentTime);
-		//Seeker's Stuff
-		//console.log(Math.floor(player.currentTime + sync)%2)
-		console.log(i + '************');
 		if(!seeking && (Math.floor(player.currentTime + sync)%2) == k){
 			slider0.slider_update(player.currentTime + sync);
 			k = (k==0) ? 1 : 0; 
@@ -108,23 +104,23 @@ function playerBegin() {
 				}
 		}
 		if(player.currentTime + sync > tsplit[i] && player.currentTime + sync < tsplit[i+1]){
-			//display.classList.remove("fadeout");
 
-			if(rsplit[i] == "<div class = 'line line_space' style = 'height:72px;'></div>"){
+			if(rsplit[i] == "<div class ='line line_space'></div>"){
 				for (var child of wholepage) {
 				  child.classList.add("fadeout");
 				}
 			}
-			if(!(rsplit[i] == "<div class = 'line line_space' style = 'height:72px;'></div>")){
+			if(!(rsplit[i] == "<div class ='line line_space'></div>")){
 				for (var child of wholepage) {
 				  child.classList.remove("fadeout");
 				}
 			}
+
 			line[i].style.backgroundColor = getComputedStyle(document.body).getPropertyValue('--overlay-ticker');
 			if(i){line[i-1].style.backgroundColor = "rgb(0 0 0 / 0%)";};
 			y -= line[i].offsetHeight;
 			display.style.transform = "translate(-50%," + y + "px)";
-			//display.innerHTML = rsplit[i];
+			
 			display2.innerHTML = lsplit[i]
 			console.log((player.currentTime + sync) + 'in');
 			console.log(i + '###############');
@@ -203,7 +199,7 @@ function mouseup0(id){
 	player.currentTime = slider0.slider_get() + sync;
 	control_return[0]();
 }
-function processLyrics(data){
+function interpret(data){
 	//Loop will check the tags and work accordingly
 	data = data.split("\n");
 	var langr = {};
@@ -255,22 +251,22 @@ function processLyrics(data){
 	return langr;
 }
 
-function process(array,seperator,test){
+function process(array,seperator){
 	console.log(Object.keys(array).length);
 	var k = 0;
 	var output = new Array();
 	for (var j = 0; j < Object.keys(array).length; j++){
 		if(array[j].slice(0,2) == "|-"){
 			//console.log(array[j]);
-			if (test) {
-				output[k] = "<div class = 'line line_space' style = 'height:72px;'></div>";
+			if (seperator == "lyrics") {
+				output[k] = "<div class ='line line_space'></div>";
 			}else{
 				output[k] = seperator;
 			}
 			k++;
 			//array[j] = "[skip]";
 		}else if(array[j].slice(0,1) == "|"){
-			if(test){
+			if(seperator == "lyrics"){
 				output[k] = "<div class = \'line\'>" + array[j].slice(1)  + "</div>";
 			}else{
 				output[k] = array[j].slice(1) + seperator;
@@ -284,11 +280,11 @@ function process(array,seperator,test){
 //Begin the main programm
 async function mainFunction() {
 	let response = await makeRequest('GET', '/request');
-	var data = processLyrics(response);
+	var data = interpret(response);
 	console.log(data);
-	rsplit = process(data["lyrics"]["romaji"],"<br>",true);
-	lsplit = process(data["lyrics"]["english"],"<br>",true);
-	tsplit = process(data["time"],"",false);
+	rsplit = process(data["lyrics"]["romaji"],"lyrics");
+	lsplit = process(data["lyrics"]["english"],"lyrics");
+	tsplit = process(data["time"],"");
 
 	for (var j = 0; j < rsplit.length; j++)
 	{

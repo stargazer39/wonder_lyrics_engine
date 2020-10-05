@@ -111,7 +111,7 @@ function processLyrics(data){
 	return langr;
 }
 
-function lyricsArrary(array,seperator){
+function process(array,seperator){
 		console.log(Object.keys(array).length);
 		var k = 0;
 		var output = new Array();
@@ -134,10 +134,10 @@ var rsplit,lsplit,tsplit,srcURL;
 async function waitforme(){
 	let data2 = await makeRequest('GET', '/request')
 	var data = processLyrics(data2);
-	rsplit = lyricsArrary(data["lyrics"]["romaji"],"<br>");
-	lsplit = lyricsArrary(data["lyrics"]["english"],"<br>");
-	tsplit = lyricsArrary(data["time"],"");
-	srcURL = lyricsArrary(data["youtube"],"");
+	rsplit = process(data["lyrics"]["romaji"],"<br>");
+	lsplit = process(data["lyrics"]["english"],"<br>");
+	tsplit = process(data["time"],"");
+	srcURL = process(data["youtube"],"");
 }
 //New YT Player
 var player;
