@@ -8,9 +8,10 @@
 ehthumbs.db
 Thumbs.db
 
-# Big videos #
+# Big videos and stuff #
 videos
 node
+test
 
 # Logs and databases #
 ######################
