@@ -28,9 +28,10 @@ for (var child of wholepage) {
 	  child.classList.add("fadetrans");
 }
 
+var data;
 async function request_get(){
 	let result = await makeRequest('GET', '/request')
-	var data = interpret(result);
+	data = interpret(result);
 	data["lyrics"]["romaji"] = process(data["lyrics"]["romaji"],"lyrics");
 	data["lyrics"]["english"] = process(data["lyrics"]["english"],"lyrics");
 	data["time"] = process(data["time"],"");
@@ -66,6 +67,15 @@ function mouseup0(){
 var sync = 0;
 function engine(lang_main,lang_second,time,sync){
 	console.log("engine ya")
+	var change = function(lang_main_,lang_second_){
+		lang_main = lang_main_;
+		lang_second = lang_second_;
+		display.innerHTML = "";
+		for (var j = 0; j < lang_main.length; j++){
+			display.innerHTML += lang_main[j];
+		}
+		seek();
+	}
 	for (var j = 0; j < lang_main.length; j++) {
 		display.innerHTML += lang_main[j];
 	}
@@ -172,7 +182,7 @@ function engine(lang_main,lang_second,time,sync){
 	  }
 	document.addEventListener('keydown', function (event) {if (event.key === ' ') { playalt(true);}});
 	playalti[0].addEventListener("click",function(){playalt(false);});
-	return {start,stop,seek};
+	return {start,stop,seek,change};
 }
 
 async function main(){

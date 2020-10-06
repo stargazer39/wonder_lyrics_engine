@@ -44,6 +44,18 @@ function playerBegin(lang_main,lang_second,time,sync) {
 	var i = 0,y = 36,fade = true;
 	var done;
 	var k = 0;
+	var change = function(lang_main_,lang_second_){
+		lang_main = lang_main_;
+		lang_second = lang_second_;
+		display.innerHTML = "";
+		for (var j = 0; j < lang_main.length; j++){
+			display.innerHTML += lang_main[j];
+		}
+		seek();
+	}
+	for (var j = 0; j < lang_main.length; j++){
+		display.innerHTML += lang_main[j];
+	}
 	function update() {
 		if(!seeking && (Math.floor(player.currentTime + sync)%2) == k){
 			slider0.slider_update(player.currentTime + sync);
@@ -82,28 +94,22 @@ function playerBegin(lang_main,lang_second,time,sync) {
 
 	var updater;
 	var interval = true;
+	var start,stop,seek;
 
-	function start(){
+	start = function (){
 		if(interval){
 			updater = setInterval(update,10);
 			interval = false;
 		}
 	}
-	function stop(){
+	stop = function (){
 		if(!interval){
 			clearInterval(updater); 
 			interval = true;
 		}
 	}
-
-	player.addEventListener("seeked", async function() {seek(); start();player.play();});
-	player.addEventListener("play",function() {seek(); start(); animation1();});
-	player.addEventListener("pause",function(){stop();});
-	player.addEventListener("ended",function(){ console.log("ended"); stop();});
-
-	playalt[0].addEventListener("click",function(){player.play();});
-
-	var seek = function(){
+	
+	seek = function(){
 		done = false;
 		//player.pause();
 		console.log("seeking")
@@ -130,16 +136,7 @@ function playerBegin(lang_main,lang_second,time,sync) {
 			}
 		}
 	}
-	window.addEventListener("resize", seek);
-	document.addEventListener('keydown', function (event) {
-	  if (event.key === ' ') {
-	  	if(player.paused){
-	  		player.play();
-	  	}else{
-	  		player.pause();
-	  	}
-	  }
-	});
+	return {start,stop,seek,change};
 }
  function mousedown0(id){
 	seeking = true;
@@ -152,20 +149,16 @@ function mouseup0(id){
 	control_return[0]();
 }
 //Begin the main programm
+var engine,data;
 async function mainFunction() {
 	let response = await makeRequest('GET', '/request');
-	var data = interpret(response);
+	data = interpret(response);
 	console.log(data);
 
 	data["lyrics"]["romaji"] = process(data["lyrics"]["romaji"],"lyrics");
 	data["lyrics"]["english"] = process(data["lyrics"]["english"],"lyrics");
 	data["time"] = process(data["time"],"");
 
-	for (var j = 0; j < data["lyrics"]["romaji"].length; j++)
-	{
-		//console.log(data[j]);
-		display.innerHTML += data["lyrics"]["romaji"][j];
-	}
 	var source = document.createElement('source');
 	source.setAttribute('src',process(data["localfile"],""));
 	player.appendChild(source);
@@ -184,6 +177,22 @@ async function mainFunction() {
 	   	waiting.classList.add("fadeout");
 		startshow.classList.add("fadein");
 	};
-	playerBegin(data["lyrics"]["romaji"],data["lyrics"]["english"],data["time"],0);
+	engine = playerBegin(data["lyrics"]["romaji"],data["lyrics"]["english"],data["time"],0);
+	player.addEventListener("seeked", async function() {engine.seek(); engine.start();player.play();});
+	player.addEventListener("play",function() {engine.seek(); engine.start(); animation1();});
+	player.addEventListener("pause",function(){engine.stop();});
+	player.addEventListener("ended",function(){ console.log("ended"); engine.stop();});
+
+	playalt[0].addEventListener("click",function(){player.play();});
+	window.addEventListener("resize", engine.seek);
+	document.addEventListener('keydown', function (event) {
+	  if (event.key === ' ') {
+	  	if(player.paused){
+	  		player.play();
+	  	}else{
+	  		player.pause();
+	  	}
+	  }
+	});
 }
 mainFunction();
