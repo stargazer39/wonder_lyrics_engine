@@ -2,7 +2,7 @@
 var intro = document.getElementById('intro');
 var waiting = document.getElementById('waiting');
 var startshow = document.getElementById('startshow');
-var playalt = document.getElementsByClassName("playalt")
+var playalti = document.getElementsByClassName("playalt")
 //Animation for controls
 var settings = document.getElementById('settings');
 var controls = document.getElementById('controls');
@@ -13,194 +13,45 @@ settings.addEventListener('mouseover',function(){ controls.classList.add("aniset
 
 //Seeker
 var seeking = false;
-//var seeker = document.getElementById("seeker")
 var slider0;
 
 var display = document.getElementById("lyrics");
 var display2 = document.getElementById("display2");
+var line = document.getElementsByClassName("line");
 
-//Initializ Youtube API
-var tag = document.createElement('script');
-	tag.id = 'iframe-demo';
-	tag.src = 'https://www.youtube.com/iframe_api';
-	var firstScriptTag = document.getElementsByTagName('script')[0];
-	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+var player;
+var player_next;
 
 var wholepage = document.querySelectorAll(".bottom,#lyrics,#display2,#display,#overlay");
-
-function makeRequest(method, url) {
-  return new Promise(function (resolve, reject) {
-    var xhr = new XMLHttpRequest();
-    xhr.open(method, url);
-    xhr.onload = function () {
-      if (this.status >= 200 && this.status < 300) {
-        resolve(xhr.response);
-      } else {
-        reject({
-          status: this.status,
-          statusText: xhr.statusText
-        });
-      }
-    };
-    xhr.onerror = function () {
-      reject({
-        status: this.status,
-        statusText: xhr.statusText
-      });
-    };
-    xhr.send();
-  });
+for (var child of wholepage) {
+	  child.classList.add("fadeout");
+	  child.classList.add("fadetrans");
 }
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-function processLyrics(data){
-	//Loop will check the tags and work accordingly
-	data = data.split("\n");
-	var langr = {};
-	var start = false;
-	var tag;
-	for (var j = 0; j < data.length; j++){
-		//console.log(JSON.stringify(data[j]));
-		//console.log(data[j]);
-		data[j] = data[j].trim();
-		if(data[j][0] == "[" || data[j][0]== "["){
-			start = true;
-			var k = 0;
-			//console.log(data[j]);
-			tag = data[j].slice(1,-1).split("-");
-			//console.log(tag);
-			switch(tag.length){
-				case 1:
-					langr[tag[0]] = {}
-					break;
-				case 2:
-				if(!langr[tag[0]]){
-					langr[tag[0]]= {}
-				}
-					langr[tag[0]][tag[1]] = {}
-			}
-			//console.log(tag);
-		}
-		if(start){
-			//langr[tag][k] = data[j+1];
-			switch(tag.length){
-				case 1:
-					//langr[tag[0]][k] = []
-					langr[tag[0]][k] = data[j+1];
-					break;
-				case 2:
-					//langr[tag[0]][tag[1]][k] = []
-					langr[tag[0]][tag[1]][k] = data[j+1];
-					break;
-			}
-			k++;
-			if(data[j+2]){
-				if(data[j+2].slice(0,1) == "["){
-					start = false;
-				}
-			}else{
-				start = false;
-			}
-		}
-	}
-	//console.log(langr);
-	//return displayable lyrics
-	return langr;
-}
-
-function process(array,seperator){
-	console.log(Object.keys(array).length);
-	var k = 0;
-	var output = new Array();
-	for (var j = 0; j < Object.keys(array).length; j++){
-		if(array[j].slice(0,2) == "|-"){
-			//console.log(array[j]);
-			if (seperator == "lyrics") {
-				output[k] = "<div class ='line line_space'></div>";
-			}else{
-				output[k] = seperator;
-			}
-			k++;
-			//array[j] = "[skip]";
-		}else if(array[j].slice(0,1) == "|"){
-			if(seperator == "lyrics"){
-				output[k] = "<div class = \'line\'>" + array[j].slice(1)  + "</div>";
-			}else{
-				output[k] = array[j].slice(1) + seperator;
-			}
-			k++;
-		}
-	}
-	//console.log(output);
-	return output;
-}
-
-var data;
-async function waitforme(){
-	let data2 = await makeRequest('GET', '/request')
-	data = processLyrics(data2);
+async function request_get(){
+	let result = await makeRequest('GET', '/request')
+	var data = interpret(result);
 	data["lyrics"]["romaji"] = process(data["lyrics"]["romaji"],"lyrics");
 	data["lyrics"]["english"] = process(data["lyrics"]["english"],"lyrics");
 	data["time"] = process(data["time"],"");
 	data["youtube"] = process(data["youtube"],"");
+	return data;
 }
-//New YT Player
-var player;
-var lang_main,lang_second;
-async function onYouTubeIframeAPIReady() {
-	//API will wait until the server
-	await waitforme();
-	lang_main = data["lyrics"]["romaji"];
-	lang_second = data["lyrics"]["english"];
-	for (var j = 0; j < lang_main.length; j++) {
-		display.innerHTML += lang_main[j];
-	}
-	console.log(lang_main);
-	console.log("done");
-	player = new YT.Player('player', {
-			videoId : data["youtube"],
-			playerVars: {
-	      'controls': 0,
-	      'enablejsapi' : 1,
-	      'start' : 0,
-	    },
-	  events: {
-	  	'onReady': onPlayerReady,
-	    'onStateChange': onPlayerStateChange
-	  }
-	});
+//Initializ Youtube API
+var engine;
+//Animation
+var begin = false;
+async function animation1(){
+	if(!begin){
+		player_next.classList.remove("play");
+		intro.classList.add("introanim");
+		await sleep(1000);
+		intro.classList.add("disnone");
+		begin = true;
+		}
 }
-var player_next;
+				
 //YT API Events
-var start_,stop_,seek_;
-var control_return;
-function onPlayerReady(event){
-	//Little Hack from mr
-	//video.video-stream.html5-main-video
-	//video-stream html5-main-video
-	//var hack = document.querySelector("video.video-stream.html5-main-video");
-	//Get the created player
-	control_return = playerBegin();
-
-	waiting.classList.add("fadeout");
-	startshow.classList.add("fadein");
-	//control_return[0]();
-	player_next = document.getElementById("player")
-	player_next.classList.add("play");
-	//Seerker stuff
-	slider0 = new Slider("element0",{ 
-			'min' : 0,
-			'max' : player.getDuration(),
-			'rate' : 200,
-			 events : {
-				'mouseup':mouseup0,
-				'mousedown':mousedown0
-			},
-		});
-}
  function mousedown0(){
 	seeking = true;
 	console.log("down");
@@ -212,32 +63,24 @@ function mouseup0(){
 	player.playVideo();
 }
 
-for (var child of wholepage) {
-	  child.classList.add("fadeout");
-	  child.classList.add("fadetrans");
-	}
-
 var sync = 0;
-var line = document.getElementsByClassName("line");
-function playerBegin(){
-	player_next = document.getElementById("player");
-	player_next.requestFullscreen;
-	//var hack = player_next.contentWindow.document.querySelector("video.video-stream.html5-main-video");
-	//hack.classList.add("hack");
-	var i = 0,y = 36,fade = true;
-	var done;
-	var k = 0;
+function engine(lang_main,lang_second,time,sync){
+	console.log("engine ya")
+	for (var j = 0; j < lang_main.length; j++) {
+		display.innerHTML += lang_main[j];
+	}
+	var i = 0,y = 36,fade = true,done,k = 0;
 	function update() {
 		if(!seeking && (Math.floor(player.getCurrentTime() + sync)%2) == k){
 			slider0.slider_update(player.getCurrentTime() + sync);
 			k = (k==0) ? 1 : 0; 
 		}
-		if(player.getCurrentTime() + sync < data["time"][0] || player.getCurrentTime() + sync > data["time"][data["time"].length - 1]){
+		if(player.getCurrentTime() + sync < time[0] || player.getCurrentTime() + sync > time[time.length - 1]){
 			for (var child of wholepage) {
 				  child.classList.add("fadeout");
 				}
 		}
-		if(player.getCurrentTime() + sync > data["time"][i] && player.getCurrentTime() + sync < data["time"][i+1]){
+		if(player.getCurrentTime() + sync > time[i] && player.getCurrentTime() + sync < time[i+1]){
 
 			if(lang_main[i] == "<div class ='line line_space'></div>"){
 				for (var child of wholepage) {
@@ -268,20 +111,21 @@ function playerBegin(){
 	var updater;
 	var interval = true;
 
-	start_ = function(){
+	var start,stop,seek,playalt;
+	start = function(){
 		if(interval){
 			console.log("started");
 			updater = setInterval(update,100);
 			interval = false;
 		}
 	}
-	stop_ = function (){
+	stop = function (){
 		if(!interval){
 			clearInterval(updater); 
 			interval = true;
 		}
 	}
-	seek_ = function(){
+	seek = function(){
 		done = false;
 		//player.pause();
 		console.log("seeking")
@@ -290,7 +134,7 @@ function playerBegin(){
 			line[i].classList.remove('line_style');
 		}
 		i = 0;
-		data["time"].forEach(check);
+		time.forEach(check);
 		//player.play();
 	}
 	function check(item,index) {
@@ -307,8 +151,8 @@ function playerBegin(){
 			}
 		}
 	}
-	window.addEventListener("resize", seek_);
-	var playalt_ = function(pause_available){ 
+	window.addEventListener("resize", seek);
+	playalt = function(pause_available){ 
 		switch(player.getPlayerState()){
 	  		case -1:
 	  			player.seekTo(0 + sync,true);
@@ -326,43 +170,71 @@ function playerBegin(){
 	        	break;
 	    }
 	  }
-	document.addEventListener('keydown', function (event) {if (event.key === ' ') { playalt_(true);}});
-	playalt[0].addEventListener("click",function(){playalt_(false);});
-
-	//Returning the control to outside
-	var control_return = new Array();
-	control_return[0] = start_;
-	control_return[1] = stop_;
-	control_return[2] = seek_;
-	control_return[3] = playalt_;
-	return control_return;
+	document.addEventListener('keydown', function (event) {if (event.key === ' ') { playalt(true);}});
+	playalti[0].addEventListener("click",function(){playalt(false);});
+	return {start,stop,seek};
 }
 
-//Animation
-var begin = false;
-async function animation1(){
-	if(!begin){
-		player_next.classList.remove("play");
-		intro.classList.add("introanim");
-		await sleep(1000);
-		intro.classList.add("disnone");
-		begin = true;
+async function main(){
+	let data = await request_get();
+	//Load the video and make slider ready as well
+	var tag = document.createElement('script');
+	tag.id = 'iframe-demo';
+	tag.src = 'https://www.youtube.com/iframe_api';
+	var firstScriptTag = document.getElementsByTagName('script')[0];
+	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+		//New YT Player
+		window.onYouTubeIframeAPIReady = function() {
+			player = new YT.Player('player', {
+					videoId : data["youtube"],
+					playerVars: {
+			      'controls': 0,
+			      'enablejsapi' : 1,
+			      'start' : 0,
+			    },
+			  events: {
+			  	'onReady': onPlayerReady,
+			    'onStateChange': onPlayerStateChange
+			  }
+			});
 		}
+		window.onPlayerReady = function(event){
+			waiting.classList.add("fadeout");
+			startshow.classList.add("fadein");
+			//control_return[0]();
+			player_next = document.getElementById("player")
+			player_next.classList.add("play");
+			//Seerker stuff
+			slider0 = new Slider("element0",{ 
+					'min' : 0,
+					'max' : player.getDuration(),
+					'rate' : 200,
+					 events : {
+						'mouseup':mouseup0,
+						'mousedown':mousedown0
+					},
+				});
+			console.log('onPlayerReady')
+			//player.loadVideoById(data["youtube"],0);
+			engine = engine(data["lyrics"]["romaji"],data["lyrics"]["english"],data["time"],0);
+			console.log(engine);
+		}
+		window.onPlayerStateChange = function(event){
+				console.log('changed' + player.getPlayerState())
+				switch(player.getPlayerState()){
+					case 1:
+						engine.seek();
+						engine.start();
+						animation1();
+			        	break;
+			        //If player state changed by any(other) means
+			        case 2:
+			        case 5:
+			        case 0:
+			        	engine.stop();
+			        	break;
+				}
+			}
 }
-				
-function onPlayerStateChange(event){
-	console.log('changed' + player.getPlayerState())
-	switch(player.getPlayerState()){
-		case 1:
-			control_return[2]();
-			control_return[0]();
-			animation1();
-        	break;
-        //If player state changed by any(other) means
-        case 2:
-        case 5:
-        case 0:
-        	control_return[1]();
-        	break;
-	}
-}
+main();

@@ -13,34 +13,6 @@ controls.addEventListener('mouseout',function(){ controls.classList.remove("anis
 controls.addEventListener('mouseover',function(){ controls.classList.add("anisettings")});
 settings.addEventListener('mouseover',function(){ controls.classList.add("anisettings")});
 
-function makeRequest(method, url) {
-  return new Promise(function (resolve, reject) {
-    var xhr = new XMLHttpRequest();
-    xhr.open(method, url);
-    xhr.onload = function () {
-      if (this.status >= 200 && this.status < 300) {
-        resolve(xhr.response);
-      } else {
-        reject({
-          status: this.status,
-          statusText: xhr.statusText
-        });
-      }
-    };
-    xhr.onerror = function () {
-      reject({
-        status: this.status,
-        statusText: xhr.statusText
-      });
-    };
-    xhr.send();
-  });
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 //Ainmation
 var begin = false;
 async function animation1(){
@@ -68,39 +40,21 @@ var control_return = [];
 var seeking = false;
 var sync = 0;
 var line = document.getElementsByClassName("line");
-function playerBegin(data) {
-	//Seeker seeker
-	lang_main = data["lyrics"]["romaji"];
-	lang_second = data["lyrics"]["english"];
-	player.oncanplay = function() {
-	   	//seeker.max = player.duration;
-	   	slider0 = new Slider("element0",{ 
-			'min' : 0,
-			'max' : player.duration,
-			'rate' : 200,
-			 events : {
-				'mouseup':mouseup0,
-				'mousedown':mousedown0,
-			},
-		});
-	   	waiting.classList.add("fadeout");
-		startshow.classList.add("fadein");
-	};
+function playerBegin(lang_main,lang_second,time,sync) {
 	var i = 0,y = 36,fade = true;
 	var done;
-	console.log(data["time"][data["time"].length - 1]);
 	var k = 0;
 	function update() {
 		if(!seeking && (Math.floor(player.currentTime + sync)%2) == k){
 			slider0.slider_update(player.currentTime + sync);
 			k = (k==0) ? 1 : 0; 
 		}
-		if(player.currentTime + sync < data["time"][0] || player.currentTime + sync > data["time"][data["time"].length - 1]){
+		if(player.currentTime + sync < time[0] || player.currentTime + sync > time[time.length - 1]){
 			for (var child of wholepage) {
 				  child.classList.add("fadeout");
 				}
 		}
-		if(player.currentTime + sync > data["time"][i] && player.currentTime + sync < data["time"][i+1]){
+		if(player.currentTime + sync > time[i] && player.currentTime + sync < time[i+1]){
 
 			if(lang_main[i] == "<div class ='line line_space'></div>"){
 				for (var child of wholepage) {
@@ -158,7 +112,7 @@ function playerBegin(data) {
 			line[i].classList.remove('line_style');;
 		}
 		i = 0;
-		data["time"].forEach(check);
+		time.forEach(check);
 		//player.play();
 	}
 	control_return[0] = seek;
@@ -197,84 +151,6 @@ function mouseup0(id){
 	player.currentTime = slider0.slider_get() + sync;
 	control_return[0]();
 }
-function interpret(data){
-	//Loop will check the tags and work accordingly
-	data = data.split("\n");
-	var langr = {};
-	var start = false;
-	var tag;
-	for (var j = 0; j < data.length; j++){
-		data[j] = data[j].trim();
-		if(data[j][0] == "[" || data[j][0]== "["){
-			start = true;
-			var k = 0;
-			//console.log(data[j]);
-			tag = data[j].slice(1,-1).split("-");
-			//console.log(tag);
-			switch(tag.length){
-				case 1:
-					langr[tag[0]] = {}
-					break;
-				case 2:
-				if(!langr[tag[0]]){
-					langr[tag[0]]= {}
-				}
-					langr[tag[0]][tag[1]] = {}
-			}
-			//console.log(tag);
-		}
-		if(start){
-			//langr[tag][k] = data[j+1];
-			switch(tag.length){
-				case 1:
-					//langr[tag[0]][k] = []
-					langr[tag[0]][k] = data[j+1];
-					break;
-				case 2:
-					//langr[tag[0]][tag[1]][k] = []
-					langr[tag[0]][tag[1]][k] = data[j+1];
-					break;
-			}
-			k++;
-			if(data[j+2]){
-				if(data[j+2].slice(0,1) == "["){
-					start = false;
-				}
-			}else{
-				start = false;
-			}
-		}
-	}
-	//return displayable lyrics
-	return langr;
-}
-
-function process(array,seperator){
-	console.log(Object.keys(array).length);
-	var k = 0;
-	var output = new Array();
-	for (var j = 0; j < Object.keys(array).length; j++){
-		if(array[j].slice(0,2) == "|-"){
-			//console.log(array[j]);
-			if (seperator == "lyrics") {
-				output[k] = "<div class ='line line_space'></div>";
-			}else{
-				output[k] = seperator;
-			}
-			k++;
-			//array[j] = "[skip]";
-		}else if(array[j].slice(0,1) == "|"){
-			if(seperator == "lyrics"){
-				output[k] = "<div class = \'line\'>" + array[j].slice(1)  + "</div>";
-			}else{
-				output[k] = array[j].slice(1) + seperator;
-			}
-			k++;
-		}
-	}
-	//console.log(output);
-	return output;
-}
 //Begin the main programm
 async function mainFunction() {
 	let response = await makeRequest('GET', '/request');
@@ -293,6 +169,21 @@ async function mainFunction() {
 	var source = document.createElement('source');
 	source.setAttribute('src',process(data["localfile"],""));
 	player.appendChild(source);
-	playerBegin(data);
+	//Seeker seeker
+	player.oncanplay = function() {
+	   	//seeker.max = player.duration;
+	   	slider0 = new Slider("element0",{ 
+			'min' : 0,
+			'max' : player.duration,
+			'rate' : 200,
+			 events : {
+				'mouseup':mouseup0,
+				'mousedown':mousedown0,
+			},
+		});
+	   	waiting.classList.add("fadeout");
+		startshow.classList.add("fadein");
+	};
+	playerBegin(data["lyrics"]["romaji"],data["lyrics"]["english"],data["time"],0);
 }
 mainFunction();
