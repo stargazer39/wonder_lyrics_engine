@@ -1,0 +1,140 @@
+[lyrics-romaji]
+|ittsu shoutaimu Hey Hey
+|ittsu shoutaimu Hey Hey
+|rettsugoo
+|mahoutsukai no kyasuto mo torauma seotta kaibutsu mo
+|itsuka minna inaku naru koto shitteru
+|kigengire no chiketto keinen rekka suru haato biito
+|"rainen, mata koyou ne" tte yakusoku o hatasezu ni
+|mou dame kamo dame kamo
+|sore haumacchi? haumacchi?
+|noizu bakka noizu bakka fueru
+|sunao ni kandou shitai yo zutto sou datta
+|sabita haioku de yume o miteru
+|Hey owari o koete zutto paatii o
+|Hey mawaritsuzukeru meriigooraundo
+|Hey sekai wa mada hajimatte sura inai ze
+|Hey maibun maibyougoto ni baasudei o
+|Hey jigoku no soko de happiiendo o
+|Hey sekai wa mada hajimatte sura inai ze
+|-
+|mushinkei na ousama mo yoku ni mamireta arukemisuto mo
+|itsuka tsuchi ni kaette iku miren o nokoshita mama
+|yabai kami kamo kami kamo
+|sore feikunyuusu? feikunyuusu?
+|arasoi bakka arasoi bakka underu
+|chienowa hodo kitai yo zutto fuan datta
+|hokori haratte sai kidou suru
+|Hey jumyou no sutaamain to jinsei o
+|Hey hoshizora kakeru jetto koosutaa o
+|Hey sekai wa mada hajimatte sura inai ze
+|Hey saiaku de saikou na sanmon shibai o
+|Hey baddoendo o nurikaeru burafu o
+|Hey sekai wa mada hajimatte sura inai ze
+|Hey owari o koete zutto paatii o
+|Hey mawari tsuzukeru meriigooraundo
+|Hey sekai wa mada hajimatte sura inai ze
+|Hey kowase yotei chouwa no mirai o
+|Hey narase saisei o tsugeru kane o
+|sekai wa mada hajimatte sura hajimatte sura
+|hajimatte sura inai ze
+|-
+|ittsu shoutaimu
+|Hey Hey Hey Hey Hey Hey
+|-
+
+[lyrics-english]
+|It's showtime! Hey Hey
+|It's showtime! Hey Hey
+|Let's go!
+|With a cast who can use magic and monsters who are burdened with trauma,
+|Even I know that everyone's destined to disappear someday...
+|With a ticket that's long past expired and a heartbeat fading over time,
+|"Let's come again next year," is said without any promises being made
+|It's probably already no-good
+|How much is that?
+|There's too much noise, so much noise and it keeps getting worse
+|I want to be inspired straightforwardly, just as I always have
+|In a deteriorating, abandoned room I simply dream on
+|Hey! Let's cross the end of all of this, partying forever
+|Hey! Spinning on a never-ending merry-go-round
+|Hey! This world hasn't even started yet
+|Hey! A birthday lasting every second and minute
+|Hey! In the depths of Hell, a happy ending plays out
+|Hey! This world hasn't even started yet
+|-
+|With a thick-skinned king and an alchemist full of desires,
+|We'll all someday return to the earth, leaving our attachments behind
+|Even bad gods
+|Is that fake news?
+|There's too much conflict, too much conflict and it keeps growing
+|It's like when our arms are all tangled together, I couldn't help but worry
+|So I'll brush off the dust and reboot it all
+|Hey! A firework show that lasts a lifespan
+|Hey! A roller coaster that spans the starry skies
+|Hey! This world hasn't even started yet
+|Hey! The best of the worst of crappy plays
+|Hey! A flag that'll paint over a bad ending
+|Hey! This world hasn't even started yet
+|Hey! Let's cross the end of all of this, partying forever
+|Hey! Spinning on a never-ending merry-go-round
+|Hey! This world hasn't even started yet
+|Hey! Let's break the plans for a harmonious future
+|Hey! Ring the bell that marks a new life
+|Hey! This world hasn't even...
+|It hasn't even started yet
+|-
+|It's showtime
+|Hey Hey Hey Hey Hey Hey
+|-
+
+[time]
+|7.741855
+|14.718669
+|21.85533
+|22.777917
+|29.65809
+|36.676398
+|43.584398
+|49.798965
+|51.96343
+|53.636212
+|57.262674
+|64.288741
+|67.729572
+|71.323838
+|74.795607
+|81.64776
+|85.135264
+|88.64213
+|97.011116
+|101.032555
+|107.994117
+|114.187745
+|116.342949
+|118.04403
+|121.599404
+|128.837792
+|132.119353
+|135.633395
+|139.175732
+|146.011833
+|149.527402
+|153.019895
+|159.891937
+|163.4453
+|166.934727
+|173.840495
+|177.401245
+|181.708414
+|187.108595
+|193.266789
+|197.319124
+|198.868289
+|204.289848
+
+[youtube]
+|1s8NNPgdl5g
+
+[localfile]
+|videos/the_world.mkv
