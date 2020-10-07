@@ -18,7 +18,7 @@
 	min-width: 100%;
 	
 	/*min-height: 15%;*/
-	font-size:  50px; 
+	font-size:  7.5vmin; 
  	color: white;
  	font-family: 'Teko', sans-serif;
  	text-align: center;
@@ -27,7 +27,7 @@
 	z-index: 3;
 }
 #lyrics {
- font-size:  50px; 
+ font-size:  7.5vmin; 
  color: white;
  position: fixed;
  top: 50%;
@@ -175,12 +175,12 @@
 }
 @media screen and (max-aspect-ratio: 3/4) {
   #lyrics{
-  	font-size: 30px;
+  	/*font-size: 30px;*/
   }
   #display2{
-  	font-size: 30px;
+  	/*font-size: 30px;*/
   }
   .line_space{
-  	min-height:30px;
+  	/*min-height:30px;*/
   }
 }
