@@ -28,6 +28,8 @@ async function animation1(){
 var display = document.getElementById("lyrics");
 var display2 = document.getElementById("display2");
 var player = document.getElementById("player");
+//second feature
+var floating = document.getElementById("floating_lyr");
 
 var wholepage = document.querySelectorAll(".bottom,#lyrics,#display2,#display,#overlay");
 for (var child of wholepage) {
@@ -44,6 +46,21 @@ function playerBegin(lang_main,lang_second,time,sync) {
 	var i = 0,y = 36,fade = true;
 	var done;
 	var k = 0;
+	var floating_down = false;
+
+	floating.addEventListener('mousedown',function(){
+		floating_down = true;
+		console.log('yesd')
+	})
+	floating.addEventListener('mouseup',function(){
+		floating_down = false;
+	})
+	window.addEventListener('mousemove',function(e){
+		if(floating_down){
+			floating.style.left = e.clientX + 'px';
+			floating.style.top = e.clientY + 'px';
+		}
+	})
 	var change = function(lang_main_,lang_second_){
 		lang_main = lang_main_;
 		lang_second = lang_second_;
@@ -85,6 +102,9 @@ function playerBegin(lang_main,lang_second,time,sync) {
 			y -= line[i].offsetHeight;
 			display.style.transform = "translate(-50%," + y + "px)";
 			
+			//second feature
+			floating.innerHTML = lang_main[i];
+
 			display2.innerHTML = lang_second[i];
 			console.log((player.currentTime + sync) + 'in');
 			console.log(i + '###############');
