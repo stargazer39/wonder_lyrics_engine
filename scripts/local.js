@@ -47,18 +47,22 @@ function playerBegin(lang_main,lang_second,time,sync) {
 	var done;
 	var k = 0;
 	var floating_down = false;
+	var floating_offset = [0,0];
 
-	floating.addEventListener('mousedown',function(){
+	floating.addEventListener('mousedown',function(e){
 		floating_down = true;
-		console.log('yesd')
+		floating_offset = [e.clientX - floating.offsetLeft,e.clientY - floating.offsetTop]
+		console.log(floating_offset);
 	})
-	floating.addEventListener('mouseup',function(){
-		floating_down = false;
+	window.addEventListener('mouseup',function(){
+		if (floating_down) {
+			floating_down = false;
+		}
 	})
 	window.addEventListener('mousemove',function(e){
 		if(floating_down){
-			floating.style.left = e.clientX + 'px';
-			floating.style.top = e.clientY + 'px';
+			floating.style.left = e.clientX - floating_offset[0] + 'px';
+			floating.style.top = e.clientY - floating_offset[1] + 'px';
 		}
 	})
 	var change = function(lang_main_,lang_second_){
