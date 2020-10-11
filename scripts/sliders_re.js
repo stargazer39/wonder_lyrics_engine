@@ -57,10 +57,12 @@ class Slider {
 			ticker.classList.remove('slider_trans');
 		}
 		function onMouseUp(){
-			args.events.mouseup();
-			mousedown = false;
-			progress.classList.add('slider_trans');
-			ticker.classList.add('slider_trans');
+			if(mousedown){
+				args.events.mouseup();
+				mousedown = false;
+				progress.classList.add('slider_trans');
+				ticker.classList.add('slider_trans');
+			}
 		}
 		function onMove(e){
 			if(mousedown){
@@ -79,9 +81,9 @@ class Slider {
 		document.addEventListener("mousemove",onMove);
 
 		var slider_get_meth = function(){
-			if(global_val < min){
+			if(global_val*max < min){
 					return min;
-				}else if(global_val > max){
+				}else if(global_val*max > max){
 					return max;
 				}else{
 					return global_val*max;
@@ -100,10 +102,11 @@ class Slider {
 		}
 
 		window.addEventListener("resize", async function(){
-			mousedown = true;
-			slider_update_meth(slider_global);
-			await sleep(rate);
-			mousedown = false;
+			allowed = false
+			console.log(global_val)
+			slider_update_meth(global_val*max);
+			await sleep(250);
+			allowed = true;
 		});
 
 		this.slider_update = function(val){
