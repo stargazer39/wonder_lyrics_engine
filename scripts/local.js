@@ -198,9 +198,9 @@ async function mainFunction() {
 	player.addEventListener("pause",function(){engine.stop();});
 	player.addEventListener("ended",function(){ console.log("ended"); engine.stop();});
 
-	playalt[0].addEventListener("click",function(){player.play();});
-	window.addEventListener("resize", engine.seek);
-	document.addEventListener('keydown', function (event) {
+	playalt.on("click",function(){player.play();});
+	$(window).on("resize", engine.seek);
+	$(document).on('keydown', function (event) {
 	  if (event.key === ' ') {
 	  	if(player.paused){
 	  		player.play();
