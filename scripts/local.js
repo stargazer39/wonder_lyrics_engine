@@ -1,32 +1,32 @@
 //Animation for Intro
-var intro = document.getElementById('intro');
-var waiting = document.getElementById('waiting');
-var startshow = document.getElementById('startshow');
-var playalt = document.getElementsByClassName("playalt")
+var intro = $('#intro');
+var waiting = $('#waiting');
+var startshow = $('#startshow');
+var playalt = $(".playalt");
 
 //Animation for controls
-var settings = document.getElementById('settings');
-var controls = document.getElementById('controls');
+var settings = $('#settings');
+var controls = $('#controls');
 
 //Control Panel lol
-controls.addEventListener('mouseout',function(){ controls.classList.remove("anisettings")});
-controls.addEventListener('mouseover',function(){ controls.classList.add("anisettings")});
-settings.addEventListener('mouseover',function(){ controls.classList.add("anisettings")});
+controls.mouseout(function(){ controls.removeClass("anisettings")});
+controls.mouseover(function(){ controls.addClass("anisettings")});
+settings.mouseover(function(){ controls.addClass("anisettings")});
 
 //Ainmation
 var begin = false;
 async function animation1(){
 	if(!begin){
-		intro.classList.add("introanim");
+		intro.addClass("introanim");
 		await sleep(1000);
-		intro.classList.add("disnone");
+		intro.addClass("disnone");
 		begin = true;
 		}
 }
 
 //The Engine Starts Here
-var display = document.getElementById("lyrics");
-var display2 = document.getElementById("display2");
+var display = $("#lyrics");
+var display2 = $("#display2");
 var player = document.getElementById("player");
 //second feature
 var floating = document.getElementById("floating_lyr");
@@ -41,7 +41,7 @@ var slider0;
 var control_return = [];
 var seeking = false;
 var sync = 0;
-var line = document.getElementsByClassName("line");
+var line;
 function playerBegin(lang_main,lang_second,time,sync) {
 	var i = 0,y = 36,fade = true;
 	var done;
@@ -68,15 +68,11 @@ function playerBegin(lang_main,lang_second,time,sync) {
 	var change = function(lang_main_,lang_second_){
 		lang_main = lang_main_;
 		lang_second = lang_second_;
-		display.innerHTML = "";
-		for (var j = 0; j < lang_main.length; j++){
-			display.innerHTML += lang_main[j];
-		}
+		display.html(lang_main.join("\n"));
 		seek();
 	}
-	for (var j = 0; j < lang_main.length; j++){
-		display.innerHTML += lang_main[j];
-	}
+	display.html(lang_main.join("\n"));
+	line = $(".line");
 	function update() {
 		if(!seeking && (Math.floor(player.currentTime + sync)%2) == k){
 			slider0.slider_update(player.currentTime + sync);
@@ -99,17 +95,18 @@ function playerBegin(lang_main,lang_second,time,sync) {
 				  child.classList.remove("fadeout");
 				}
 			}
-			if(line[i].innerHTML){
-				line[i].classList.add('line_style');
+			if($(line[i]).html()){
+				$(line[i]).addClass('line_style');
 			}
-			if(i){line[i-1].classList.remove('line_style');};
-			y -= line[i].offsetHeight;
-			display.style.transform = "translate(-50%," + y + "px)";
+			if(i){$(line[i-1]).removeClass('line_style');};
+			y -= $(line[i]).outerHeight();
+			console.log()
+			display.css("transform","translate(-50%," + y + "px)");
 			
 			//second feature
 			floating.innerHTML = lang_main[i];
 
-			display2.innerHTML = lang_second[i];
+			display2.html(lang_second[i]);
 			console.log((player.currentTime + sync) + 'in');
 			console.log(i + '###############');
 			i++;
@@ -139,7 +136,7 @@ function playerBegin(lang_main,lang_second,time,sync) {
 		console.log("seeking")
 		y = 36;
 		for(i=0;i<line.length;i++){
-			line[i].classList.remove('line_style');;
+			$(line[i]).removeClass('line_style');
 		}
 		i = 0;
 		time.forEach(check);
@@ -156,7 +153,7 @@ function playerBegin(lang_main,lang_second,time,sync) {
 			done = true;
 			for(var t = 0; t < i; t++){
 				//console.log(t + 'tttttttttttttt');
-				y -= line[t].offsetHeight;
+				y -= $(line[t]).outerHeight();
 			}
 		}
 	}
@@ -175,7 +172,7 @@ function mouseup0(id){
 //Begin the main programm
 var engine,data;
 async function mainFunction() {
-	let response = await makeRequest('GET', '/request');
+	let response = await makeRequest('GET', 'http://localhost:8080');
 	data = interpret(response);
 	console.log(data);
 
@@ -198,8 +195,8 @@ async function mainFunction() {
 				'mousedown':mousedown0,
 			},
 		});
-	   	waiting.classList.add("fadeout");
-		startshow.classList.add("fadein");
+	   	waiting.addClass("fadeout");
+		startshow.addClass("fadein");
 	};
 	engine = playerBegin(data["lyrics"]["romaji"],data["lyrics"]["english"],data["time"],0);
 	player.addEventListener("seeked", async function() {engine.seek(); engine.start();player.play();});
