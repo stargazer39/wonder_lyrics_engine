@@ -29,13 +29,14 @@ var display = $("#lyrics");
 var display2 = $("#display2");
 var player = document.getElementById("player");
 //second feature
-var floating = document.getElementById("floating_lyr");
+var floating = $("#floating_lyr");
 
-var wholepage = document.querySelectorAll(".bottom,#lyrics,#display2,#display,#overlay");
-for (var child of wholepage) {
+var wholepage = $(".bottom,#lyrics,#display2,#display,#overlay");
+wholepage.addClass("fadeout fadetrans");
+/*for (var child of wholepage) {
   child.classList.add("fadeout");
   child.classList.add("fadetrans");
-}
+}*/
 
 var slider0;
 var control_return = [];
@@ -49,9 +50,10 @@ function playerBegin(lang_main,lang_second,time,sync) {
 	var floating_down = false;
 	var floating_offset = [0,0];
 
-	floating.addEventListener('mousedown',function(e){
+	floating.on('mousedown',function(e){
+		console.log(e);
 		floating_down = true;
-		floating_offset = [e.clientX - floating.offsetLeft,e.clientY - floating.offsetTop]
+		floating_offset = [e.clientX - floating.position().left,e.clientY - floating.position().top]
 		console.log(floating_offset);
 	})
 	window.addEventListener('mouseup',function(){
@@ -61,8 +63,8 @@ function playerBegin(lang_main,lang_second,time,sync) {
 	})
 	window.addEventListener('mousemove',function(e){
 		if(floating_down){
-			floating.style.left = e.clientX - floating_offset[0] + 'px';
-			floating.style.top = e.clientY - floating_offset[1] + 'px';
+			floating.css("left",  e.clientX - floating_offset[0] + 'px');
+			floating.css("top",e.clientY - floating_offset[1] + 'px');
 		}
 	})
 	var change = function(lang_main_,lang_second_){
@@ -79,21 +81,15 @@ function playerBegin(lang_main,lang_second,time,sync) {
 			k = (k==0) ? 1 : 0; 
 		}
 		if(player.currentTime + sync < time[0] || player.currentTime + sync > time[time.length - 1]){
-			for (var child of wholepage) {
-				  child.classList.add("fadeout");
-				}
+			wholepage.addClass("fadeout");
 		}
 		if(player.currentTime + sync > time[i] && player.currentTime + sync < time[i+1]){
 
 			if(lang_main[i] == "<div class ='line line_space'></div>"){
-				for (var child of wholepage) {
-				  child.classList.add("fadeout");
-				}
+				wholepage.addClass("fadeout");
 			}
 			if(!(lang_main[i] == "<div class ='line line_space'></div>")){
-				for (var child of wholepage) {
-				  child.classList.remove("fadeout");
-				}
+				wholepage.removeClass("fadeout");
 			}
 			if($(line[i]).html()){
 				$(line[i]).addClass('line_style');
@@ -104,7 +100,7 @@ function playerBegin(lang_main,lang_second,time,sync) {
 			display.css("transform","translate(-50%," + y + "px)");
 			
 			//second feature
-			floating.innerHTML = lang_main[i];
+			floating.html(lang_main[i]);
 
 			display2.html(lang_second[i]);
 			console.log((player.currentTime + sync) + 'in');
@@ -135,9 +131,7 @@ function playerBegin(lang_main,lang_second,time,sync) {
 		//player.pause();
 		console.log("seeking")
 		y = 36;
-		for(i=0;i<line.length;i++){
-			$(line[i]).removeClass('line_style');
-		}
+		line.removeClass('line_style');
 		i = 0;
 		time.forEach(check);
 		//player.play();
