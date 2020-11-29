@@ -7,8 +7,8 @@
 	<link rel="stylesheet" href="scripts\styles.css">
 	<link rel="stylesheet" href="scripts\browser.css">
 	<script async defer src="https://buttons.github.io/buttons.js"></script>
-	<link rel="stylesheet" href="scripts\fancy-sliders.css">
-	<script src="scripts\fancy-sliders.js"></script>
+	<link rel="stylesheet" href="scripts\sliders_re.css">
+	<script src="scripts\sliders_re.js"></script>
 	<style type="text/css">
 		#player { 
 			height: 100vh;
@@ -39,11 +39,10 @@
 		<div id="display2"></div>
 	</div>
 	<div id="seekcontainer">
-		<div class="slider_parent" id="element0">
-			<div class="thumb slider_mousemove">
-				<div class="slider_fill_left"></div>
-				<div class="slider_fill_right"> </div>
-			</div>
+		<div class="slider-container" id="element0">
+			<div class="play-progress slider_trans"></div>
+			<div class="ticker slider_trans"></div>
+			<div class="mouseevent"></div>
 		</div>
 	</div>
 	<div id="settings"><img style src="assets\settings.svg"></div>
@@ -68,6 +67,7 @@
 			<div style="font-size: 40px;" id="startshow">Hit Space bar or click <span class="playalt" style="cursor: pointer;text-decoration: underline;">here</span> to begin the show!</div>
 		<div>
 	</div>
+	<script type="text/javascript" src="scripts\jquery.min.js"></script>
 	<script type="text/javascript" src="scripts\dependencies.js"></script>
 	<script type="text/javascript" src="scripts\youtube_api.js"></script>
 </body>

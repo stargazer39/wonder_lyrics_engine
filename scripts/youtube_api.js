@@ -1,36 +1,34 @@
 //Animation for Intro
-var intro = document.getElementById('intro');
-var waiting = document.getElementById('waiting');
-var startshow = document.getElementById('startshow');
-var playalti = document.getElementsByClassName("playalt")
+var intro = $('#intro');
+var waiting = $('#waiting');
+var startshow = $('#startshow');
+var playalti = $(".playalt")
 //Animation for controls
-var settings = document.getElementById('settings');
-var controls = document.getElementById('controls');
+var settings = $('#settings');
+var controls = $('#controls');
 
-controls.addEventListener('mouseout',function(){ controls.classList.remove("anisettings")});
-controls.addEventListener('mouseover',function(){ controls.classList.add("anisettings")});
-settings.addEventListener('mouseover',function(){ controls.classList.add("anisettings")});
+//Control Panel lol
+controls.mouseout(function(){ controls.removeClass("anisettings")});
+controls.mouseover(function(){ controls.addClass("anisettings")});
+settings.mouseover(function(){ controls.addClass("anisettings")});
 
 //Seeker
 var seeking = false;
 var slider0;
 
-var display = document.getElementById("lyrics");
-var display2 = document.getElementById("display2");
-var line = document.getElementsByClassName("line");
+var display = $("#lyrics");
+var display2 = $("#display2");
+var line
 
 var player;
 var player_next;
 
-var wholepage = document.querySelectorAll(".bottom,#lyrics,#display2,#display,#overlay");
-for (var child of wholepage) {
-	  child.classList.add("fadeout");
-	  child.classList.add("fadetrans");
-}
+var wholepage = $(".bottom,#lyrics,#display2,#display,#overlay");
+wholepage.addClass("fadeout fadetrans");
 
 var data;
 async function request_get(){
-	let result = await makeRequest('GET', '/request')
+	let result = await makeRequest('GET', 'http://localhost:8080')
 	data = interpret(result);
 	data["lyrics"]["romaji"] = process(data["lyrics"]["romaji"],"lyrics");
 	data["lyrics"]["english"] = process(data["lyrics"]["english"],"lyrics");
@@ -44,10 +42,10 @@ var engine;
 var begin = false;
 async function animation1(){
 	if(!begin){
-		player_next.classList.remove("play");
-		intro.classList.add("introanim");
+		player_next.removeClass("play");
+		intro.addClass("introanim");
 		await sleep(1000);
-		intro.classList.add("disnone");
+		intro.addClass("disnone");
 		begin = true;
 		}
 }
@@ -70,48 +68,38 @@ function engine(lang_main,lang_second,time,sync){
 	var change = function(lang_main_,lang_second_){
 		lang_main = lang_main_;
 		lang_second = lang_second_;
-		display.innerHTML = "";
-		for (var j = 0; j < lang_main.length; j++){
-			display.innerHTML += lang_main[j];
-		}
+		display.html(lang_main.join("\n"))
 		seek();
 	}
-	for (var j = 0; j < lang_main.length; j++) {
-		display.innerHTML += lang_main[j];
-	}
+
+	display.html(lang_main.join("\n"))
+
 	var i = 0,y = 36,fade = true,done,k = 0;
+	line = $(".line");
 	function update() {
 		if(!seeking && (Math.floor(player.getCurrentTime() + sync)%2) == k){
 			slider0.slider_update(player.getCurrentTime() + sync);
 			k = (k==0) ? 1 : 0; 
 		}
 		if(player.getCurrentTime() + sync < time[0] || player.getCurrentTime() + sync > time[time.length - 1]){
-			for (var child of wholepage) {
-				  child.classList.add("fadeout");
-				}
+			wholepage.addClass("fadeout");
 		}
 		if(player.getCurrentTime() + sync > time[i] && player.getCurrentTime() + sync < time[i+1]){
 
 			if(lang_main[i] == "<div class ='line line_space'></div>"){
-				for (var child of wholepage) {
-				  child.classList.add("fadeout");
-				}
+				wholepage.addClass("fadeout");
 			}
 			if(!(lang_main[i] == "<div class ='line line_space'></div>")){
-				for (var child of wholepage) {
-				  child.classList.remove("fadeout");
-				}
+				wholepage.removeClass("fadeout");
 			}
-
-			if(line[i].innerHTML){
-				line[i].classList.add('line_style');
+			if($(line[i]).html()){
+				$(line[i]).addClass('line_style');
 			}
-			if(i){line[i-1].classList.remove('line_style');};
-
-			y -= line[i].offsetHeight;
-			display.style.transform = "translate(-50%," + y + "px)";
+			if(i){$(line[i-1]).removeClass('line_style');};
+			y -= $(line[i]).outerHeight();
+			display.css("transform","translate(-50%," + y + "px)");
 			
-			display2.innerHTML = lang_second[i];
+			display2.html(lang_second[i])
 			console.log((player.getCurrentTime() + sync) + 'in');
 			console.log(i + '###############');
 			i++;
@@ -140,9 +128,7 @@ function engine(lang_main,lang_second,time,sync){
 		//player.pause();
 		console.log("seeking")
 		y = 36;
-		for(i=0;i<line.length;i++){
-			line[i].classList.remove('line_style');
-		}
+		line.removeClass('line_style');
 		i = 0;
 		time.forEach(check);
 		//player.play();
@@ -157,7 +143,7 @@ function engine(lang_main,lang_second,time,sync){
 			done = true;
 			for(var t = 0; t < i; t++){
 				//console.log(t + 'tttttttttttttt');
-				y -= line[t].offsetHeight;
+				y -= $(line[t]).outerHeight();
 			}
 		}
 	}
@@ -181,7 +167,7 @@ function engine(lang_main,lang_second,time,sync){
 	    }
 	  }
 	document.addEventListener('keydown', function (event) {if (event.key === ' ') { playalt(true);}});
-	playalti[0].addEventListener("click",function(){playalt(false);});
+	playalti.on("click",function(){playalt(false);});
 	return {start,stop,seek,change};
 }
 
@@ -210,11 +196,11 @@ async function main(){
 			});
 		}
 		window.onPlayerReady = function(event){
-			waiting.classList.add("fadeout");
-			startshow.classList.add("fadein");
+			waiting.addClass("fadeout");
+			startshow.addClass("fadein");
 			//control_return[0]();
-			player_next = document.getElementById("player")
-			player_next.classList.add("play");
+			player_next = $("#player")
+			player_next.addClass("play");
 			//Seerker stuff
 			slider0 = new Slider("element0",{ 
 					'min' : 0,

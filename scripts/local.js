@@ -95,6 +95,7 @@ function playerBegin(lang_main,lang_second,time,sync) {
 				$(line[i]).addClass('line_style');
 			}
 			if(i){$(line[i-1]).removeClass('line_style');};
+			console.log(y)
 			y -= $(line[i]).outerHeight();
 			console.log()
 			display.css("transform","translate(-50%," + y + "px)");
@@ -181,14 +182,14 @@ async function mainFunction() {
 	player.oncanplay = function() {
 	   	//seeker.max = player.duration;
 	   	slider0 = new Slider("element0",{ 
-			'min' : 0,
-			'max' : player.duration,
-			'rate' : 200,
-			 events : {
-				'mouseup':mouseup0,
-				'mousedown':mousedown0,
-			},
-		});
+					'min' : 0,
+					'max' : player.duration,
+					'rate' : 200,
+					 events : {
+						'mouseup':mouseup0,
+						'mousedown':mousedown0
+					},
+				});
 	   	waiting.addClass("fadeout");
 		startshow.addClass("fadein");
 	};
