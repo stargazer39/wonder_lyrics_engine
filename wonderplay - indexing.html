@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hey.. :)</title>
+	<script type="text/javascript" src="scripts/jquery.min.js"></script>
+	<style type="text/css">
+		@import url('https://fonts.googleapis.com/css2?family=Teko:wght@600&display=swap');
+		*{
+			box-sizing: border-box;
+		}
+		#song-container{
+			display: flex;
+			flex-wrap: wrap;
+			/*justify-content: center;*/
+		}
+		.song{
+			width:300px;
+			height: 250px;
+			background-color: black;
+			margin: 10px;
+			z-index: -2;
+			overflow: hidden;
+			position: relative;
+		}
+		.song-details{
+			height: 100%;
+			color: white;
+			padding:10px;
+			width:100%;
+			font-family: 'Teko', sans-serif;
+			font-size: 20px;
+			position: absolute;
+			margin:0 auto;
+		}
+		.center{
+			text-align: center;
+		}
+		.song-background{
+			position: absolute;
+			width:inherit;
+			height:inherit;
+			background-color: blue;
+			z-index: -1;
+		}
+	</style>
+</head>
+<body>
+	<div id="song-container">
+		<div class="song">
+			<div class="song-details">
+				<div> Hatsune Miku </div>
+				<div class="center"> Wonder Style </div>
+			</div>
+			<div class="song-background"></div>
+		</div>
+	</div>
+	<script type="text/javascript" src="scripts/dependencies.js"></script>
+	<script type="text/javascript">
+		class Song {
+			constructor(singer,title){
+				this.singer = singer
+				this.title = title
+
+				let songdiv = $('<div>')
+				let detailsdiv = $('<div>')
+				let singerdiv = $('<div>')
+				let titlediv = $('<div>')
+
+				titlediv.html(title)
+				singerdiv.html(singer)
+
+				songdiv.addClass('song')
+				detailsdiv.addClass('song-details')
+				titlediv.addClass('center')
+
+				singerdiv.appendTo(detailsdiv)
+				titlediv.appendTo(detailsdiv)
+				detailsdiv.appendTo(songdiv)
+				return songdiv
+			}
+		}
+
+
+		var song_container = $('#song-container')
+		var songs = [{'singer' : 'Hatsune Miku', 'title' : 'Wonder Style'},{'singer' : 'Hatsune Miku', 'title' : 'The World'},{'singer' : 'Hatsune Miku', 'title' : 'Hand in Hand'}]
+		for(let song of songs){
+			let s = new Song(song.singer,song.title)
+			s.appendTo(song_container)
+		}
+	</script>
+</body>
+</html>
