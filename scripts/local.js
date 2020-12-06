@@ -76,6 +76,9 @@ function playerBegin(lang_main,lang_second,time,sync) {
 	display.html(lang_main.join("\n"));
 	line = $(".line");
 	function update() {
+		let line_now = $(line[i]);
+		//let line_before = $(line[i-1])
+
 		if(!seeking && (Math.floor(player.currentTime + sync)%2) == k){
 			slider0.slider_update(player.currentTime + sync);
 			k = (k==0) ? 1 : 0; 
@@ -84,19 +87,17 @@ function playerBegin(lang_main,lang_second,time,sync) {
 			wholepage.addClass("fadeout");
 		}
 		if(player.currentTime + sync > time[i] && player.currentTime + sync < time[i+1]){
-
-			if(lang_main[i] == "<div class ='line line_space'></div>"){
+			line.removeClass('line_style')
+			if(!line_now.html()){
 				wholepage.addClass("fadeout");
-			}
-			if(!(lang_main[i] == "<div class ='line line_space'></div>")){
+			}else{
 				wholepage.removeClass("fadeout");
+				line_now.addClass('line_style');
 			}
-			if($(line[i]).html()){
-				$(line[i]).addClass('line_style');
-			}
-			if(i){$(line[i-1]).removeClass('line_style');};
+
+			//if(i){line_before.removeClass('line_style');};
 			console.log(y)
-			y -= $(line[i]).outerHeight();
+			y -= line_now.outerHeight();
 			console.log()
 			display.css("transform","translate(-50%," + y + "px)");
 			

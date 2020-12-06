@@ -48,6 +48,7 @@
  transition: opacity 200ms,transform 200ms;
  z-index: 2;
  min-width: 100%;
+ padding: 0 2vw 0 2vw;
  /*white-space: nowrap;*/
 }
 #overlay2 {
