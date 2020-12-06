@@ -31,7 +31,7 @@ var player = document.getElementById("player");
 //second feature
 var floating = $("#floating_lyr");
 
-var wholepage = $(".bottom,#lyrics,#display2,#display,#overlay");
+var wholepage = $(".bottom,#lyrics,#display2,#display,#overlay,#lyrics-ticker");
 wholepage.addClass("fadeout fadetrans");
 /*for (var child of wholepage) {
   child.classList.add("fadeout");
@@ -44,7 +44,7 @@ var seeking = false;
 var sync = 0;
 var line;
 function playerBegin(lang_main,lang_second,time,sync) {
-	var i = 0,y = 36,fade = true;
+	var i = 0,y = 0,fade = true;
 	var done;
 	var k = 0;
 	var floating_down = false;
@@ -75,10 +75,8 @@ function playerBegin(lang_main,lang_second,time,sync) {
 	}
 	display.html(lang_main.join("\n"));
 	line = $(".line");
+	ticker = $("#lyrics-ticker")
 	function update() {
-		let line_now = $(line[i]);
-		//let line_before = $(line[i-1])
-
 		if(!seeking && (Math.floor(player.currentTime + sync)%2) == k){
 			slider0.slider_update(player.currentTime + sync);
 			k = (k==0) ? 1 : 0; 
@@ -87,17 +85,26 @@ function playerBegin(lang_main,lang_second,time,sync) {
 			wholepage.addClass("fadeout");
 		}
 		if(player.currentTime + sync > time[i] && player.currentTime + sync < time[i+1]){
+			let line_now = $(line[i]);
+			let line_before = $(line[i-1])
+
 			line.removeClass('line_style')
 			if(!line_now.html()){
 				wholepage.addClass("fadeout");
 			}else{
 				wholepage.removeClass("fadeout");
-				line_now.addClass('line_style');
+				ticker.css('height',`${line_now.getBoundingClientRect().height}px`)
 			}
 
 			//if(i){line_before.removeClass('line_style');};
 			console.log(y)
-			y -= line_now.outerHeight();
+			switch(i){
+				case 0:
+					y -= line_now[0].getBoundingClientRect().height/2.0
+					break;
+				default:
+					y -= ((line_now[0].getBoundingClientRect().height/2.0) + line_before[0].getBoundingClientRect().height/2.0);
+			}
 			console.log()
 			display.css("transform","translate(-50%," + y + "px)");
 			
@@ -106,8 +113,18 @@ function playerBegin(lang_main,lang_second,time,sync) {
 
 			display2.html(lang_second[i]);
 			console.log((player.currentTime + sync) + 'in');
-			console.log(i + '###############');
+			//console.log(`${(line_now[0].getBoundingClientRect().height/2.0)} ${line_before[0].getBoundingClientRect().height/2.0}`)
+			console.log(i + '############### ' + y);
 			i++;
+			var tot = [],tot2 = 0 ,p = 0
+			/*$.each( line, function( index, value ){
+		    	tot.push($(value)[0].getBoundingClientRect().height)
+		    	tot2 += $(value)[0].getBoundingClientRect().height
+		    	p += 1
+			})
+			console.log(tot)*/
+
+	console.log(tot2 + ' #########3 ' + p + " " + display[0].clientHeight)
 		}
 	}
 
@@ -132,7 +149,7 @@ function playerBegin(lang_main,lang_second,time,sync) {
 		done = false;
 		//player.pause();
 		console.log("seeking")
-		y = 36;
+		y = 0;
 		line.removeClass('line_style');
 		i = 0;
 		time.forEach(check);
@@ -149,7 +166,13 @@ function playerBegin(lang_main,lang_second,time,sync) {
 			done = true;
 			for(var t = 0; t < i; t++){
 				//console.log(t + 'tttttttttttttt');
-				y -= $(line[t]).outerHeight();
+				switch(t){
+					case 0:
+						y -= $(line[t])[0].getBoundingClientRect().height/2.0
+						break;
+					default:
+						y -= (($(line[t])[0].getBoundingClientRect().height/2.0) + $(line[t-1])[0].getBoundingClientRect().height/2.0);
+				}
 			}
 		}
 	}
@@ -212,4 +235,7 @@ async function mainFunction() {
 	  }
 	});
 }
-mainFunction();
+$(document).ready(function() {
+	mainFunction();
+})
+
