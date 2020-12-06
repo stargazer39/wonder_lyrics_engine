@@ -93,7 +93,7 @@ function playerBegin(lang_main,lang_second,time,sync) {
 				wholepage.addClass("fadeout");
 			}else{
 				wholepage.removeClass("fadeout");
-				ticker.css('height',`${line_now.getBoundingClientRect().height}px`)
+				ticker.css('height',`${line_now[0].getBoundingClientRect().height}px`)
 			}
 
 			//if(i){line_before.removeClass('line_style');};
