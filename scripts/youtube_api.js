@@ -74,8 +74,9 @@ function engine(lang_main,lang_second,time,sync){
 
 	display.html(lang_main.join("\n"))
 
-	var i = 0,y = 36,fade = true,done,k = 0;
+	var i = 0,y = 0,fade = true,done,k = 0;
 	line = $(".line");
+	ticker = $("#lyrics-ticker")
 	function update() {
 		if(!seeking && (Math.floor(player.getCurrentTime() + sync)%2) == k){
 			slider0.slider_update(player.getCurrentTime() + sync);
@@ -86,17 +87,27 @@ function engine(lang_main,lang_second,time,sync){
 		}
 		if(player.getCurrentTime() + sync > time[i] && player.getCurrentTime() + sync < time[i+1]){
 
-			if(lang_main[i] == "<div class ='line line_space'></div>"){
+			let line_now = $(line[i]);
+			let line_before = $(line[i-1])
+
+			line.removeClass('line_style')
+			if(!line_now.html()){
 				wholepage.addClass("fadeout");
-			}
-			if(!(lang_main[i] == "<div class ='line line_space'></div>")){
+			}else{
 				wholepage.removeClass("fadeout");
+				ticker.css('height',`${line_now[0].getBoundingClientRect().height}px`)
 			}
-			if($(line[i]).html()){
-				$(line[i]).addClass('line_style');
+
+			//if(i){line_before.removeClass('line_style');};
+			console.log(y)
+			switch(i){
+				case 0:
+					y -= line_now[0].getBoundingClientRect().height/2.0
+					break;
+				default:
+					y -= ((line_now[0].getBoundingClientRect().height/2.0) + line_before[0].getBoundingClientRect().height/2.0);
 			}
-			if(i){$(line[i-1]).removeClass('line_style');};
-			y -= $(line[i]).outerHeight();
+			console.log()
 			display.css("transform","translate(-50%," + y + "px)");
 			
 			display2.html(lang_second[i])
@@ -127,7 +138,7 @@ function engine(lang_main,lang_second,time,sync){
 		done = false;
 		//player.pause();
 		console.log("seeking")
-		y = 36;
+		y = 0;
 		line.removeClass('line_style');
 		i = 0;
 		time.forEach(check);
@@ -143,7 +154,13 @@ function engine(lang_main,lang_second,time,sync){
 			done = true;
 			for(var t = 0; t < i; t++){
 				//console.log(t + 'tttttttttttttt');
-				y -= $(line[t]).outerHeight();
+				switch(t){
+					case 0:
+						y -= $(line[t])[0].getBoundingClientRect().height/2.0
+						break;
+					default:
+						y -= (($(line[t])[0].getBoundingClientRect().height/2.0) + $(line[t-1])[0].getBoundingClientRect().height/2.0);
+				}
 			}
 		}
 	}
@@ -233,4 +250,6 @@ async function main(){
 				}
 			}
 }
-main();
+$(document).ready(function() {
+	main();
+})
