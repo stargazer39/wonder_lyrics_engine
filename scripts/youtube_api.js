@@ -23,7 +23,7 @@ var line
 var player;
 var player_next;
 
-var wholepage = $(".bottom,#lyrics,#display2,#display,#overlay");
+var wholepage = $(".bottom,#lyrics,#display2,#display,#overlay,#lyrics-ticker");
 wholepage.addClass("fadeout fadetrans");
 
 var data;
