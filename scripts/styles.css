@@ -79,8 +79,19 @@
 	z-index: 101;
 	transition: transform 500ms;
 	position: fixed;
-	z-index: 101;
 	background-color: white;
+}
+#music-title{
+	height: 70px;
+	top: 0;
+	position: fixed;
+	left:70px;
+	z-index: 101;
+	background-color: black;
+	color: white;
+	font-family: 'Teko', sans-serif;
+	font-size: 30px;
+	padding: 15px 20px 20px 20px;
 }
 #settings >img {
 	max-width: 100%;

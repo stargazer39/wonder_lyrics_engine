@@ -2,9 +2,16 @@
 <html>
 <head>
 	<title>Hey.. :)</title>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link 
+	 as="style"
+	 rel="stylesheet preload prefetch" 
+	 href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&family=Teko:wght@300;400;500;600&display=swap" 
+	 type="text/css" 
+	 crossorigin="anonymous" />
+	 
 	<script type="text/javascript" src="scripts/jquery.min.js"></script>
 	<style type="text/css">
-		@import url('https://fonts.googleapis.com/css2?family=Teko:wght@600&display=swap');
 		*{
 			box-sizing: border-box;
 		}
@@ -15,10 +22,12 @@
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: center;
+			background-color:rgb(73 73 73);
+			padding: 10px;
 		}
 		.song{
-			width:300px;
-			height: 250px;
+			width:320px;
+			height: 180px;
 			background-color: black;
 			margin: 10px;
 			/*z-index: 0;*/
@@ -32,12 +41,15 @@
 			transition: transform 200ms;
 			transform: scale(1.05) !important;
 		}
+		.song:hover > .song-background{
+			transform: scale(1.2) !important;
+		}
 		.song-details{
 			height: 100%;
 			color: white;
 			padding:40px;
 			width:100%;
-			font-family: 'Teko', sans-serif;
+			font-family: heisei-kaku-gothic-std, sans-serif;
 			font-size: 20px;
 			position: absolute;
 			margin:0 auto;
@@ -53,15 +65,49 @@
 			background-repeat: no-repeat;
 			background-size: cover;
 			z-index: -1;
+			transition: transform 200ms;
 		}
 		.state1{
 			transform: translate(0,0) !important;
 			opacity: 1 !important;
 		}
+		#title{
+			font-size: 50px;
+			font-family: 'Teko', sans-serif;
+			color: white;
+			padding: 10px;
+			margin-top: 20px;
+			text-align: center;
+			background-color:rgb(73 73 73);
+			font-weight: 500;
+		}
+		.sub-title{
+			font-size: 40px;
+			font-family: 'Teko', sans-serif;
+			color: white;
+			padding: 10px;
+			padding-left: 30px;
+			margin-top: 20px;
+			background-color:rgb(73 73 73);
+		}
+		.bottom{
+			font-size: 20px;
+			font-family: 'Teko', sans-serif;
+			color: white;
+			text-align: center;
+			position:fixed;
+			bottom: 0;
+			width:100%;
+			padding: 10px;
+			background-color: black;
+			font-weight: 300;
+
+		}
 	</style>
 </head>
 <body>
-	<div style="font-size: 50px;font-family: 'Teko', sans-serif;color: white;padding: 10px; text-align: center;">Wonder Lyrics Engine</div>
+	<div id="title">Wonder Lyrics Engine</div>
+	<div class="sub-title">Songs</div>
 	<div id="song-container">
 		<div class="song">
 			<div class="song-details">
@@ -71,6 +117,7 @@
 			<div class="song-background"></div>
 		</div>
 	</div>
+	<div class="bottom">Built form groud 0 using jquery, on UNREGISTERED Sublime Text ;) </div>
 	<script type="text/javascript" src="scripts/dependencies.js"></script>
 	<script type="text/javascript">
 		class Song {
@@ -86,7 +133,7 @@
 				titlediv.html(song.title)
 				singerdiv.html(song.singer)
 
-				bacgrounddiv.css('background-image','url(assets/default_art.png)')
+				bacgrounddiv.css('background-image','linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://img.youtube.com/vi/' + song.ytid + '/0.jpg)')
 				bacgrounddiv.addClass('song-background')
 				songdiv.addClass('song')
 				detailsdiv.addClass('song-details')
@@ -106,7 +153,7 @@
 
 		async function Main(){
 			var song_container = $('#song-container')
-			var songs = [{'singer' : 'Hatsune Miku', 'title' : 'Wonder Style','link':'wonderplay - normal.html'},{'singer' : 'Hatsune Miku', 'title' : 'The World','link':'wonderplay - normal.html'},{'singer' : 'Hatsune Miku', 'title' : 'Hand in Hand','link':'wonderplay - normal.html'}]
+			var songs = [{'singer' : 'Hatsune Miku', 'title' : 'Wonder Style','link':'wonderplay - normal.html','ytid' : '1s8NNPgdl5g'},{'singer' : 'Hatsune Miku', 'title' : 'The World','link':'wonderplay - normal.html','ytid' : 'yb8WuMVGLBM'},{'singer' : 'Hatsune Miku', 'title' : 'Hand in Hand','link':'wonderplay - normal.html','ytid' : '9SKA6PmcLuQ'}]
 			for(let song of songs){
 				let s = new Song(song)
 				s.appendTo(song_container)
