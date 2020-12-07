@@ -8,24 +8,34 @@
 		*{
 			box-sizing: border-box;
 		}
+		body{
+			background-color: black;
+		}
 		#song-container{
 			display: flex;
 			flex-wrap: wrap;
-			/*justify-content: center;*/
+			justify-content: center;
 		}
 		.song{
 			width:300px;
 			height: 250px;
 			background-color: black;
 			margin: 10px;
-			z-index: -2;
+			/*z-index: 0;*/
 			overflow: hidden;
 			position: relative;
+			transition: transform 500ms,opacity 300ms;
+			transform: translate(-40px,-40px);
+			opacity: 0;
+		}
+		.song:hover{
+			transition: transform 200ms;
+			transform: scale(1.05) !important;
 		}
 		.song-details{
 			height: 100%;
 			color: white;
-			padding:10px;
+			padding:40px;
 			width:100%;
 			font-family: 'Teko', sans-serif;
 			font-size: 20px;
@@ -39,12 +49,19 @@
 			position: absolute;
 			width:inherit;
 			height:inherit;
-			background-color: blue;
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
 			z-index: -1;
+		}
+		.state1{
+			transform: translate(0,0) !important;
+			opacity: 1 !important;
 		}
 	</style>
 </head>
 <body>
+	<div style="font-size: 50px;font-family: 'Teko', sans-serif;color: white;padding: 10px; text-align: center;">Wonder Lyrics Engine</div>
 	<div id="song-container">
 		<div class="song">
 			<div class="song-details">
@@ -57,18 +74,20 @@
 	<script type="text/javascript" src="scripts/dependencies.js"></script>
 	<script type="text/javascript">
 		class Song {
-			constructor(singer,title){
-				this.singer = singer
-				this.title = title
+			constructor(song){
+				this.song = song
 
 				let songdiv = $('<div>')
 				let detailsdiv = $('<div>')
 				let singerdiv = $('<div>')
 				let titlediv = $('<div>')
+				let bacgrounddiv=$('<div>')
 
-				titlediv.html(title)
-				singerdiv.html(singer)
+				titlediv.html(song.title)
+				singerdiv.html(song.singer)
 
+				bacgrounddiv.css('background-image','url(assets/default_art.png)')
+				bacgrounddiv.addClass('song-background')
 				songdiv.addClass('song')
 				detailsdiv.addClass('song-details')
 				titlediv.addClass('center')
@@ -76,17 +95,32 @@
 				singerdiv.appendTo(detailsdiv)
 				titlediv.appendTo(detailsdiv)
 				detailsdiv.appendTo(songdiv)
+				bacgrounddiv.appendTo(songdiv)
+
+				songdiv.on('click',() => {
+					window.open(song.link,'_self')
+				})
 				return songdiv
 			}
 		}
 
-
-		var song_container = $('#song-container')
-		var songs = [{'singer' : 'Hatsune Miku', 'title' : 'Wonder Style'},{'singer' : 'Hatsune Miku', 'title' : 'The World'},{'singer' : 'Hatsune Miku', 'title' : 'Hand in Hand'}]
-		for(let song of songs){
-			let s = new Song(song.singer,song.title)
-			s.appendTo(song_container)
+		async function Main(){
+			var song_container = $('#song-container')
+			var songs = [{'singer' : 'Hatsune Miku', 'title' : 'Wonder Style','link':'wonderplay - normal.html'},{'singer' : 'Hatsune Miku', 'title' : 'The World','link':'wonderplay - normal.html'},{'singer' : 'Hatsune Miku', 'title' : 'Hand in Hand','link':'wonderplay - normal.html'}]
+			for(let song of songs){
+				let s = new Song(song)
+				s.appendTo(song_container)
+			}
+			for(let i = 0; i < $('.song').length; i++){
+				await sleep(150)
+				console.log($($('.song')[i]).addClass('state1'))
+			}
+			/*$.each($('.song'),async function(index,item){
+				await sleep(150)
+				$(item).addClass('state1')
+			})*/
 		}
+		Main()
 	</script>
 </body>
 </html>
