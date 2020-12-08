@@ -191,49 +191,56 @@ function mouseup0(id){
 //Begin the main programm
 var engine,data;
 async function mainFunction() {
-	let response = await makeRequest('GET', 'http://localhost:8080');
-	data = interpret(response);
-	console.log(data);
+	let song_id = parseQuery('song_id',window.location.href)
+	console.log(song_id)
+	var song_data = await makeRequest('GET', 'http://localhost?get=lyrics&song_id=' + song_id);
+	song_data = JSON.parse(song_data)
+	if(song_data){
+		/*data = interpret(response);*/
+		console.log(song_data);
 
-	data["lyrics"]["romaji"] = process(data["lyrics"]["romaji"],"lyrics");
-	data["lyrics"]["english"] = process(data["lyrics"]["english"],"lyrics");
-	data["time"] = process(data["time"],"");
+		/*data["lyrics"]["romaji"] = process(data["lyrics"]["romaji"],"lyrics");
+		data["lyrics"]["english"] = process(data["lyrics"]["english"],"lyrics");
+		data["time"] = process(data["time"],"");*/
 
-	var source = document.createElement('source');
-	source.setAttribute('src',process(data["localfile"],""));
-	player.appendChild(source);
-	//Seeker seeker
-	player.oncanplay = function() {
-	   	//seeker.max = player.duration;
-	   	slider0 = new Slider("element0",{ 
-					'min' : 0,
-					'max' : player.duration,
-					'rate' : 200,
-					 events : {
-						'mouseup':mouseup0,
-						'mousedown':mousedown0
-					},
-				});
-	   	waiting.addClass("fadeout");
-		startshow.addClass("fadein");
-	};
-	engine = playerBegin(data["lyrics"]["romaji"],data["lyrics"]["english"],data["time"],0);
-	player.addEventListener("seeked", async function() {engine.seek(); engine.start();player.play();});
-	player.addEventListener("play",function() {engine.seek(); engine.start(); animation1();});
-	player.addEventListener("pause",function(){engine.stop();});
-	player.addEventListener("ended",function(){ console.log("ended"); engine.stop();});
+		var source = document.createElement('source');
+		source.setAttribute('src',song_data.links.local);
+		player.appendChild(source);
+		//Seeker seeker
+		player.oncanplay = function() {
+		   	//seeker.max = player.duration;
+		   	slider0 = new Slider("element0",{ 
+						'min' : 0,
+						'max' : player.duration,
+						'rate' : 200,
+						 events : {
+							'mouseup':mouseup0,
+							'mousedown':mousedown0
+						},
+					});
+		   	waiting.addClass("fadeout");
+			startshow.addClass("fadein");
+		};
+		engine = playerBegin(processToHTML(song_data.lyrics.lyrics['romaji']),processToHTML(song_data.lyrics.lyrics['english']),song_data.timecode,0);
+		player.addEventListener("seeked", async function() {engine.seek(); engine.start();player.play();});
+		player.addEventListener("play",function() {engine.seek(); engine.start(); animation1();});
+		player.addEventListener("pause",function(){engine.stop();});
+		player.addEventListener("ended",function(){ console.log("ended"); engine.stop();});
 
-	playalt.on("click",function(){player.play();});
-	$(window).on("resize", engine.seek);
-	$(document).on('keydown', function (event) {
-	  if (event.key === ' ') {
-	  	if(player.paused){
-	  		player.play();
-	  	}else{
-	  		player.pause();
-	  	}
-	  }
-	});
+		playalt.on("click",function(){player.play();});
+		$(window).on("resize", engine.seek);
+		$(document).on('keydown', function (event) {
+		  if (event.key === ' ') {
+		  	if(player.paused){
+		  		player.play();
+		  	}else{
+		  		player.pause();
+		  	}
+		  }
+		});
+	}else{
+		throw "The server couldn't be contracted or the song id could not be found"
+	}
 }
 $(document).ready(function() {
 	mainFunction();

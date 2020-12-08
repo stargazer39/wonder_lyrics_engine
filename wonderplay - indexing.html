@@ -27,7 +27,7 @@
 		}
 		.song{
 			width:320px;
-			height: 180px;
+			height:220px;
 			background-color: black;
 			margin: 10px;
 			/*z-index: 0;*/
@@ -45,22 +45,27 @@
 			transform: scale(1.2) !important;
 		}
 		.song-details{
-			height: 100%;
+			/*height: 100%;*/
 			color: white;
-			padding:40px;
-			width:100%;
+			/*padding:40px;*/
+			height: 40px;
+			width: 100%;
 			font-family: heisei-kaku-gothic-std, sans-serif;
-			font-size: 20px;
+			font-size: 15px;
+			padding: 5px;
+			z-index: 0;
 			position: absolute;
-			margin:0 auto;
+			text-align: center;
+			background-color: black;
+			/*margin:0 auto;*/
 		}
 		.center{
 			text-align: center;
 		}
 		.song-background{
-			position: absolute;
-			width:inherit;
-			height:inherit;
+			/*position: absolute;*/
+			width:320px;
+			height: 180px;
 			background-position: center;
 			background-repeat: no-repeat;
 			background-size: cover;
@@ -110,10 +115,6 @@
 	<div class="sub-title">Songs</div>
 	<div id="song-container">
 		<div class="song">
-			<div class="song-details">
-				<div> Hatsune Miku </div>
-				<div class="center"> Wonder Style </div>
-			</div>
 			<div class="song-background"></div>
 		</div>
 	</div>
@@ -130,19 +131,20 @@
 				let titlediv = $('<div>')
 				let bacgrounddiv=$('<div>')
 
-				titlediv.html(song.title)
-				singerdiv.html(song.singer)
+				//titlediv.html(song.title)
+				//singerdiv.html(song.singer)
 
-				bacgrounddiv.css('background-image','linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://img.youtube.com/vi/' + song.ytid + '/0.jpg)')
+				bacgrounddiv.css('background-image','url(https://img.youtube.com/vi/' + song.ytid + '/0.jpg)')
 				bacgrounddiv.addClass('song-background')
 				songdiv.addClass('song')
 				detailsdiv.addClass('song-details')
-				titlediv.addClass('center')
+				//titlediv.addClass('center')
 
-				singerdiv.appendTo(detailsdiv)
-				titlediv.appendTo(detailsdiv)
-				detailsdiv.appendTo(songdiv)
+				//singerdiv.appendTo(detailsdiv)
+				//titlediv.appendTo(detailsdiv)
+				detailsdiv.html(`${song.title} ft.${song.singer}`)
 				bacgrounddiv.appendTo(songdiv)
+				detailsdiv.appendTo(songdiv)
 
 				songdiv.on('click',() => {
 					window.open(song.link,'_self')
