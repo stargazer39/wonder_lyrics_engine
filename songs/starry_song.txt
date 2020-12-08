@@ -1,44 +1,44 @@
 [lyrics-romaji]
-|ima kirameku koe o kasanete	
-|hitotsu yume o miyou	
-|tomaranai oto ni nose utau yo	
-|Starry Song
-|-
-|yoru ga hajimaru aizu o kiite	
-|doa no soto e tobidashita	
-|tokimeku mune ga ochitsukanai	
-|soredemo ii ka na?	
-|nanairo no onpu o nokosazu hiroi atsumete	
-|kanaderu merodii ni	
-|iro o tsukete tooku takaku uchiageru no
-|ima kirameku koe o kasanete hitotsu yume o miyou	
-|hitori ja mochikirenai kurai no	
-|motto boryuumu o agete	
-|yozora kakeru nagareboshi o	
-|oinuite hibikaseru kara 
-|Starry Song	
-|-
-|surechigau hito sono hitomi ni utsuru seiza no wagamama	
-|mabataite mite kietari shite	
-|koko ni aru ndatte	
-|manairo no onpu o nokosazu hiroi atsumete	
-|kanaderu merodii o	
-|ichiban kirei ni sakaseru yo kiite ite ne	
-|-
-|ima kirameku koe o kasanete futari yume o miyou	
-|itsu made mo owaranai ki ga shite	
-|motto boryuumu o agete	
-|yozora kakeru nagareboshi o	
-|tomaranai oto ni nose utau yo 
-|Starry Song	
-|-
-|ima kirameku koe o kasanete hitotsu yume o miyou	
-|mada mada samenaide itai yo	
-|motto boryuumu o agete	
-|yozora kakeru nagareboshi o	
-|tomaranai oto ni nose utau yo 
-|Starry Song	
-|-
+ima kirameku koe o kasanete	
+hitotsu yume o miyou	
+tomaranai oto ni nose utau yo	
+Starry Song
+
+yoru ga hajimaru aizu o kiite	
+doa no soto e tobidashita	
+tokimeku mune ga ochitsukanai	
+soredemo ii ka na?	
+nanairo no onpu o nokosazu hiroi atsumete	
+kanaderu merodii ni	
+iro o tsukete tooku takaku uchiageru no
+ima kirameku koe o kasanete hitotsu yume o miyou	
+hitori ja mochikirenai kurai no	
+motto boryuumu o agete	
+yozora kakeru nagareboshi o	
+oinuite hibikaseru kara 
+Starry Song	
+
+surechigau hito sono hitomi ni utsuru seiza no wagamama	
+mabataite mite kietari shite	
+koko ni aru ndatte	
+manairo no onpu o nokosazu hiroi atsumete	
+kanaderu merodii o	
+ichiban kirei ni sakaseru yo kiite ite ne	
+
+ima kirameku koe o kasanete futari yume o miyou	
+itsu made mo owaranai ki ga shite	
+motto boryuumu o agete	
+yozora kakeru nagareboshi o	
+tomaranai oto ni nose utau yo 
+Starry Song	
+
+ima kirameku koe o kasanete hitotsu yume o miyou	
+mada mada samenaide itai yo	
+motto boryuumu o agete	
+yozora kakeru nagareboshi o	
+tomaranai oto ni nose utau yo 
+Starry Song	
+
 
 [lyrics-english]
 |今きらめく声を重ねて	

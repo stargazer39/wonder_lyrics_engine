@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Wonder Editor</title>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link 
+	 as="style"
+	 rel="stylesheet preload prefetch" 
+	 href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&family=Teko:wght@300;400;500;600&display=swap" 
+	 type="text/css" 
+	 crossorigin="anonymous" />
+	 
+	<script type="text/javascript" src="scripts/jquery.min.js"></script>
+	<style type="text/css">
+		*{ 
+			-webkit-box-sizing: border-box;
+       		-moz-box-sizing: border-box;
+            box-sizing: border-box;
+		}
+		body{
+			margin: 0;
+		}
+		#frame-1{
+			position: absolute;
+			width: 50%;
+			height: 100%;
+			background-color: black;
+			left: 0;
+		}
+		#frame-2{
+			position: absolute;
+			width: 50%;
+			height: 100%;
+			background-color: red;
+			right: 0;
+		}
+		#frame-3{
+			position: absolute;
+			width: 80%;
+			height: 100%;
+			background-color: teal;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+		}
+		.title{
+			width: 100%;
+			padding-top:10px;
+			text-align: center;
+			font-size: 40px;
+			font-family: 'Teko', sans-serif;
+		}
+		.flex{
+			display: flex;
+			justify-content: center;
+		}
+		.margin-10{
+			margin: 10px
+		}
+		#lyrics-box{
+			width:100%;
+			min-height: 80%;
+			max-height: 100%;
+			overflow: hidden;
+			padding: 20px;
+		}
+		textarea {
+			width:100%;
+			height:80vh;
+		}
+	</style>
+</head>
+<body>
+	<div id="frame-1">
+		<div>
+			<video id="player" controls="">
+				<source src="videos/floating_kokoro.mp4" type="">
+			</video>
+		</div>
+	</div>
+	<div id="frame-2">
+		<div id="formatted-lyrics" class="margin-10"></div>
+		<input type="button" value="Previous" id="prev">
+		<input type="button" value="Next" id="next">
+		<input type="button" value="Next + Apply" id="next-apply">
+		<input type="button" value="Change" id="change">
+	</div>
+	<div id="frame-3">
+		<div class="title">Enter your lyrics here</div>
+		<div class="flex"><div class="margin-10">Make sure all the lines you want are broken down the way you want</div><div class="margin-10">Language : [Dropdown]</div></div>
+		<div id="lyrics-box">
+			<textarea id="lyrics"></textarea>
+			<input id="ok" type="button" value="Ok">
+		</div>
+	</div>
+	<script type="text/javascript">
+		var formatted_lyrics = $('#formatted-lyrics');
+		var lyrics_divs
+		var lyrics_array = []
+		$('#ok').on('click',() => {
+			var lyrics = $('#lyrics').val().split('\n')
+			console.log($('#lyrics').val().split('\n'))
+			$('#frame-3').css('display','none')
+			for(let line of lyrics){
+				line = line.trim()
+				lyrics_array.push(line)
+				let div = $('<div>');
+				if(line == "") {div.css('min-height','10px')}
+				div.html(line).appendTo(formatted_lyrics)
+			}
+			lyrics_divs = $('#formatted-lyrics > div')
+		})
+		var timecode = [];
+		var player = document.getElementById('player')
+		var i = 0,j=0,sync = 0;
+		//console.log($('#formatted-lyrics > div'))
+		$('#next-apply').on('click',() =>{
+			if(i < timecode.length - 1){
+				i = timecode.length -1
+				player.currentTime = timecode[timecode.length -1]
+			}else{
+				timecode[i] = player.currentTime
+			}
+			let line_now = $(lyrics_divs[i]);
+			line_now.html(lyrics_array[i] + "--" + timecode[i])
+			lyrics_divs.css('border','none')
+			lyrics_divs.css('background-color','#ff000000')
+			line_now.css('background-color','white')
+			i++
+		})
+		$('#change').on('click',() => {
+			if(((timecode[i-1] < player.currentTime)&&(player.currentTime < timecode[i+1])) || (i == timecode.length)){
+				timecode[i] = player.currentTime
+				let line_now = $(lyrics_divs[i]);
+				line_now.html(lyrics_array[i] + "--" + timecode[i])
+			}else{
+				console.log("The changetime has to be in between")
+			}
+		})
+		$('#next').on('click',() => {
+			if(i < timecode.length - 1){	
+				i++
+				player.currentTime = timecode[i]
+				let line_now = $(lyrics_divs[i]);
+				lyrics_divs.css('background-color','#ff000000')
+				line_now.css('background-color','white')
+			}
+		})
+		$('#prev').on('click',() => {
+			if(i > 0){
+				i--
+				player.currentTime = timecode[i]
+				let line_now = $(lyrics_divs[i]);
+				lyrics_divs.css('background-color','#ff000000')
+				line_now.css('background-color','white')
+			}
+		})
+		var stop_update 
+		function update(argument) {
+			if(player.currentTime + sync > timecode[j] && player.currentTime + sync < timecode[j+1]){
+				let line_now = $(lyrics_divs[j]);
+				lyrics_divs.css('border','none')
+				line_now.css('border','1px solid white')
+				//console.log(j)
+				j++
+				stop_update = false
+			}
+			if(j == timecode.length - 1 && player.currentTime > timecode[j] && !stop_update){
+				let line_now = $(lyrics_divs[j]);
+				lyrics_divs.css('border','none')
+				line_now.css('border','1px solid white')
+				stop_update = true
+			}
+		}
+		var updater;
+		var interval = true;
+		var start,stop,seek;
+
+		start = function (){
+			if(interval){
+				updater = setInterval(update,10);
+				interval = false;
+			}
+		}
+		stop = function (){
+			if(!interval){
+				clearInterval(updater); 
+				interval = true;
+			}
+		}
+
+		var done
+		seek = function(){
+			//player.pause();
+			done = false;
+			console.log("seeking")
+			j = 0;
+			timecode.forEach(check);
+			//player.play();
+		}
+		function check(item,index) {
+			if(item > player.currentTime + sync && !done){
+				j = index - 1;
+				//console.log(index + 'kkkkkkkkkkkk');
+				if(j<0){
+					j=0;
+				}
+				done = true;
+				lyrics_divs.css('border','none')
+				$(lyrics_divs[j]).css('border','1px solid white')
+			}
+		}
+		player.addEventListener("seeked", async function() {seek(); start();player.play();});
+		player.addEventListener("play",function() {seek(); start(); /*animation1();*/});
+		player.addEventListener("pause",function(){stop();});
+		player.addEventListener("ended",function(){ console.log("ended"); stop();});
+	</script>
+</body>
+</html>

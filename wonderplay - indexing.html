@@ -155,9 +155,16 @@
 
 		async function Main(){
 			var song_container = $('#song-container')
-			var songs = [{'singer' : 'Hatsune Miku', 'title' : 'Wonder Style','link':'wonderplay - normal.html','ytid' : '1s8NNPgdl5g'},{'singer' : 'Hatsune Miku', 'title' : 'The World','link':'wonderplay - normal.html','ytid' : 'yb8WuMVGLBM'},{'singer' : 'Hatsune Miku', 'title' : 'Hand in Hand','link':'wonderplay - normal.html','ytid' : '9SKA6PmcLuQ'}]
-			for(let song of songs){
-				let s = new Song(song)
+			var all_songs = await makeRequest('GET','http://localhost?get=all_songs')
+			all_songs = JSON.parse(all_songs)
+			//var songs = [{'singer' : 'Hatsune Miku', 'title' : 'Wonder Style','link':'wonderplay - normal.html','ytid' : '1s8NNPgdl5g'},{'singer' : 'Hatsune Miku', 'title' : 'The World','link':'wonderplay - normal.html','ytid' : 'yb8WuMVGLBM'},{'singer' : 'Hatsune Miku', 'title' : 'Hand in Hand','link':'wonderplay - normal.html','ytid' : '9SKA6PmcLuQ'}]
+			for(let song of all_songs){
+				let s = new Song({
+					"singer":song.singers[0],
+					"title":song.names[0],
+					"link":"wonderplay - normal.html?song_id=" + song._id,
+					"ytid":song.links.youtube
+				})
 				s.appendTo(song_container)
 			}
 			for(let i = 0; i < $('.song').length; i++){
