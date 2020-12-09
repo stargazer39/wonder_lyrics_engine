@@ -9,7 +9,6 @@
 	 href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&family=Teko:wght@300;400;500;600&display=swap" 
 	 type="text/css" 
 	 crossorigin="anonymous" />
-	 
 	<script type="text/javascript" src="scripts/jquery.min.js"></script>
 	<style type="text/css">
 		*{ 
@@ -17,8 +16,16 @@
        		-moz-box-sizing: border-box;
             box-sizing: border-box;
 		}
-		body{
+		html,body{
 			margin: 0;
+			font-size:!important;
+
+		}
+		:root{
+			--f-size: 18px;
+			--u-height: 20px;
+			--u-width:20px;
+			--f-line-height:15px;
 		}
 		#frame-1{
 			position: absolute;
@@ -65,14 +72,60 @@
 			padding: 20px;
 		}
 		#formatted-lyrics{
-			overflow: hidden;
+			overflow: auto;
+			height: 85%;
 		}
 		textarea {
 			width:100%;
 			height:80vh;
 		}
+		textarea {
+		    border: none;
+		    overflow: auto;
+		    outline: none;
+
+		    -webkit-box-shadow: none;
+		    -moz-box-shadow: none;
+		    box-shadow: none;
+
+		    resize: none; /*remove the resize handle on the bottom right*/
+		}
 		.time{
 			color: blue;
+		}
+		video{
+			width: 50vw;
+			height:auto;
+		}
+		.add{
+			border: 1px solid white;
+		}
+		.remove{
+			border: 1px solid white;
+		}
+		.lyr-line img{
+			height: var(--u-height);
+			width: var(--u-width);
+			top: 50%;
+    		left: 50%;
+    		transform: translate(-50%, -50%);
+    		position: relative;
+		}
+		.lyr{
+   			display: inline-block;
+   			font-size: var(--f-size);
+		}
+		.lyr-line{
+			display: flex;
+		}
+		.lyr-line > div{
+			padding:0 5px 0 5px;
+		}
+		.input-div{
+			height: var(--u-height);
+		}
+		.input-div > input{
+    		position: relative;
 		}
 	</style>
 </head>
@@ -80,7 +133,7 @@
 	<div id="frame-1">
 		<div>
 			<video id="player" controls="">
-				<source src="videos/floating_kokoro.mp4" type="">
+				<source src="videos/sweet_magic.mp4" type="">
 			</video>
 		</div>
 	</div>
@@ -112,6 +165,7 @@
 		var lyrics_array = []
 		var timecode = [];
 		var player = document.getElementById('player')
+		var i = 0,j=0,k,sync = 0,skip = 2;
 
 		$('#ok').on('click',() => {
 			var lyrics = $('#lyrics').val().split('\n')
@@ -121,26 +175,26 @@
 			for(let line of lyrics){
 				line = line.trim()
 				lyrics_array.push(line)
-				let div = $('<div>');
-				let span = $('<span>')
-				let span2 = $('<span>')
-				let span3 = $('<input type="text">')
-				span.attr('class','addbtn')
-				span2.attr('class','lyr')
-				span3.attr('class','time')
-				span3.css('display','none')
-				span.html('add ')
-				span2.html(line)
-				span.appendTo(div)
-				span2.appendTo(div)
-				span3.appendTo(div)
-				//span2.data('index',k)
-				span2.on('click',{
-					"index":k
-				},lyrClick)
-				span3.on('focusout',{
-					"index":k
-				},checkVal)
+				let div = $('<div>').attr('class','lyr-line');
+				/*let imageadd = $('<img>')
+				let imageremove = $('<img>')
+				imageadd.attr('src','assets/add.svg')
+				imageremove.attr('src','assets/remove.svg')*/
+				let add_div = $('<div>').attr('class','add').html('+')
+				let rem_div = $('<div>').attr('class','remove').html('-')
+				let lyr_div = $('<div>').attr('class','lyr').html(line)
+				let input_div= $('<div>')
+				input_div.attr('class','input-div')
+				let text_input = $('<input type="text">').attr('class','time').css('display','none')
+				/*imageadd.appendTo(add_div)
+				imageremove.appendTo(span)*/
+
+				text_input.appendTo(input_div)
+				div.append(add_div,rem_div,lyr_div,input_div)
+
+				add_div.on('click',addElem)
+				lyr_div.on('click',lyrClick)
+				text_input.on('focusout',checkVal)
 				div.appendTo(formatted_lyrics)
 				k++
 			}
@@ -157,16 +211,25 @@
 			jelem.css('width',jelem.textWidth() + extra_w + "px")
 		}
 		function lyrClick(e){
-			console.log(e.data)
-			let index = e.data.index
+			//console.log($(e.target))
+			//console.log($(e.target).parent().get(0))
+			let index = $($(e.target).parent().get(0)).index('.lyr-line')
+			k = index;
+			console.log(index)
+			//console.log($(e.target).parent().get(0))
+			console.log(index + "$$$$")
 			if(timecode[index]){
-				player.currentTime = timecode[index]
+				player.currentTime = timecode[index - skip]
 			}
+			let line_now = $($(e.target).parent().get(0));
+			lyrics_divs.css('background-color','#ff000000')
+			line_now.css('background-color','white')
 		}
 
 		function checkVal(e){
 			let box = $(e.target)
-			let index = e.data.index
+			let index = $(box.parent().parent().get(0)).index('.lyr-line')
+			console.log(index)
 			let value = parseFloat(box.val().trim())
 			if(value == NaN){
 				box.val(timecode[index])
@@ -185,11 +248,65 @@
 			}
 			console.log()
 		}
-		var i = 0,j=0,sync = 0;
+		function addElem(e){
+			console.log(e)
+			let index = $($(e.target).parent().get(0)).index('.lyr-line')
+			let breakit = true;
+			var value;
+			if(index < timecode.length - 1){
+				let u_input = prompt(`Enter a time between ${timecode[index-1] || 0} - ${timecode[index+1] || player.duration}`)
+				value = parseFloat(u_input)
+				console.log(`${u_input}  ${value}  ${index} ${timecode.length - 1}`)
+				if(value == NaN){
+					breakit = true;
+				}else{
+					if(((timecode[index-1] || 0) < value)&&(value < (timecode[index+1] || player.duration))){
+						console.log('002')
+						breakit = false
+					}else{
+						breakit = true
+						alert(`The changetime has to be in between ${timecode[index-1] || 0} - ${timecode[index+1] || player.duration}`)
+					}
+				}
+			}else{
+				breakit = false
+			}
+			
+			if(!breakit){
+				let div = $('<div>').attr('class','lyr-line');
+				let add_div = $('<div>').attr('class','add').html('+')
+				let rem_div = $('<div>').attr('class','remove').html('-')
+				let lyr_div = $('<div>').attr('class','lyr').html("new")
+				let input_div= $('<div>')
+				input_div.attr('class','input-div')
+				var text_input = $('<input type="text">').attr('class','time').css('display','none').val(" " + value)
+				setWidth(text_input)
+				text_input.on('input',(e) => {
+					setWidth($(e.target))
+				}); 
+				add_div.on('click',addElem)
+				lyr_div.on('click',lyrClick)
+				text_input.on('focusout',checkVal)
+				/*imageadd.appendTo(add_div)
+				imageremove.appendTo(span)*/
+
+				if(index < timecode.length - 1){
+					timecode.splice(index + 1,0,value)
+					text_input.css('display','inline-block')
+				}
+				lyrics_array.splice(index + 1,0,"new")
+				div.append(add_div,rem_div,lyr_div,input_div)
+				text_input.appendTo(input_div)
+				input_div.appendTo(div)
+				div.insertAfter($(e.target).parent().get(0))
+				lyrics_divs = $('#formatted-lyrics > div')
+			}
+		}
 		//console.log($('#formatted-lyrics > div'))
 		$('#next-apply').on('click',() =>{
-			if(i>=0 && i < lyrics_divs.length){
-				if(i < timecode.length - 1){
+			console.log(`${i>=0} ${i < lyrics_divs.length} ${((player.currentTime > timecode[i-1]) || i == 0)}`)
+			if(i>=0 && i < lyrics_divs.length && ((player.currentTime > timecode[i-1]) || i == 0)){
+				if((i < timecode.length - 1) || (player.currentTime < timecode[timecode.length - 1])){
 					i = timecode.length -1
 					player.currentTime = timecode[timecode.length -1]
 				}else{
@@ -199,23 +316,29 @@
 				line_now.find('.time').val(" " + timecode[i])
 				setWidth(line_now.find('.time'))
 				line_now.find('.time').css('display','inline')
-				lyrics_divs.css('border','none')
-				lyrics_divs.css('background-color','#ff000000')
+				lyrics_divs.css('border','none').css('background-color','#ff000000')
+
 				line_now.css('background-color','white')
 				if(i < lyrics_divs.length - 1) i++;
+			}else{
+				alert("CurrentTime player time has to be bigger than Previous")
 			}
 		})
 		$('#change').on('click',() => {
-			if(((timecode[i-1] || 0) < player.currentTime)&&(player.currentTime < (timecode[i+1] || player.duration))){
-				timecode[i] = player.currentTime
-				let line_now = $(lyrics_divs[i]);
-				line_now.find('.time').val(" " + timecode[i])
-				setWidth(line_now.find('.time'))
+			if(timecode[k]){
+				if(((timecode[k-1] || 0) < player.currentTime)&&(player.currentTime < (timecode[k+1] || player.duration))){
+					timecode[k] = player.currentTime
+					let line_now = $(lyrics_divs[k]);
+					line_now.find('.time').val(" " + timecode[k])
+					setWidth(line_now.find('.time'))
+				}else{
+					alert(`The changetime has to be in between ${timecode[k-1] || 0} - ${timecode[k+1] || player.duration}`)
+				}
 			}else{
-				console.log("The changetime has to be in between")
+				alert(`You can't change this one.. assign a value first with next-apply`)
 			}
 		})
-		$('#next').on('click',() => {
+		/*$('#next').on('click',() => {
 			if(i < timecode.length - 1){	
 				i++
 				player.currentTime = timecode[i]
@@ -226,8 +349,8 @@
 			if(i == timecode.length - 1){
 				i++
 			}
-		})
-		$('#prev').on('click',() => {
+		})*/
+		/*$('#prev').on('click',() => {
 			if(i > 0){
 				i--
 				player.currentTime = timecode[i]
@@ -235,7 +358,7 @@
 				lyrics_divs.css('background-color','#ff000000')
 				line_now.css('background-color','white')
 			}
-		})
+		})*/
 		var stop_update 
 		function update(argument) {
 			if(player.currentTime + sync > timecode[j] && player.currentTime + sync < timecode[j+1]){
