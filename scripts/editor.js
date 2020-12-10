@@ -5,14 +5,14 @@ $.fn.textWidth = function(text, font) {
 };
 
 function setWidth(elem){
-	extra_w = $("<input class='args.time'>").html('00').textWidth()
+	extra_w = $("<input class='props.time'>").html('00').textWidth()
 	//console.log(elem.textWidth() + extra_w)
 	elem.css('width',elem.textWidth() + extra_w + "px")
 }
 
 class LyricsLine{
-	constructor(args){
-		this.args = args
+	constructor(props){
+		this.props = props
 
 		var jq = $('<div>').attr('class','lyr-line');
 		var time_input
@@ -31,14 +31,14 @@ class LyricsLine{
 				setWidth($(e.target))
 		});
 		var time_input = $('<input type="text">').attr('class','time')
-		if(args.time || args.time == 0){
-			time_input.html(" " + args.time).css('display','inline-block')
+		if(typeof(props.time) == "number"){
+			time_input.val(" " + props.time).css('display','inline-block')
 		}else{
 			time_input.css('display','none')
 		}
 
-		if(!args.content) args.content = '[pause]';
-		let lyr_input = $('<input type="text">').attr('disabled',true).attr('class','lyrics_input').val(args.content)
+		if(!props.content) props.content = '[pause]';
+		let lyr_input = $('<input type="text">').attr('disabled',true).attr('class','lyrics_input').val(props.content)
 		lyr_input.on('input',(e) => {
 				setWidth($(e.target))
 			});
@@ -50,13 +50,13 @@ class LyricsLine{
 		time_input.appendTo(time_div)
 		lyr_input.appendTo(lyr_div)
 		lyr_div.on('click',(e) => {
-			this.args.lyr_div_click(this.args.time)
+			this.props.lyr_div_click(this.props.time)
 		})
 		sel_div.on('click',(e) => {
-			this.args.select_div_click(this.jq)
+			this.props.select_div_click(this.jq)
 		})
 		add_div.on('click',(e) =>{
-			this.args.add_button(this.jq,this.args)
+			this.props.add_button(this.jq)
 		})
 		jq.append(add_div,rem_div,sel_div,lyr_div,time_div)
 		this.jq = jq
@@ -69,14 +69,21 @@ class LyricsLine{
 		//lyr_input.on('focusout',editElem)
 	}
 	set time(value){
-		this.args.time = value
-		let time_div = this.jq.find('.time')
+		this.props.time = value
+		let time_div = this.jq.find('.time').css('display','inline-block')
 		time_div.val(" " + value)
 		setWidth(time_div)
 	}
 }
 var parent = $('#formatted-lyrics')
 var objects = []
+function getObjTLength(){
+	var len = 0
+	for(let each of objects){
+		if(typeof(each.props.time) == "number") len++;
+	}
+	return len
+}
 //var timecode = []
 //var lyrics_array = []
 var selected = null
@@ -85,7 +92,7 @@ $('#ok').on('click',() => {
 	var lyrics = $('#lyrics').val().split('\n')
 	$('#frame-3').css('display','none')
 	for(let each of lyrics){
-		let args = {
+		let props = {
 			'content':each.trim(),
 			'time':false,
 			'add_button':addAfter,
@@ -93,7 +100,7 @@ $('#ok').on('click',() => {
 			'select_div_click':selectElem,
 			'lyr_div_click':seekToElem
 		}
-		var obj = new LyricsLine(args)
+		var obj = new LyricsLine(props)
 		console.log(obj.jq.css('backgroud-color','white'))
 		obj.jq.appendTo(parent)
 		
@@ -101,16 +108,45 @@ $('#ok').on('click',() => {
 	}
 })
 
-//lyrics_array.push(args.content)
-//timecode.push(args.time)
+//lyrics_array.push(props.content)
+//timecode.push(props.time)
 
-function addAfter(elem,args){
-	args.content = "new line2"
+function addAfter(elem){
 	var index = elem.index()
-	if(index < objects.length) args.time = false;
-	var newLine = new LyricsLine(args)
-	newLine.jq.insertAfter(elem)
-	objects.splice(index+1,0,newLine)
+	console.log(index)
+	var value = false
+	var breakit = true
+	if(index < getObjTLength() - 1){
+		value = prompt(`Enter Vaue Between ${objects[index].props.time} - ${objects[index + 1].props.time}`)
+		if(value){
+			value = parseFloat(value.trim())
+			if(value == NaN){
+				breakit = true
+			}else if((objects[index].props.time < value) && (value < objects[index + 1].props.time)){
+				breakit = false
+			}
+		}else{
+			breakit = true
+		}
+	}else{
+		breakit = false
+	}
+	if(!breakit){
+		let props = {
+			'content':"New",
+			'time':value,
+			'add_button':addAfter,
+			'remove_button':removeElem,
+			'select_div_click':selectElem,
+			'lyr_div_click':seekToElem
+		}
+		var newLine = new LyricsLine(props)
+		newLine.jq.insertAfter(elem)
+		objects.splice(index+1,0,newLine)
+		console.log('Added to ' + (index+1))
+		console.log(props)
+	}
+	
 }
 function removeElem(index){
 	objects[index].jq.remove()
@@ -127,7 +163,7 @@ function selectElem(elem){
 }
 function seekToElem(time){
 	console.log(time)
-	if(time || time == 0) player.currentTime =  time;
+	if(typeof(time) == "number") player.currentTime =  time;
 }
 
 var current = 0
@@ -146,7 +182,7 @@ function nextApply(){
 	if(current == 0){
 		objects[current].time = player.currentTime
 		current++
-	}else if((objects[current - 1].time || 0) < player.currentTime){
+	}else if(objects[current - 1].props.time < player.currentTime){
 		objects[current].time = player.currentTime
 		if(objects.length > current) current++;
 	}else{
@@ -166,15 +202,15 @@ function selectLine(index){
 }
 
 function update(argument) {
-	if(player.currentTime + sync > objects[j].time && player.currentTime + sync < objects[j+1].time){
+	if(player.currentTime + sync > objects[j].props.time && player.currentTime + sync < objects[j+1].props.time){
 		selectLine(j)
 		//console.log(j)
 		j++
 		stop_update = false
 	}
-	if(j == objects.length - 1 && player.currentTime > objects[j].time && !stop_update){
+	if(j == getObjTLength() -1 && player.currentTime > objects[j].props.time && !stop_update){
 		selectLine(j)
-		stop_update = true
+		stop_update = true;
 	}
 }
 var updater;
@@ -196,6 +232,7 @@ stop = function (){
 
 var done
 seek = function(){
+	stop_update = false
 	//player.pause();
 	done = false;
 	console.log("seeking")
@@ -205,7 +242,7 @@ seek = function(){
 	//player.play();
 }
 function check(item,index) {
-	item = item.args.time
+	item = item.props.time
 	if(item > player.currentTime + sync && !done){
 		j = index - 1;
 		//console.log(index + 'kkkkkkkkkkkk');
