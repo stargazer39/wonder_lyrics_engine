@@ -14,7 +14,7 @@ class LyricsLine{
 	constructor(args){
 		this.args = args
 
-		this.jq = $('<div>').attr('class','lyr-line');
+		var jq = $('<div>').attr('class','lyr-line');
 		var time_input
 		/*let imageadd = $('<img>')
 		let imageremove = $('<img>')
@@ -30,7 +30,7 @@ class LyricsLine{
 		time_div.on('input',(e) => {
 				setWidth($(e.target))
 		});
-		time_input = $('<input type="text">').attr('class','.time')
+		var time_input = $('<input type="text">').attr('class','time')
 		if(args.time || args.time == 0){
 			time_input.html(" " + args.time).css('display','inline-block')
 		}else{
@@ -58,7 +58,8 @@ class LyricsLine{
 		add_div.on('click',(e) =>{
 			this.args.add_button(this.jq,this.args)
 		})
-		this.jq.append(add_div,rem_div,sel_div,lyr_div,time_div)
+		jq.append(add_div,rem_div,sel_div,lyr_div,time_div)
+		this.jq = jq
 		//add_div.on('click',addElem)
 		//sel_div.on('click',lyrClick)
 		//lyr_div.on('click',seekToLyr)
@@ -67,9 +68,11 @@ class LyricsLine{
 		//time_input.on('focusout',checkVal)
 		//lyr_input.on('focusout',editElem)
 	}
-	set time(val){
-		this.args.time = val
-		this.jq.find('.time').val(" " + val)
+	set time(value){
+		this.args.time = value
+		let time_div = this.jq.find('.time')
+		time_div.val(" " + value)
+		setWidth(time_div)
 	}
 }
 var parent = $('#formatted-lyrics')
@@ -140,8 +143,18 @@ $(window).on('keypress',(e) =>{
 	}
 })
 function nextApply(){
-	objects[current].time = player.currentTime
-	current++
+	if(current == 0){
+		objects[current].time = player.currentTime
+		current++
+	}else if((objects[current - 1].time || 0) < player.currentTime){
+		objects[current].time = player.currentTime
+		if(objects.length > current) current++;
+	}else{
+		alert('time has to be bigger than previous')
+	}
+}
+function change(){
+
 }
 var j = 0,sync = 0
 var stop_update
