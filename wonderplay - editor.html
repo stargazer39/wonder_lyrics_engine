@@ -184,28 +184,33 @@
 				imageremove.attr('src','assets/remove.svg')*/
 				let add_div = $('<div>').attr('class','add').html('+')
 				let rem_div = $('<div>').attr('class','remove').html('-')
+				//let edit_div = $('<div>').attr('class','edit').html('E')
 				let sel_div = $('<div>').attr('class','select').html('>')
-				let lyr_div = $('<div>').attr('class','lyr').html(line)
-				let input_div= $('<div>')
-				input_div.attr('class','input-div')
-				let text_input = $('<input type="text">').attr('class','time').css('display','none')
+				let lyr_div = $('<div>').attr('class','lyr')
+				let time_div= $('<div>')
+				time_div.attr('class','input-div')
+				let time_input = $('<input type="text">').attr('class','time').css('display','none')
+				let lyr_input = $('<input type="text">').attr('disabled',true).attr('class','lyrics_input').val(line)
+				setWidth(lyr_input)
 				/*imageadd.appendTo(add_div)
 				imageremove.appendTo(span)*/
 
-				text_input.appendTo(input_div)
-				div.append(add_div,rem_div,sel_div,lyr_div,input_div)
+				time_input.appendTo(time_div)
+				lyr_input.appendTo(lyr_div)
+				div.append(add_div,rem_div,sel_div,lyr_div,time_div)
 
 				add_div.on('click',addElem)
 				sel_div.on('click',lyrClick)
 				lyr_div.on('click',seekToLyr)
 				rem_div.on('click',removeElem)
 
-				text_input.on('focusout',checkVal)
+				time_input.on('focusout',checkVal)
+				lyr_input.on('focusout',editElem)
 				div.appendTo(formatted_lyrics)
 				p++
 			}
 			lyrics_divs = $('#formatted-lyrics > div')
-			var input = $('.time')
+			var input = $('.time,.lyrics_input')
 			input.on('input',(e) => {
 				setWidth($(e.target))
 			});
@@ -216,10 +221,13 @@
 			console.log(jelem.textWidth() + extra_w)
 			jelem.css('width',jelem.textWidth() + extra_w + "px")
 		}
+		var last_selected;
 		function lyrClick(e){
 			//console.log($(e.target))
 			//console.log($(e.target).parent().get(0))
 			let index = $($(e.target).parent().get(0)).index('.lyr-line')
+			if(last_selected) last_selected.attr('disabled',true);
+			last_selected = $($(e.target).parent().get(0)).find('.lyrics_input').removeAttr('disabled')
 			k = index;
 			//console.log($(e.target).parent().get(0))
 			console.log(index + "$$$$")
@@ -228,13 +236,15 @@
 			line_now.css('background-color','white')
 		}
 		function seekToLyr(e){
-			//console.log($(e.target))
+			console.log($(e.target).attr('disabled'))
 			//console.log($(e.target).parent().get(0))
-			let index = $($(e.target).parent().get(0)).index('.lyr-line')
-			//console.log($(e.target).parent().get(0))
-			console.log(index + "$$$$")
-			if(timecode[index]){
-				player.currentTime = timecode[index]
+			if($(e.target).attr('disabled') == 'disabled'){
+				let index = $($(e.target).parent().parent().get(0)).index('.lyr-line')
+				//console.log($(e.target).parent().get(0))
+				console.log(index + "$$$$")
+				if(timecode[index]){
+					player.currentTime = timecode[index]
+				}
 			}
 		}
 
@@ -288,35 +298,39 @@
 				let div = $('<div>').attr('class','lyr-line');
 				let add_div = $('<div>').attr('class','add').html('+')
 				let rem_div = $('<div>').attr('class','remove').html('-')
+				//let edit_div = $('<div>').attr('class','edit').html('E')
 				let sel_div = $('<div>').attr('class','select').html('>')
-				let lyr_div = $('<div>').attr('class','lyr').html("new")
-				let input_div= $('<div>')
-				input_div.attr('class','input-div')
-				var text_input = $('<input type="text">').attr('class','time').css('display','none').val(" " + value)
-				setWidth(text_input)
-				text_input.on('input',(e) => {
+				let lyr_div = $('<div>').attr('class','lyr')
+				let time_div= $('<div>')
+				time_div.attr('class','input-div')
+				var time_input = $('<input type="text">').attr('class','time').css('display','none').val(" " + value)
+				let lyr_input = $('<input type="text">').val("new")
+				setWidth(time_input)
+				time_input.on('input',(e) => {
 					setWidth($(e.target))
 				}); 
 				add_div.on('click',addElem)
 				sel_div.on('click',lyrClick)
 				lyr_div.on('click',seekToLyr)
-				text_input.on('focusout',checkVal)
+				time_input.on('focusout',checkVal)
+				lyr_input.on('focusout',editElem)
 				rem_div.on('click',removeElem)
 				/*imageadd.appendTo(add_div)
 				imageremove.appendTo(span)*/
 
 				if(index < timecode.length){
 					timecode.splice(index + 1,0,value)
-					text_input.css('display','inline-block')
+					time_input.css('display','inline-block')
 					i++
 				}
 				if(k > index){
 					k++
 				}
 				lyrics_array.splice(index + 1,0,"new")
-				div.append(add_div,rem_div,sel_div,lyr_div,input_div)
-				text_input.appendTo(input_div)
-				input_div.appendTo(div)
+				div.append(add_div,rem_div,sel_div,lyr_div,time_div)
+				time_input.appendTo(time_div)
+				lyr_input.appendTo(lyr_div)
+				//time_div.appendTo(div)
 				div.insertAfter($(e.target).parent().get(0))
 				lyrics_divs = $('#formatted-lyrics > div')
 			}
@@ -335,6 +349,11 @@
 			lyrics_divs = $('#formatted-lyrics > div')
 			lyrics_divs.css('background-color','#ff000000')
 			$(lyrics_divs[k]).css('background-color','white')
+		}
+		function editElem(e){
+			let index = $($(e.target).parent().parent().get(0)).index('.lyr-line')
+			console.log(index+ " @@@ " + $(e.target).val())
+			lyrics_array.splice(index,0,$(e.target).val())
 		}
 		//console.log($('#formatted-lyrics > div'))
 		$('#next-apply').on('click',() =>{
