@@ -103,6 +103,9 @@
 		.remove{
 			border: 1px solid white;
 		}
+		.select{
+			border: 1px solid white;
+		}
 		.lyr-line img{
 			height: var(--u-height);
 			width: var(--u-width);
@@ -139,8 +142,6 @@
 	</div>
 	<div id="frame-2">
 		<div id="formatted-lyrics" class="margin-10"></div>
-		<input type="button" value="Previous" id="prev">
-		<input type="button" value="Next" id="next">
 		<input type="button" value="Next + Apply" id="next-apply">
 		<input type="button" value="Change" id="change">
 	</div>
@@ -165,13 +166,14 @@
 		var lyrics_array = []
 		var timecode = [];
 		var player = document.getElementById('player')
-		var i = 0,j=0,k,sync = 0,skip = 2;
+		var i = 0,j=0,k,sync = 0,skip = 2
+		var go = false
 
 		$('#ok').on('click',() => {
 			var lyrics = $('#lyrics').val().split('\n')
 			console.log($('#lyrics').val().split('\n'))
 			$('#frame-3').css('display','none')
-			var k = 0
+			var p = 0
 			for(let line of lyrics){
 				line = line.trim()
 				lyrics_array.push(line)
@@ -182,6 +184,7 @@
 				imageremove.attr('src','assets/remove.svg')*/
 				let add_div = $('<div>').attr('class','add').html('+')
 				let rem_div = $('<div>').attr('class','remove').html('-')
+				let sel_div = $('<div>').attr('class','select').html('>')
 				let lyr_div = $('<div>').attr('class','lyr').html(line)
 				let input_div= $('<div>')
 				input_div.attr('class','input-div')
@@ -190,20 +193,23 @@
 				imageremove.appendTo(span)*/
 
 				text_input.appendTo(input_div)
-				div.append(add_div,rem_div,lyr_div,input_div)
+				div.append(add_div,rem_div,sel_div,lyr_div,input_div)
 
 				add_div.on('click',addElem)
-				lyr_div.on('click',lyrClick)
+				sel_div.on('click',lyrClick)
+				lyr_div.on('click',seekToLyr)
+				rem_div.on('click',removeElem)
+
 				text_input.on('focusout',checkVal)
 				div.appendTo(formatted_lyrics)
-				k++
+				p++
 			}
 			lyrics_divs = $('#formatted-lyrics > div')
 			var input = $('.time')
 			input.on('input',(e) => {
 				setWidth($(e.target))
-			}); 
-
+			});
+			go = true
 		})
 		function setWidth(jelem){
 			extra_w = $("<input class='time'>").html('00').textWidth()
@@ -215,15 +221,21 @@
 			//console.log($(e.target).parent().get(0))
 			let index = $($(e.target).parent().get(0)).index('.lyr-line')
 			k = index;
-			console.log(index)
 			//console.log($(e.target).parent().get(0))
 			console.log(index + "$$$$")
-			if(timecode[index]){
-				player.currentTime = timecode[index - skip]
-			}
 			let line_now = $($(e.target).parent().get(0));
 			lyrics_divs.css('background-color','#ff000000')
 			line_now.css('background-color','white')
+		}
+		function seekToLyr(e){
+			//console.log($(e.target))
+			//console.log($(e.target).parent().get(0))
+			let index = $($(e.target).parent().get(0)).index('.lyr-line')
+			//console.log($(e.target).parent().get(0))
+			console.log(index + "$$$$")
+			if(timecode[index]){
+				player.currentTime = timecode[index]
+			}
 		}
 
 		function checkVal(e){
@@ -254,18 +266,18 @@
 			let breakit = true;
 			var value;
 			if(index < timecode.length - 1){
-				let u_input = prompt(`Enter a time between ${timecode[index-1] || 0} - ${timecode[index+1] || player.duration}`)
+				let u_input = prompt(`Enter a time between ${timecode[index] || 0} - ${timecode[index+1] || player.duration}`)
 				value = parseFloat(u_input)
 				console.log(`${u_input}  ${value}  ${index} ${timecode.length - 1}`)
 				if(value == NaN){
 					breakit = true;
 				}else{
-					if(((timecode[index-1] || 0) < value)&&(value < (timecode[index+1] || player.duration))){
+					if(((timecode[index] || 0) < value)&&(value < (timecode[index+1] || player.duration))){
 						console.log('002')
 						breakit = false
 					}else{
 						breakit = true
-						alert(`The changetime has to be in between ${timecode[index-1] || 0} - ${timecode[index+1] || player.duration}`)
+						alert(`The changetime has to be in between ${timecode[index] || 0} - ${timecode[index+1] || player.duration}`)
 					}
 				}
 			}else{
@@ -276,6 +288,7 @@
 				let div = $('<div>').attr('class','lyr-line');
 				let add_div = $('<div>').attr('class','add').html('+')
 				let rem_div = $('<div>').attr('class','remove').html('-')
+				let sel_div = $('<div>').attr('class','select').html('>')
 				let lyr_div = $('<div>').attr('class','lyr').html("new")
 				let input_div= $('<div>')
 				input_div.attr('class','input-div')
@@ -285,57 +298,94 @@
 					setWidth($(e.target))
 				}); 
 				add_div.on('click',addElem)
-				lyr_div.on('click',lyrClick)
+				sel_div.on('click',lyrClick)
+				lyr_div.on('click',seekToLyr)
 				text_input.on('focusout',checkVal)
+				rem_div.on('click',removeElem)
 				/*imageadd.appendTo(add_div)
 				imageremove.appendTo(span)*/
 
-				if(index < timecode.length - 1){
+				if(index < timecode.length){
 					timecode.splice(index + 1,0,value)
 					text_input.css('display','inline-block')
+					i++
+				}
+				if(k > index){
+					k++
 				}
 				lyrics_array.splice(index + 1,0,"new")
-				div.append(add_div,rem_div,lyr_div,input_div)
+				div.append(add_div,rem_div,sel_div,lyr_div,input_div)
 				text_input.appendTo(input_div)
 				input_div.appendTo(div)
 				div.insertAfter($(e.target).parent().get(0))
 				lyrics_divs = $('#formatted-lyrics > div')
 			}
 		}
+		function removeElem(e){
+			let index = $($(e.target).parent().get(0)).index('.lyr-line')
+			if(index < timecode.length){
+				timecode.splice(index,1)
+				i--
+			}
+			if(k < index-1){
+				k--
+			}
+			lyrics_array.splice(index,1)
+			$($(e.target).parent().get(0)).remove()
+			lyrics_divs = $('#formatted-lyrics > div')
+			lyrics_divs.css('background-color','#ff000000')
+			$(lyrics_divs[k]).css('background-color','white')
+		}
 		//console.log($('#formatted-lyrics > div'))
 		$('#next-apply').on('click',() =>{
-			console.log(`${i>=0} ${i < lyrics_divs.length} ${((player.currentTime > timecode[i-1]) || i == 0)}`)
-			if(i>=0 && i < lyrics_divs.length && ((player.currentTime > timecode[i-1]) || i == 0)){
-				if((i < timecode.length - 1) || (player.currentTime < timecode[timecode.length - 1])){
-					i = timecode.length -1
-					player.currentTime = timecode[timecode.length -1]
-				}else{
-					timecode[i] = player.currentTime
-				}
-				let line_now = $(lyrics_divs[i]);
-				line_now.find('.time').val(" " + timecode[i])
-				setWidth(line_now.find('.time'))
-				line_now.find('.time').css('display','inline')
-				lyrics_divs.css('border','none').css('background-color','#ff000000')
-
-				line_now.css('background-color','white')
-				if(i < lyrics_divs.length - 1) i++;
-			}else{
-				alert("CurrentTime player time has to be bigger than Previous")
+			nextApply()
+		})
+		$(window).on('keypress',(e) =>{
+			console.log(e.key)
+			switch(e.key){
+				case "n":
+					nextApply()
+					break;
 			}
 		})
-		$('#change').on('click',() => {
-			if(timecode[k]){
-				if(((timecode[k-1] || 0) < player.currentTime)&&(player.currentTime < (timecode[k+1] || player.duration))){
-					timecode[k] = player.currentTime
-					let line_now = $(lyrics_divs[k]);
-					line_now.find('.time').val(" " + timecode[k])
+		function nextApply(){
+			if(go){
+				console.log(`${i>=0} ${i < lyrics_divs.length} ${((player.currentTime > timecode[i-1]) || i == 0)}`)
+				if(i>=0 && i < lyrics_divs.length && ((player.currentTime > timecode[i-1]) || i == 0)){
+					if((i < timecode.length - 1) || (player.currentTime < timecode[timecode.length - 1])){
+						i = timecode.length -1
+						player.currentTime = timecode[timecode.length -1]
+					}else{
+						timecode[i] = player.currentTime
+					}
+					k = i
+					let line_now = $(lyrics_divs[i]);
+					line_now.find('.time').val(" " + timecode[i])
 					setWidth(line_now.find('.time'))
+					line_now.find('.time').css('display','inline')
+					lyrics_divs.css('border','none').css('background-color','#ff000000')
+
+					line_now.css('background-color','white')
+					if(i < lyrics_divs.length - 1) i++;
 				}else{
-					alert(`The changetime has to be in between ${timecode[k-1] || 0} - ${timecode[k+1] || player.duration}`)
+					alert("CurrentTime player time has to be bigger than Previous")
 				}
-			}else{
-				alert(`You can't change this one.. assign a value first with next-apply`)
+			}
+		}
+		$('#change').on('click',() => {
+			if(go){
+				if(timecode[k]){
+					if(((timecode[k-1] || 0) < player.currentTime)&&(player.currentTime < (timecode[k+1] || player.duration))){
+						timecode[k] = player.currentTime
+						let line_now = $(lyrics_divs[k]);
+						line_now.find('.time').val(" " + timecode[k])
+						setWidth(line_now.find('.time'))
+					}else{
+						alert(`The changetime has to be in between ${timecode[k-1] || 0} - ${timecode[k+1] || player.duration}`)
+					}
+				}else{
+					alert(`You can't change this one.. assign a value first with next-apply`)
+				}
 			}
 		})
 		/*$('#next').on('click',() => {
