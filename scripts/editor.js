@@ -70,13 +70,6 @@ class LyricsLine{
 		})
 		jq.append(add_div,rem_div,sel_div,lyr_div,time_div)
 		this.jq = jq
-		//add_div.on('click',addElem)
-		//sel_div.on('click',lyrClick)
-		//lyr_div.on('click',seekToLyr)
-		//rem_div.on('click',removeElem)
-
-		//time_input.on('focusout',checkVal)
-		//lyr_input.on('focusout',editElem)
 	}
 	set enableWrite(yes){
 		if(yes){
@@ -95,6 +88,13 @@ class LyricsLine{
 			time_div.css('display','inline-block').val(" " + value)
 		}
 		setWidth(time_div)
+	}
+	set hideControls(yes){
+		if(yes){
+			this.jq.find('.add,.remove').css('display','none')
+		}else{
+			this.jq.find('.add,.remove').css('display','inline-block')
+		}
 	}
 }
 var parent = $('#formatted-lyrics')
@@ -126,7 +126,8 @@ $('#ok').on('click',() => {
 			'focus_out_time':checkAndChange
 		}
 		var obj = new LyricsLine(props)
-		console.log(obj.jq.css('backgroud-color','white'))
+		obj.hideControls = true
+		obj.jq.css('backgroud-color','white')
 		obj.jq.appendTo(parent)
 		
 		objects.push(obj)
@@ -198,13 +199,17 @@ function removeElem(elem){
 }
 var last_selected = -1;
 function selectElem(elem){
-	console.log(elem)
+	//console.log(elem)
 	$('.lyr-line').css('background-color','#ffffff00')
 	elem.css('background-color','white')
 	selected = elem.index()
 	console.log(selected)
-	if(last_selected >= 0) objects[last_selected].enableWrite = false;
-	objects[selected].enableWrite = true;
+	if(last_selected >= 0) {
+		objects[last_selected].enableWrite = false
+		objects[last_selected].hideControls = true
+	}
+	objects[selected].enableWrite = true
+	objects[selected].hideControls = false
 	last_selected = selected
 }
 function seekToElem(time){
