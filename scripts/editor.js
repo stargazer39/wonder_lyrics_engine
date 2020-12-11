@@ -49,6 +49,7 @@ class LyricsLine{
 
 		time_input.appendTo(time_div)
 		lyr_input.appendTo(lyr_div)
+
 		lyr_div.on('click',(e) => {
 			this.props.lyr_div_click(this.props.time)
 		})
@@ -57,6 +58,9 @@ class LyricsLine{
 		})
 		add_div.on('click',(e) =>{
 			this.props.add_button(this.jq)
+		})
+		rem_div.on('click',(e) => {
+			this.props.remove_button(this.jq)
 		})
 		jq.append(add_div,rem_div,sel_div,lyr_div,time_div)
 		this.jq = jq
@@ -77,6 +81,8 @@ class LyricsLine{
 }
 var parent = $('#formatted-lyrics')
 var objects = []
+var tcode_count = 0
+
 function getObjTLength(){
 	var len = 0
 	for(let each of objects){
@@ -84,7 +90,7 @@ function getObjTLength(){
 	}
 	return len
 }
-//var timecode = []
+var timecode = []
 //var lyrics_array = []
 var selected = null
 
@@ -116,13 +122,14 @@ function addAfter(elem){
 	console.log(index)
 	var value = false
 	var breakit = true
-	if(index < getObjTLength() - 1){
-		value = prompt(`Enter Vaue Between ${objects[index].props.time} - ${objects[index + 1].props.time}`)
+
+	if(typeof(objects[index].props.time) == "number" && index != timecode.length - 1){
+		value = prompt(`Enter Vaue Between ${timecode[index] || 0} - ${timecode[index + 1]}`)
 		if(value){
 			value = parseFloat(value.trim())
 			if(value == NaN){
 				breakit = true
-			}else if((objects[index].props.time < value) && (value < objects[index + 1].props.time)){
+			}else if(((timecode[index] || 0 ) < value) && (value < (timecode[index + 1]))){
 				breakit = false
 			}
 		}else{
@@ -131,6 +138,8 @@ function addAfter(elem){
 	}else{
 		breakit = false
 	}
+	
+
 	if(!breakit){
 		let props = {
 			'content':"New",
@@ -142,15 +151,29 @@ function addAfter(elem){
 		}
 		var newLine = new LyricsLine(props)
 		newLine.jq.insertAfter(elem)
+		if(value) {
+			timecode.splice(index+1,0,value)
+			if(selected < timecode.length - 1){
+				selected++
+			}
+		};
 		objects.splice(index+1,0,newLine)
 		console.log('Added to ' + (index+1))
 		console.log(props)
+	}else{
+		alert(`Value has to be in between`)
 	}
 	
 }
-function removeElem(index){
-	objects[index].jq.remove()
-	if(index < timecode.length) objects.splice(index,1);
+function removeElem(elem){
+	let index = elem.index()
+	elem.remove()
+	if(typeof(objects[index].props.time) == "number"){
+		timecode.splice(index,1)
+	}
+	if(index <= selected && objects.length != 0){
+		selected--;
+	}
 	objects.splice(index,1)
 }
 
@@ -179,18 +202,25 @@ $(window).on('keypress',(e) =>{
 	}
 })
 function nextApply(){
-	if(current == 0){
-		objects[current].time = player.currentTime
-		current++
-	}else if(objects[current - 1].props.time < player.currentTime){
-		objects[current].time = player.currentTime
-		if(objects.length > current) current++;
+	if((typeof(timecode[current - 1]) == "number" && timecode[current - 1] < player.currentTime) || current == 0){
+		if(current < objects.length){
+			objects[current].time = player.currentTime
+			timecode.push(player.currentTime)
+			current++
+		}
 	}else{
-		alert('time has to be bigger than previous')
+		alert('time has to be bigger than Previous or Inbetween')
 	}
 }
 function change(){
-
+	if((timecode[selected - 1] < player.currentTime) && (player.currentTime < timecode[selected + 1])){
+		if(current < objects.length){
+			objects[selected].time = player.currentTime
+			timecode[selected] = player.currentTime
+		}
+	}else{
+		alert('Time has to be Inbetween or already set')
+	}
 }
 var j = 0,sync = 0
 var stop_update
@@ -202,15 +232,11 @@ function selectLine(index){
 }
 
 function update(argument) {
-	if(player.currentTime + sync > objects[j].props.time && player.currentTime + sync < objects[j+1].props.time){
+	if(timecode[j] < player.currentTime + sync && ((player.currentTime + sync < timecode[j+1]) || timecode.length - 1 == j)){
+		console.log(j)
 		selectLine(j)
-		//console.log(j)
 		j++
 		stop_update = false
-	}
-	if(j == getObjTLength() -1 && player.currentTime > objects[j].props.time && !stop_update){
-		selectLine(j)
-		stop_update = true;
 	}
 }
 var updater;
