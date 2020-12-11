@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Wonder Style</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="scripts/styles.css">
+	<link rel="stylesheet" href="scripts/browser.css">
+	<script async defer src="scripts/githubbuttons.js"></script>
+	<link rel="stylesheet" href="scripts\sliders_re.css">
+	<script src="scripts\sliders_re.js"></script>
+	<style type="text/css">
+		#player { 
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			-webkit-transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%);
+			min-width: 100%;
+			min-height: 100%;
+		}
+		.play{
+			z-index: 100 !important;
+		}
+		#player2{
+			height: 100vh;
+	        width: 100vw;
+	        position: fixed;
+	        top:0;
+	        left:0;
+		}
+	</style>
+</head>
+<body>
+	<div id="music-title">Wonder Style</div>
+	<video id="player">
+	</video>
+	<div id="player2"></div>
+	<div id="players"></div>
+	<div id="overlay"></div>
+	<div id="lyrics" class="noselect"></div>
+	<div id="lyrics-ticker"></div>
+	<div class="bottom" id="bottombg">
+		<div id="display2"></div>
+	</div>
+	<div id="seekcontainer">
+		<div class="slider-container" id="element0">
+			<div class="play-progress slider_trans"></div>
+			<div class="ticker slider_trans"></div>
+			<div class="mouseevent"></div>
+		</div>
+	</div>
+	<div id="floating_lyr" class="noselect disnone"></div>
+	</div>
+	<div id="settings"><img style src="assets\settings.svg"></div>
+	<div id="controls">
+		<div id="play">
+			<img src="assets\play.svg">
+		</div>
+		<div id="begining">
+			<img src="assets\re.svg">
+		</div>
+		<div id="hide">
+			<img src="assets\hide.svg">
+		</div>
+	</div>
+	<div id="intro">
+		<div id="welcome" class="noselect">
+			<div style="font-size: 60px;">This is a ongoing project.</div>
+			<div style="font-size: 40px;">Issues are expected. So help me to work this out! <br> If you notice one, open a issue here </div>
+			<div style="padding-top: 2px;"><a class="github-button" href="https://github.com/stargazer39/stargazer39.github.io/issues" data-icon="octicon-issue-opened" data-size="large" aria-label="Issue stargazer39/stargazer39.github.io on GitHub">Issue</a></div>
+			<div style="font-size: 40px;">Thanks for visiting :)</div>
+			<div style="font-size: 40px;" id="waiting"> Waiting for HTML5 player</div>
+			<div style="font-size: 40px;" id="startshow">Hit Space bar or click <span class="playalt" style="cursor: pointer;text-decoration: underline;">here</span> to begin the show!</div>
+		<div>
+	</div>
+	<script type="text/javascript" src="scripts\jquery.min.js"></script>
+	<script type="text/javascript" src="scripts\dependencies.js"></script>
+	<script type="text/javascript" src="scripts\youtube_wrapper.js"></script>
+	<script type="text/javascript" src="scripts\localv2.js"></script>
+</body>
+</html>

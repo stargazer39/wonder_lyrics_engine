@@ -37,7 +37,6 @@ class LyricsLine{
 			time_input.css('display','none')
 		}
 
-		if(!props.content) props.content = '[pause]';
 		let lyr_input = $('<input type="text">').attr('disabled',true).attr('class','lyrics_input').val(props.content)
 		lyr_input.on('input',(e) => {
 				setWidth($(e.target))
