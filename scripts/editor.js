@@ -42,6 +42,9 @@ class LyricsLine{
 		lyr_input.on('input',(e) => {
 				setWidth($(e.target))
 			});
+		lyr_input.on('focusout',(e)=>{
+				this.props.content = $(e.target).val()
+		})
 		setWidth(lyr_input)
 		setWidth(time_input)
 		/*imageadd.appendTo(add_div)
@@ -62,6 +65,9 @@ class LyricsLine{
 		rem_div.on('click',(e) => {
 			this.props.remove_button(this.jq)
 		})
+		time_input.on('focusout',(e) => {
+			this.props.focus_out_time(this.jq.index(),$(e.target).val())
+		})
 		jq.append(add_div,rem_div,sel_div,lyr_div,time_div)
 		this.jq = jq
 		//add_div.on('click',addElem)
@@ -72,10 +78,22 @@ class LyricsLine{
 		//time_input.on('focusout',checkVal)
 		//lyr_input.on('focusout',editElem)
 	}
+	set enableWrite(yes){
+		if(yes){
+			this.jq.find('.lyrics_input').removeAttr('disabled')
+		}else{
+			this.jq.find('.lyrics_input').attr('disabled',true)
+		}
+	}
 	set time(value){
 		this.props.time = value
-		let time_div = this.jq.find('.time').css('display','inline-block')
-		time_div.val(" " + value)
+		let time_div = this.jq.find('.time')
+		if(typeof(value) != "number"){
+			time_div.css('display','none').val(" ")
+			this.props.time = false
+		}else{
+			time_div.css('display','inline-block').val(" " + value)
+		}
 		setWidth(time_div)
 	}
 }
@@ -104,7 +122,8 @@ $('#ok').on('click',() => {
 			'add_button':addAfter,
 			'remove_button':removeElem,
 			'select_div_click':selectElem,
-			'lyr_div_click':seekToElem
+			'lyr_div_click':seekToElem,
+			'focus_out_time':checkAndChange
 		}
 		var obj = new LyricsLine(props)
 		console.log(obj.jq.css('backgroud-color','white'))
@@ -147,7 +166,8 @@ function addAfter(elem){
 			'add_button':addAfter,
 			'remove_button':removeElem,
 			'select_div_click':selectElem,
-			'lyr_div_click':seekToElem
+			'lyr_div_click':seekToElem,
+			'focus_out_time':checkAndChange
 		}
 		var newLine = new LyricsLine(props)
 		newLine.jq.insertAfter(elem)
@@ -176,19 +196,37 @@ function removeElem(elem){
 	}
 	objects.splice(index,1)
 }
-
+var last_selected = -1;
 function selectElem(elem){
 	console.log(elem)
 	$('.lyr-line').css('background-color','#ffffff00')
 	elem.css('background-color','white')
 	selected = elem.index()
 	console.log(selected)
+	if(last_selected >= 0) objects[last_selected].enableWrite = false;
+	objects[selected].enableWrite = true;
+	last_selected = selected
 }
 function seekToElem(time){
 	console.log(time)
 	if(typeof(time) == "number") player.currentTime =  time;
 }
-
+function checkAndChange(index,t_now){
+	let value = parseFloat(t_now)
+	if(value != NaN){
+		if(((timecode[index - 1] || 0) < value) && (value < (timecode[index + 1] || player.duration))){
+			if(index < timecode.length){
+				objects[index].time = value
+				timecode[index] = value
+			}
+		}else{
+			objects[index].time = objects[index].props.time
+		}
+	}else{
+		objects[index].time = objects[index].props.time
+	}
+	
+}
 var current = 0
 $('#next-apply').on('click',() =>{
 	nextApply()
@@ -198,6 +236,12 @@ $(window).on('keypress',(e) =>{
 	switch(e.key){
 		case "n":
 			nextApply()
+			break;
+		case "c":
+			change()
+			break;
+		case "u":
+			undoNextApply()
 			break;
 	}
 })
@@ -212,16 +256,29 @@ function nextApply(){
 		alert('time has to be bigger than Previous or Inbetween')
 	}
 }
+function undoNextApply(){
+	objects[timecode.length - 1].time = false
+	timecode.pop(timecode.length - 1)
+	if(current != 0) current--;
+}
+$('#undoapply').on('click',()=>{
+	undoNextApply()
+})
 function change(){
-	if((timecode[selected - 1] < player.currentTime) && (player.currentTime < timecode[selected + 1])){
-		if(current < objects.length){
-			objects[selected].time = player.currentTime
-			timecode[selected] = player.currentTime
+	if(typeof(objects[selected].props.time) == "number"){
+		if(((timecode[selected - 1] || 0) < player.currentTime) && (player.currentTime < ((timecode[selected + 1]||player.duration)))){
+			if(current < objects.length){
+				objects[selected].time = player.currentTime
+				timecode[selected] = player.currentTime
+			}
+		}else{
+			console.log('Time has to be Inbetween or already set')
 		}
-	}else{
-		alert('Time has to be Inbetween or already set')
 	}
 }
+$('#change').on('click',() =>{
+	change()
+})
 var j = 0,sync = 0
 var stop_update
 
