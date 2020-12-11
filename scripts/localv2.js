@@ -1,88 +1,119 @@
 //Begin the main programm
-var engine,data;
-let song_id = parseQuery('song_id',window.location.href)
-console.log(song_id)
-var song_data
-makeRequest('GET', 'http://localhost?get=lyrics&song_id=' + song_id).then((data)=>{
-	console.log('data')
-	song_data = JSON.parse(data)
-	console.log(song_data)
-	// 2. This code loads the IFrame Player API code asynchronously.
-	console.log('tag')
+var youtube = false
+// 2. This code loads the IFrame Player API code asynchronously.
+console.log('tag')
+if(youtube){
 	var tag = document.createElement('script');
 
 	tag.src = "https://www.youtube.com/iframe_api";
 	var firstScriptTag = document.getElementsByTagName('script')[0];
 	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+}
 
-})
+var engine,data;
+let song_id = parseQuery('song_id',window.location.href)
+console.log(song_id)
 
-var playerNew;
+var song_data,playerNew;
 function onYouTubeIframeAPIReady() {
 	console.log('onAPI')
-    playerNew = new YT.Player('player2', {
-    	height: '390',
-    	width: '640',
-    	videoId: song_data.links.youtube,
-    events: {
-    	'onReady': onPlayerReady,
-    	'onStateChange': onPlayerStateChange
-    }
-    });
-}
-var player = {
-	oncanplay:"",
-	event_blocker:[],
-	triggers:[],
-	addEventListener(t,call){
-		this.triggers.push({
-		'trigger':t,
-		'callback':call
+	if(youtube){
+		makeRequest('GET', 'http://localhost?get=lyrics&song_id=' + song_id).then((data)=>{
+			console.log('data')
+			song_data = JSON.parse(data)
+			console.log(song_data)
+
+			playerNew = new YT.Player('player2', {
+				height: '390',
+		    	width: '640',
+		    	videoId: song_data.links.youtube,
+			    events: {
+			    	'onReady': onPlayerReady,
+			    	'onStateChange': onPlayerStateChange
+			    }
+		    });
 		})
-	},
-	get duration(){
-		return playerNew.getDuration()
-	},
-	get currentTime(){
-		return playerNew.getCurrentTime()
-	},
-	get playerPaused(){
-		switch(playerNew.getPlayerState()){
-			case 0:
-			case -1:
-				return true;
-				break;
-			case 2:
-				return false;
-		}
-	},
-	set currentTime(val){
-		playerNew.seekTo(val,true)
-	},
-	set oncanplay_(callback){
-		this.oncanplay = callback
-	},
-	event(t){
-		if(!this.event_blocker.includes(t)){
-			for(let tri of this.triggers){
-				if(tri.trigger == t) {tri.callback()};
-			}
-		}
-          /*console.log(this.event_blocker.includes(t))
-          this.triggers[0].callback()*/
-	},
-	play(){
-		playerNew.playVideo()
-	},
-	pause(){
-		playerNew.pauseVideo()
 	}
 }
 
-function onPlayerReady(event){
-	hajimeruso(song_data)
+var player
+if(youtube){
+	player = {
+		oncanplay:"",
+		event_blocker:[],
+		triggers:[],
+		addEventListener(t,call){
+			this.triggers.push({
+			'trigger':t,
+			'callback':call
+			})
+		},
+		get duration(){
+			return playerNew.getDuration()
+		},
+		get currentTime(){
+			return playerNew.getCurrentTime()
+		},
+		get paused(){
+			switch(playerNew.getPlayerState()){
+				case 0:
+				case 5:
+				case 2:
+					return true;
+					break;
+				case 1:
+					return false;
+			}
+		},
+		set currentTime(val){
+			playerNew.seekTo(val,true)
+		},
+		set oncanplay_(callback){
+			this.oncanplay = callback
+		},
+		event(t){
+			if(!this.event_blocker.includes(t)){
+				for(let tri of this.triggers){
+					if(tri.trigger == t) {tri.callback()};
+				}
+			}
+	          /*console.log(this.event_blocker.includes(t))
+	          this.triggers[0].callback()*/
+		},
+		play(){
+			playerNew.playVideo()
+		},
+		pause(){
+			playerNew.pauseVideo()
+		}
+	}
+}else{
+	makeRequest('GET', 'http://localhost?get=lyrics&song_id=' + song_id).then((data)=>{
+		console.log('data')
+		song_data = JSON.parse(data)
+		console.log(song_data)
+
+		player = document.getElementById('player');
+		var source = document.createElement('source');
+		source.setAttribute('src',song_data.links.local);
+		player.appendChild(source);
+		hajimeruso(song_data)
+	})
 }
 
+
+function onPlayerReady(event){
+	if(youtube){
+		hajimeruso(song_data)
+	}
+}
+/*
+player.oncanplay = () =>{
+	if(!youtube){
+		hajimeruso(song_data)
+	}
+}
+*/
 function onPlayerStateChange(e){
 	console.log('changed' + playerNew.getPlayerState())
 	switch(playerNew.getPlayerState()){
