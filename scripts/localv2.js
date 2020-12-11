@@ -188,7 +188,7 @@ var playalt = $(".playalt");
 //Animation for controls
 var settings = $('#settings');
 var controls = $('#controls');
-
+var title = $('#music-title')
 //Control Panel lol
 controls.mouseout(function(){ controls.removeClass("anisettings")});
 controls.mouseover(function(){ controls.addClass("anisettings")});
@@ -258,6 +258,7 @@ function playerBegin(lang_main,lang_second,time,sync) {
 	line = $(".line");
 	ticker = $("#lyrics-ticker")
 	function update() {
+		title.html('Wonder Style  ' + player.currentTime)
 		if(!seeking && (Math.floor(player.currentTime + sync)%2) == k){
 			slider0.slider_update(player.currentTime + sync);
 			k = (k==0) ? 1 : 0; 
