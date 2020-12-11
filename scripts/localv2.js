@@ -97,7 +97,12 @@ if(youtube){
 		var source = document.createElement('source');
 		source.setAttribute('src',song_data.links.local);
 		player.appendChild(source);
-		hajimeruso(song_data)
+		player.load()
+		player.oncanplay = () =>{
+			if(!youtube){
+				hajimeruso(song_data)
+			}
+		}
 	})
 }
 
@@ -107,13 +112,7 @@ function onPlayerReady(event){
 		hajimeruso(song_data)
 	}
 }
-/*
-player.oncanplay = () =>{
-	if(!youtube){
-		hajimeruso(song_data)
-	}
-}
-*/
+
 function onPlayerStateChange(e){
 	console.log('changed' + playerNew.getPlayerState())
 	switch(playerNew.getPlayerState()){
