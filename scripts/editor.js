@@ -97,6 +97,22 @@ class LyricsLine{
 		}
 	}
 }
+
+class LyricsLineProp {
+	constructor(content,time){
+		console.log(this)
+		return {
+			'content':content,
+			'time':time,
+			'add_button':addAfter,
+			'remove_button':removeElem,
+			'select_div_click':selectElem,
+			'lyr_div_click':seekToElem,
+			'focus_out_time':checkAndChange
+		}
+	}			
+}
+
 var parent = $('#formatted-lyrics')
 var objects = []
 var tcode_count = 0
@@ -116,16 +132,7 @@ $('#ok').on('click',() => {
 	var lyrics = $('#lyrics').val().split('\n')
 	$('#frame-3').css('display','none')
 	for(let each of lyrics){
-		let props = {
-			'content':each.trim(),
-			'time':false,
-			'add_button':addAfter,
-			'remove_button':removeElem,
-			'select_div_click':selectElem,
-			'lyr_div_click':seekToElem,
-			'focus_out_time':checkAndChange
-		}
-		var obj = new LyricsLine(props)
+		var obj = new LyricsLine(new LyricsLineProp(each.trim(),false))
 		obj.hideControls = true
 		obj.jq.css('backgroud-color','white')
 		obj.jq.appendTo(parent)
@@ -161,16 +168,7 @@ function addAfter(elem){
 	
 
 	if(!breakit){
-		let props = {
-			'content':"New",
-			'time':value,
-			'add_button':addAfter,
-			'remove_button':removeElem,
-			'select_div_click':selectElem,
-			'lyr_div_click':seekToElem,
-			'focus_out_time':checkAndChange
-		}
-		var newLine = new LyricsLine(props)
+		var newLine = new LyricsLine(new LyricsLineProp("New",value))
 		newLine.jq.insertAfter(elem)
 		if(value) {
 			timecode.splice(index+1,0,value)
@@ -180,7 +178,6 @@ function addAfter(elem){
 		};
 		objects.splice(index+1,0,newLine)
 		console.log('Added to ' + (index+1))
-		console.log(props)
 	}else{
 		alert(`Value has to be in between`)
 	}
@@ -345,3 +342,31 @@ player.addEventListener("seeked", async function() {seek(); start();player.play(
 player.addEventListener("play",function() {seek(); start(); /*animation1();*/});
 player.addEventListener("pause",function(){stop();});
 player.addEventListener("ended",function(){ console.log("ended"); stop();});
+
+function getFinal(){
+	let links = {
+		'copyright':["Unknown","Unknown"],
+		'local':"videos/floating_kokoro.mp4",
+		'youtube':""
+	}
+	var lyrics = {
+		'copyright':["Unknown","Unknown"],
+		'languages':["romaji","english"],
+		'lyrics':{
+			'romaji':[],
+			'english':[]
+		}
+	}
+	let song_info = {}
+	for(let obj of objects){
+		lyrics.lyrics.romaji.push(obj.props.content)
+	}
+	let final_obj = {
+		'song_info':song_info,
+		'links':links,
+		'lyrics':lyrics,
+		'timecode':timecode
+	}
+	console.log(final_obj)
+	console.log(JSON.stringify(final_obj))
+}
