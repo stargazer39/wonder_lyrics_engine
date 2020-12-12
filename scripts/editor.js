@@ -196,8 +196,8 @@ function removeElem(elem){
 var last_selected = -1;
 function selectElem(elem){
 	//console.log(elem)
-	$('.lyr-line').css('background-color','#ffffff00')
-	elem.css('background-color','white')
+	$('.lyr-line').removeClass('selected')
+	elem.addClass('selected')
 	selected = elem.index()
 	console.log(selected)
 	if(last_selected >= 0) {
@@ -284,8 +284,8 @@ var j = 0,sync = 0
 var stop_update
 
 function selectLine(index){
-	$('.lyr-line').css('border','none')
-	objects[index].jq.css('border','1px solid white')
+	$('.lyr-line').removeClass('seeked')
+	objects[index].jq.addClass('seeked')
 	//objects[index].jq.css('background-color','white')
 }
 
