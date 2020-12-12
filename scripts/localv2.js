@@ -1,5 +1,6 @@
 //Begin the main programm
 var youtube = false
+var host = "localhost"
 // 2. This code loads the IFrame Player API code asynchronously.
 console.log('tag')
 if(youtube){
@@ -18,7 +19,7 @@ var song_data,playerNew;
 function onYouTubeIframeAPIReady() {
 	console.log('onAPI')
 	if(youtube){
-		makeRequest('GET', 'http://localhost?get=lyrics&song_id=' + song_id).then((data)=>{
+		makeRequest('GET',`http://${host}?get=lyrics&song_id=${song_id}`).then((data)=>{
 			console.log('data')
 			song_data = JSON.parse(data)
 			console.log(song_data)
@@ -36,7 +37,7 @@ function onYouTubeIframeAPIReady() {
 	}
 }
 
-var player
+var player,started = false
 if(youtube){
 	player = {
 		oncanplay:"",
@@ -88,7 +89,7 @@ if(youtube){
 		}
 	}
 }else{
-	makeRequest('GET', 'http://localhost?get=lyrics&song_id=' + song_id).then((data)=>{
+	makeRequest('GET',`http://${host}?get=lyrics&song_id=${song_id}`).then((data)=>{
 		console.log('data')
 		song_data = JSON.parse(data)
 		console.log(song_data)
@@ -99,8 +100,9 @@ if(youtube){
 		player.appendChild(source);
 		player.load()
 		player.oncanplay = () =>{
-			if(!youtube){
+			if(!started){
 				hajimeruso(song_data)
+				started = true
 			}
 		}
 	})
@@ -149,10 +151,25 @@ function hajimeruso(song_data){
 		startshow.addClass("fadein");
 		
 		engine = playerBegin(processToHTML(song_data.lyrics.lyrics['romaji']),processToHTML(song_data.lyrics.lyrics['english']),song_data.timecode,0);
-		player.addEventListener("seeked", async function() {engine.seek(); engine.start();player.play();});
-		player.addEventListener("play",function() {engine.seek(); engine.start(); animation1();});
-		player.addEventListener("pause",function(){engine.stop();});
-		player.addEventListener("ended",function(){ console.log("ended"); engine.stop();});
+		player.addEventListener("seeked",() => {
+			engine.seek()
+			engine.start()
+			if(player.paused){
+				player.play()
+			}
+		})
+		player.addEventListener("play",() => {
+			engine.seek()
+			engine.start()
+			animation1()
+		});
+		player.addEventListener("pause",() => {
+			engine.stop()
+		})
+		player.addEventListener("ended",() => {
+			console.log("ended")
+			engine.stop()
+		})
 
 		playalt.on("click",function(){player.play();});
 		$(window).on("resize", engine.seek);
@@ -266,7 +283,7 @@ function playerBegin(lang_main,lang_second,time,sync) {
 		if(player.currentTime + sync < time[0] || player.currentTime + sync > time[time.length - 1]){
 			wholepage.addClass("fadeout");
 		}
-		if(player.currentTime + sync > time[i] && player.currentTime + sync < time[i+1]){
+		if(time[i] < player.currentTime + sync && player.currentTime + sync < time[i+1]){
 			let line_now = $(line[i]);
 			let line_before = $(line[i-1])
 
@@ -278,8 +295,6 @@ function playerBegin(lang_main,lang_second,time,sync) {
 				ticker.css('height',`${line_now[0].getBoundingClientRect().height}px`)
 			}
 
-			//if(i){line_before.removeClass('line_style');};
-			console.log(y)
 			switch(i){
 				case 0:
 					y -= line_now[0].getBoundingClientRect().height/2.0
@@ -294,19 +309,9 @@ function playerBegin(lang_main,lang_second,time,sync) {
 			floating.html(lang_main[i]);
 
 			display2.html(lang_second[i]);
-			console.log((player.currentTime + sync) + 'in');
+			console.log(`At ${player.currentTime + sync}, ${i} Played. Expected: ${time[i+1] || "End"}. Total Length: ${y}\n`);
 			//console.log(`${(line_now[0].getBoundingClientRect().height/2.0)} ${line_before[0].getBoundingClientRect().height/2.0}`)
-			console.log(i + '############### ' + y);
 			i++;
-			var tot = [],tot2 = 0 ,p = 0
-			/*$.each( line, function( index, value ){
-		    	tot.push($(value)[0].getBoundingClientRect().height)
-		    	tot2 += $(value)[0].getBoundingClientRect().height
-		    	p += 1
-			})
-			console.log(tot)*/
-
-	console.log(tot2 + ' #########3 ' + p + " " + display[0].clientHeight)
 		}
 	}
 
@@ -332,31 +337,51 @@ function playerBegin(lang_main,lang_second,time,sync) {
 		//player.pause();
 		console.log("seeking")
 		y = 0;
-		line.removeClass('line_style');
 		i = 0;
+		var j = 0;		
 		time.forEach(check);
-		//player.play();
-	}
-	control_return[0] = seek;
-	function check(item,index) {
-		if(item > player.currentTime + sync && !done){
-			i = index - 1;
-			//console.log(index + 'kkkkkkkkkkkk');
-			if(i<0){
-				i=0;
+		/*while(true){
+			if(j == lang_main.length + 1){
+				break;
+			};
+			
+			if(time[j] > player.currentTime + sync){
+				console.log(`seeked ${j}`)
+				i = (j < 0) ? 0 : j - 1;
+				break;
 			}
-			done = true;
-			for(var t = 0; t < i; t++){
-				//console.log(t + 'tttttttttttttt');
-				switch(t){
-					case 0:
-						y -= $(line[t])[0].getBoundingClientRect().height/2.0
-						break;
-					default:
-						y -= (($(line[t])[0].getBoundingClientRect().height/2.0) + $(line[t-1])[0].getBoundingClientRect().height/2.0);
+			j++
+		}
+		for(j = 0; j < i; j++){
+			switch(j){
+				case 0:
+					y -= $(line[j])[0].getBoundingClientRect().height/2.0
+					break;
+				default:
+					y -= (($(line[j])[0].getBoundingClientRect().height/2.0) + $(line[j-1])[0].getBoundingClientRect().height/2.0);
+			}
+		}*/
+		function check(item,index) {
+			if(item > player.currentTime + sync && !done){
+				i = index - 1;
+				//console.log(index + 'kkkkkkkkkkkk');
+				if(i<0){
+					i=0;
+				}
+				done = true;
+				for(var t = 0; t < i; t++){
+					//console.log(t + 'tttttttttttttt');
+					switch(t){
+						case 0:
+							y -= $(line[t])[0].getBoundingClientRect().height/2.0
+							break;
+						default:
+							y -= (($(line[t])[0].getBoundingClientRect().height/2.0) + $(line[t-1])[0].getBoundingClientRect().height/2.0);
+					}
 				}
 			}
 		}
+		//player.play();
 	}
 	return {start,stop,seek,change};
 }
@@ -368,6 +393,6 @@ function mouseup0(id){
 	seeking =false;
 	//console.log("up")
 	player.currentTime = slider0.slider_get() + sync;
-	control_return[0]();
+	engine.seek();
 }
 

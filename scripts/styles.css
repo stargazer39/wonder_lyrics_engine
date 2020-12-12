@@ -60,7 +60,7 @@
  	min-width: 100%;
  	background-image:var(--overlay-ticker);
  	z-index: 1;
- 	transition: height 100ms,width 100ms;
+ 	transition: height 200ms,width 100ms;
 }
 #display2 {
 	/*z-index:4;*/
