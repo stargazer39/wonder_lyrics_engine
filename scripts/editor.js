@@ -20,10 +20,10 @@ class LyricsLine{
 		let imageremove = $('<img>')
 		imageadd.attr('src','assets/add.svg')
 		imageremove.attr('src','assets/remove.svg')*/
-		var add_div = $('<div>').attr('class','add').html('+')
-		var rem_div = $('<div>').attr('class','remove').html('-')
-		//let edit_div = $('<div>').attr('class','edit').html('E')
-		var sel_div = $('<div>').attr('class','select').html('>')
+		//var add_div = $('<div>').attr('class','add').html('+')
+		//var rem_div = $('<div>').attr('class','remove').html('-')
+		////let edit_div = $('<div>').attr('class','edit').html('E')
+		//var sel_div = $('<div>').attr('class','select').html('>')
 		var lyr_div = $('<div>').attr('class','lyr')
 		var time_div= $('<div>')
 		time_div.attr('class','input-div')
@@ -42,7 +42,7 @@ class LyricsLine{
 				setWidth($(e.target))
 			});
 		lyr_input.on('focusout',(e)=>{
-				this.props.content = $(e.target).val()
+				this.props.content = $(e.target).attr('disabled',true).val()
 		})
 		setWidth(lyr_input)
 		setWidth(time_input)
@@ -51,11 +51,16 @@ class LyricsLine{
 
 		time_input.appendTo(time_div)
 		lyr_input.appendTo(lyr_div)
-
+		jq.contextmenu((e) =>{
+			e.preventDefault()
+			$('#context-menu').css('display','block').css('top',`${e.clientY}px`).css('left',`${e.clientX}px`)
+			console.log(this)
+			this.props.context_menu(this.jq)
+		})	
 		lyr_div.on('click',(e) => {
 			this.props.lyr_div_click(this.props.time)
 		})
-		sel_div.on('click',(e) => {
+		/*sel_div.on('click',(e) => {
 			this.props.select_div_click(this.jq)
 		})
 		add_div.on('click',(e) =>{
@@ -63,11 +68,11 @@ class LyricsLine{
 		})
 		rem_div.on('click',(e) => {
 			this.props.remove_button(this.jq)
-		})
+		})*/
 		time_input.on('focusout',(e) => {
 			this.props.focus_out_time(this.jq.index(),$(e.target).val())
 		})
-		jq.append(add_div,rem_div,sel_div,lyr_div,time_div)
+		jq.append(lyr_div,time_div)
 		this.jq = jq
 	}
 	set enableWrite(yes){
@@ -107,11 +112,26 @@ class LyricsLineProp {
 			'remove_button':removeElem,
 			'select_div_click':selectElem,
 			'lyr_div_click':seekToElem,
-			'focus_out_time':checkAndChange
+			'focus_out_time':checkAndChange,
+			'context_menu':context_menu
 		}
 	}			
 }
-
+function context_menu(elem){
+	$('#a').off("click").on('click',() =>{
+		addAfter(elem)
+		$('#context-menu').css('display','none')
+	})
+	$('#r').off("click").on('click',() =>{
+		removeElem(elem)
+		$('#context-menu').css('display','none')
+	})
+	$('#e').off("click").on('click',() =>{
+		elem.find('.lyrics_input').focus()
+		objects[elem.index()].enableWrite = true
+		$('#context-menu').css('display','none')
+	})
+}
 var parent = $('#formatted-lyrics')
 var objects = []
 var tcode_count = 0

@@ -126,3 +126,8 @@ video{
 .lyrics_input{
 	padding: 2px 15px 2px 15px;
 }
+#context-menu{
+	position: absolute;
+	background-color: red;
+	display: none;
+}
