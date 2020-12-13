@@ -32,7 +32,22 @@
 	</style>
 </head>
 <body>
-	<div id="music-title">Wonder Style</div>
+	<div id="panel-1">
+		<div id="toggle-1" class="icon">
+			<img src="assets/controls.svg">
+		</div>
+		<div id="controls">
+			<div class="icon">
+				<img src="assets/pause.svg">
+			</div>
+			<div class="icon">
+				<img src="assets/controls.svg">
+			</div>
+		</div>
+		<div id="music-title">Wonder Style</div>
+		<div id="elapsed"></div>
+		<div id="music-info"></div>
+	</div>
 	<video id="player" loop="">
 	</video>
 	<div id="player2"></div>
@@ -52,18 +67,6 @@
 	</div>
 	<div id="floating_lyr" class="noselect disnone"></div>
 	</div>
-	<div id="settings"><img style src="assets\settings.svg"></div>
-	<div id="controls">
-		<div id="play">
-			<img src="assets\play.svg">
-		</div>
-		<div id="begining">
-			<img src="assets\re.svg">
-		</div>
-		<div id="hide">
-			<img src="assets\hide.svg">
-		</div>
-	</div>
 	<div id="intro">
 		<div id="welcome" class="noselect">
 			<div style="font-size: 60px;">This is a ongoing project.</div>
@@ -76,7 +79,6 @@
 	</div>
 	<script type="text/javascript" src="scripts\jquery.min.js"></script>
 	<script type="text/javascript" src="scripts\dependencies.js"></script>
-	<script type="text/javascript" src="scripts\youtube_wrapper.js"></script>
 	<script type="text/javascript" src="scripts\localv2.js"></script>
 </body>
 </html>

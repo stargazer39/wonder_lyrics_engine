@@ -1,5 +1,5 @@
 //Begin the main programm
-var youtube = false
+var youtube = true
 var host = "localhost"
 // 2. This code loads the IFrame Player API code asynchronously.
 console.log('tag')
@@ -15,29 +15,154 @@ var engine,data;
 let song_id = parseQuery('song_id',window.location.href)
 console.log(song_id)
 
-var song_data,playerNew;
-function onYouTubeIframeAPIReady() {
-	console.log('onAPI')
-	if(youtube){
-		makeRequest('GET',`http://${host}?get=lyrics&song_id=${song_id}`).then((data)=>{
-			console.log('data')
-			song_data = JSON.parse(data)
-			console.log(song_data)
-
-			playerNew = new YT.Player('player2', {
-				height: '390',
-		    	width: '640',
-		    	videoId: song_data.links.youtube,
-			    events: {
-			    	'onReady': onPlayerReady,
-			    	'onStateChange': onPlayerStateChange
-			    }
-		    });
-		})
+async function getDataReady(){
+	try{
+		let data = await makeRequest('GET',`http://${host}?get=lyrics&song_id=${song_id}`)
+		let json = JSON.parse(data)
+		console.log(json)
+		return json
+	}catch(e){
+		console.log('An Error occured while reaching the server')
+		console.log(e)
+		return false
 	}
 }
 
-var player,started = false
+async function YTAPIReady(){
+	return new Promise((resolve,reject) =>{
+		var timeout = false
+		var t = setTimeout(()=>{ timeout = true; reject(false)}, 30000);
+		window.onYouTubeIframeAPIReady = () =>{
+			if(!timeout){
+				clearTimeout(t)
+				resolve(YT)
+			}
+		}
+	})
+}
+
+var song_data,playerNew,player,started = false;
+async function BeginMain(){
+	var song_data = await getDataReady();
+	if(!youtube){
+		console.log("Youtube Version :" + youtube)
+		$('#player2').hide()
+		player = document.getElementById('player');
+		var source = document.createElement('source');
+		source.setAttribute('src',song_data.links.local);
+		player.appendChild(source);
+		player.load()
+		player.oncanplay = () =>{
+			if(!started){
+				hajimeruso(song_data)
+				started = true
+			}
+		}
+	}else{
+		console.log("Youtube Version :" + youtube)
+		var YT = await YTAPIReady()
+		var playerNew = new YT.Player('player2', {
+			height: '390',
+	    	width: '640',
+	    	videoId: song_data.links.youtube,
+		    events: {
+		    	'onReady': onPlayerReady,
+		    	'onStateChange': onPlayerStateChange
+		    }
+	    });
+	    function onPlayerReady(){
+	    	console.log('onPlayerReady')
+	    	player = {
+				oncanplay:"",
+				event_blocker:[],
+				triggers:[],
+				addEventListener(t,call){
+					this.triggers.push({
+					'trigger':t,
+					'callback':call
+					})
+				},
+				get duration(){
+					return playerNew.getDuration()
+				},
+				get currentTime(){
+					return playerNew.getCurrentTime()
+				},
+				get paused(){
+					switch(playerNew.getPlayerState()){
+						case 0:
+						case 5:
+						case 2:
+							return true;
+							break;
+						case 1:
+							return false;
+					}
+				},
+				set currentTime(val){
+					playerNew.seekTo(val,true)
+				},
+				set oncanplay_(callback){
+					this.oncanplay = callback
+				},
+				event(t){
+					if(!this.event_blocker.includes(t)){
+						for(let tri of this.triggers){
+							if(tri.trigger == t) {tri.callback()};
+						}
+					}
+			          /*console.log(this.event_blocker.includes(t))
+			          this.triggers[0].callback()*/
+				},
+				play(){
+					playerNew.playVideo()
+				},
+				pause(){
+					playerNew.pauseVideo()
+				}
+			}
+			hajimeruso(song_data)
+	    }
+		
+		function onPlayerStateChange(){
+			console.log('changed' + playerNew.getPlayerState())
+			switch(playerNew.getPlayerState()){
+				case 1:
+					player.event("play")
+					player.event("seeked")
+		        	break;
+		        //If player state changed by any(other) means
+		        case 2:
+		        	player.event("pause")
+		        	break;
+		        case 5:
+		        case 0:
+		        	player.event("ended")
+		        	break;
+
+			}
+		}
+	}
+}
+BeginMain()
+/*
+function onYouTubeIframeAPIReady1() {
+	console.log('onAPI')
+	if(youtube){
+		song_data = getDataReady()
+		playerNew = new YT.Player('player2', {
+			height: '390',
+	    	width: '640',
+	    	videoId: song_data.links.youtube,
+		    events: {
+		    	'onReady': onPlayerReady,
+		    	'onStateChange': onPlayerStateChange
+		    }
+	    });
+	}
+}
+
+
 if(youtube){
 	player = {
 		oncanplay:"",
@@ -78,8 +203,6 @@ if(youtube){
 					if(tri.trigger == t) {tri.callback()};
 				}
 			}
-	          /*console.log(this.event_blocker.includes(t))
-	          this.triggers[0].callback()*/
 		},
 		play(){
 			playerNew.playVideo()
@@ -89,11 +212,10 @@ if(youtube){
 		}
 	}
 }else{
-	makeRequest('GET',`http://${host}?get=lyrics&song_id=${song_id}`).then((data)=>{
+	makeRequest('GET',`http://${host}?get=lyrics&song_id=${song_id}`).then(async (data)=>{
 		console.log('data')
 		song_data = JSON.parse(data)
 		console.log(song_data)
-
 		player = document.getElementById('player');
 		var source = document.createElement('source');
 		source.setAttribute('src',song_data.links.local);
@@ -107,8 +229,8 @@ if(youtube){
 		}
 	})
 }
-
-
+*/
+/*
 function onPlayerReady(event){
 	if(youtube){
 		hajimeruso(song_data)
@@ -133,10 +255,11 @@ function onPlayerStateChange(e){
 
 	}
 }
-
+*/
 function hajimeruso(song_data){
 	console.log('ppt');
 	if(song_data){
+		$('#music-info').html(`${ObjIncludes(song_data.song_info,'names')[0] || "Unknown"} Ft.${ObjIncludes(song_data.song_info,'singers')[0] || "Unknown Singer"} | Song by : ${ObjIncludes(song_data.song_info,'artists')[0] || "Unknown Artist"}`)
 		console.log('pp');
 	   	slider0 = new Slider("element0",{ 
 					'min' : 0,
@@ -203,13 +326,20 @@ var startshow = $('#startshow');
 var playalt = $(".playalt");
 
 //Animation for controls
-var settings = $('#settings');
-var controls = $('#controls');
+$('#toggle-1,#controls').on('mouseover',()=>{
+	$('#controls').css('width','140px')
+})
+$('#toggle-1,#controls').on('mouseleave',()=>{
+	$('#controls').css('width','0')
+})
+//var settings = $('#settings');
+//var controls = $('#controls');
 var title = $('#music-title')
+var elapsed = $('#elapsed')
 //Control Panel lol
-controls.mouseout(function(){ controls.removeClass("anisettings")});
-controls.mouseover(function(){ controls.addClass("anisettings")});
-settings.mouseover(function(){ controls.addClass("anisettings")});
+//controls.mouseout(function(){ controls.removeClass("anisettings")});
+//controls.mouseover(function(){ controls.addClass("anisettings")});
+//settings.mouseover(function(){ controls.addClass("anisettings")});
 
 //Ainmation
 var begin = false;
@@ -275,7 +405,7 @@ function playerBegin(lang_main,lang_second,time,sync) {
 	line = $(".line");
 	ticker = $("#lyrics-ticker")
 	function update() {
-		title.html('Wonder Style  ' + player.currentTime)
+		elapsed.html(player.currentTime.toFixed(4))
 		if(!seeking && (Math.floor(player.currentTime + sync)%2) == k){
 			slider0.slider_update(player.currentTime + sync);
 			k = (k==0) ? 1 : 0; 

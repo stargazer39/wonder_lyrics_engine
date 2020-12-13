@@ -81,45 +81,51 @@
 	position: fixed;
 	background-color: white;
 }
-#music-title{
-	height: 70px;
+#panel-1{
 	top: 0;
 	position: fixed;
-	left:70px;
+	display: flex;
+	left:0;
 	z-index: 101;
 	background-color: black;
 	color: white;
 	font-family: 'Teko', sans-serif;
 	font-size: 30px;
+}
+#music-title,#elapsed,#music-info{
+	height: 70px;
 	padding: 15px 20px 20px 20px;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-#settings >img {
-	max-width: 100%;
-	max-height: 100%;
-	padding: 8px;
-	position: absolute;
+#elapsed{
+	width:200px;
 }
-#controls{
-	position: fixed;
-	background-color: white;
-	top: 0;
-	left:0;
-	z-index: 102;
-	transform: translate(-70px);
-	transition: transform 500ms;
-}
-#controls > div{
+.icon{
 	width: 70px;
 	height: 70px;
-	background-color: white;
 }
-#controls img{
+.icon > img{
+	position: relative;
+	padding: 5px;
 	max-width: 100%;
 	max-height: 100%;
-	padding: 8px;
-	position: absolute;
+	top:50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
 }
-
+#controls{
+	display: flex;
+	/*flex: 1;
+	white-space: nowrap;*/
+	overflow: hidden;
+	width: 0px;
+	transition: width 700ms;
+}
+#controls > div{
+	min-width: 70px;
+}
 .anisettings{
 	transform: translate(0) !important;
 }

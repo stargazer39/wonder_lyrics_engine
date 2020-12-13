@@ -1,3 +1,4 @@
+"use strict";
 $.fn.textWidth = function(text, font) {
     if (!$.fn.textWidth.fakeEl) $.fn.textWidth.fakeEl = $('<span>').hide().appendTo(document.body);
     $.fn.textWidth.fakeEl.text(text || this.val() || this.text()).css('font', font || this.css('font'));
@@ -5,7 +6,7 @@ $.fn.textWidth = function(text, font) {
 };
 
 function setWidth(elem){
-	extra_w = $("<input class='props.time'>").html('00').textWidth()
+	let extra_w = $("<input class='props.time'>").html('0000').textWidth()
 	//console.log(elem.textWidth() + extra_w)
 	elem.css('width',elem.textWidth() + extra_w + "px")
 }
@@ -16,25 +17,18 @@ class LyricsLine{
 
 		var jq = $('<div>').attr('class','lyr-line');
 		var time_input
-		/*let imageadd = $('<img>')
-		let imageremove = $('<img>')
-		imageadd.attr('src','assets/add.svg')
-		imageremove.attr('src','assets/remove.svg')*/
-		//var add_div = $('<div>').attr('class','add').html('+')
-		//var rem_div = $('<div>').attr('class','remove').html('-')
-		////let edit_div = $('<div>').attr('class','edit').html('E')
-		//var sel_div = $('<div>').attr('class','select').html('>')
+		var mask_div = $('<div>').addClass('mask')
 		var lyr_div = $('<div>').attr('class','lyr')
 		var time_div= $('<div>')
-		time_div.attr('class','input-div')
+		time_div.attr('class','time_div')
 		time_div.on('input',(e) => {
 				setWidth($(e.target))
 		});
-		var time_input = $('<input type="text">').attr('class','time')
+		var time_input = $('<input type="text">').attr('class','time_input').attr('disabled',true)
 		if(typeof(props.time) == "number"){
-			time_input.val(" " + props.time).css('display','inline-block')
+			time_input.val(" " + props.time).show()
 		}else{
-			time_input.css('display','none')
+			time_input.hide()
 		}
 
 		let lyr_input = $('<input type="text">').attr('disabled',true).attr('class','lyrics_input').val(props.content)
@@ -42,56 +36,56 @@ class LyricsLine{
 				setWidth($(e.target))
 			});
 		lyr_input.on('focusout',(e)=>{
-				this.props.content = $(e.target).attr('disabled',true).val()
+			this.enableWrite = false
+				//this.props.content = $(e.target).attr('disabled',true).val()
+				this.jq.find('.mask').show()
+		})
+		time_input.on('focusout',(e)=>{
+			this.enableWrite = false
+				//this.props.content = $(e.target).attr('disabled',true).val()
+				this.jq.find('.mask').show()
 		})
 		setWidth(lyr_input)
 		setWidth(time_input)
-		/*imageadd.appendTo(add_div)
-		imageremove.appendTo(span)*/
 
 		time_input.appendTo(time_div)
 		lyr_input.appendTo(lyr_div)
-		jq.contextmenu((e) =>{
+		mask_div.contextmenu((e) =>{
 			e.preventDefault()
-			$('#context-menu').css('display','block').css('top',`${e.clientY}px`).css('left',`${e.clientX}px`)
+			$('#context-menu').show().css('top',`${e.clientY}px`).css('left',`${e.clientX}px`)
 			console.log(this)
 			this.props.context_menu(this.jq)
 		})	
-		lyr_div.on('click',(e) => {
+		mask_div.on("click",()=>{
 			this.props.lyr_div_click(this.props.time)
 		})
-		/*sel_div.on('click',(e) => {
-			this.props.select_div_click(this.jq)
-		})
-		add_div.on('click',(e) =>{
-			this.props.add_button(this.jq)
-		})
-		rem_div.on('click',(e) => {
-			this.props.remove_button(this.jq)
+		/*lyr_div.on('click',(e) => {
+			this.props.lyr_div_click(this.props.time)
 		})*/
+
 		time_input.on('focusout',(e) => {
 			this.props.focus_out_time(this.jq.index(),$(e.target).val())
 		})
-		jq.append(lyr_div,time_div)
+		jq.append(lyr_div,time_div,mask_div)
 		this.jq = jq
 	}
 	set enableWrite(yes){
 		if(yes){
-			this.jq.find('.lyrics_input').removeAttr('disabled')
+			this.jq.find('.lyrics_input,.time_input').removeAttr('disabled')
 		}else{
-			this.jq.find('.lyrics_input').attr('disabled',true)
+			this.jq.find('.lyrics_input,.time_input').attr('disabled',true)
 		}
 	}
 	set time(value){
 		this.props.time = value
-		let time_div = this.jq.find('.time')
+		let time_input = this.jq.find('.time_input')
 		if(typeof(value) != "number"){
-			time_div.css('display','none').val(" ")
+			time_input.hide().val(" ")
 			this.props.time = false
 		}else{
-			time_div.css('display','inline-block').val(" " + value)
+			time_input.show().val(" " + value)
 		}
-		setWidth(time_div)
+		setWidth(time_input)
 	}
 	set hideControls(yes){
 		if(yes){
@@ -108,28 +102,29 @@ class LyricsLineProp {
 		return {
 			'content':content,
 			'time':time,
-			'add_button':addAfter,
-			'remove_button':removeElem,
-			'select_div_click':selectElem,
 			'lyr_div_click':seekToElem,
 			'focus_out_time':checkAndChange,
 			'context_menu':context_menu
 		}
 	}			
 }
+$('#context-menu').on('mouseleave',(e)=>{
+	$('#context-menu').hide()
+})
 function context_menu(elem){
 	$('#a').off("click").on('click',() =>{
 		addAfter(elem)
-		$('#context-menu').css('display','none')
+		$('#context-menu').hide()
 	})
 	$('#r').off("click").on('click',() =>{
 		removeElem(elem)
-		$('#context-menu').css('display','none')
+		$('#context-menu').hide()
 	})
 	$('#e').off("click").on('click',() =>{
 		elem.find('.lyrics_input').focus()
+		elem.find('.mask').hide()
 		objects[elem.index()].enableWrite = true
-		$('#context-menu').css('display','none')
+		$('#context-menu').hide()
 	})
 }
 var parent = $('#formatted-lyrics')
@@ -278,9 +273,11 @@ function nextApply(){
 	}
 }
 function undoNextApply(){
-	objects[timecode.length - 1].time = false
-	timecode.pop(timecode.length - 1)
-	if(current != 0) current--;
+	if(current != 0){
+		objects[timecode.length - 1].time = false
+		timecode.pop(timecode.length - 1)
+		current--;
+	}
 }
 $('#undoapply').on('click',()=>{
 	undoNextApply()

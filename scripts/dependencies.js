@@ -1,3 +1,6 @@
+function ObjIncludes(obj,key){
+	return (Object.keys(obj).includes(key)) ? obj[key] : false
+}
 function makeRequest(method, url) {
   return new Promise(function (resolve, reject) {
     var xhr = new XMLHttpRequest();
