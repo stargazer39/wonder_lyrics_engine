@@ -47,7 +47,7 @@ async function Main(){
 		let s = new Song({
 			"singer":song.singers[0],
 			"title":song.names[0],
-			"link":"wonderplay - normalv2.html?song_id=" + song._id,
+			"link":"wonderplay - player.html?song_id=" + song._id,
 			"ytid":song.links.youtube
 		})
 		s.appendTo(song_container)
