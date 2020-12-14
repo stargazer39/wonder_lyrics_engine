@@ -2,7 +2,6 @@
 var youtube = false
 var host = "localhost"
 var instance = $.fn.deviceDetector;
-console.log(instance.getInfo())
 // 2. This code loads the IFrame Player API code asynchronously.
 console.log('tag')
 if(youtube){
@@ -51,15 +50,20 @@ async function YTAPIReady(){
 	})
 }
 
-var song_data,playerNew,player,started = false;
+var song_data,playerNew,player,stat,started = false;
 async function BeginMain(){
+	stat = $('#waiting')
+	console.log(stat)
+	stat.html(`Waiting for W-L-E server`)
 	try{
-		var song_data = await getDataReady();
+		song_data = await getDataReady();
 	}catch (e){
 		console.log(e)
+		stat.html(`W-L-E server could not be contracted. Tell Dehemi to fix his stuff.`)
 		throw `Node server Could not be contracted. Reqest Timeout.`
 	}
 	if(!youtube){
+		stat.html(`Waiting for HTML5 player`)
 		console.log("Youtube Version :" + youtube)
 		$('#player2').hide()
 		player = document.getElementById('player');
@@ -74,12 +78,14 @@ async function BeginMain(){
 			}
 		}
 	}else{
+		stat.html(`Waiting for YoutubeAPI`)
 		console.log("Youtube Version :" + youtube)
 		var YT
 		try{
 			YT = await YTAPIReady()
 		}catch(e){
 			console.log(e)
+			stat.html(`YoutubeAPI Could not be contracted. Reqest Timeout.`)
 			throw `YTAPI Could not be contracted. Reqest Timeout.`
 		}
 		var playerNew = new YT.Player('player2', {
@@ -166,7 +172,10 @@ async function BeginMain(){
 		}
 	}
 }
-BeginMain()
+$(document).ready(()=>{
+	BeginMain()
+})
+
 
 function hajimeruso(song_data){
 	console.log('Started');
