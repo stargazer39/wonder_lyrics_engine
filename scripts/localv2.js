@@ -235,11 +235,11 @@ var startshow = $('#startshow');
 var playalt = $(".playalt");
 
 //Animation for controls
-$('#toggle-1,#controls').on('mouseover',()=>{
-	$('#controls').css('width','140px')
+$('#main-icon,#sub-panel-1').on('mouseover',()=>{
+	$('#sub-panel-1').css('width','145px')
 })
-$('#toggle-1,#controls').on('mouseleave',()=>{
-	$('#controls').css('width','0')
+$('#main-icon,#sub-panel-1').on('mouseleave',()=>{
+	$('#sub-panel-1').css('width','0')
 })
 
 var title = $('#music-title')

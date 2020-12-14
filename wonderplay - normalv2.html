@@ -32,21 +32,18 @@
 	</style>
 </head>
 <body>
-	<div id="panel-1">
-		<div id="toggle-1" class="icon">
+	<div class="panel-1">
+		<div class="icon flex-sh-0" id="main-icon">
 			<img src="assets/controls.svg">
 		</div>
-		<div id="controls">
-			<div class="icon">
-				<img src="assets/pause.svg">
-			</div>
-			<div class="icon">
-				<img src="assets/controls.svg">
-			</div>
+		<div id="sub-panel-1">
+			<div class="icon"><img src="assets/controls.svg"></div>
+			<div class="icon"><img src="assets/controls.svg"></div>
 		</div>
-		<div id="music-title">Wonder Style</div>
-		<div id="elapsed"></div>
-		<div id="music-info"></div>
+		<div class="controls"></div>
+		<div id="details-0" class="flex-sh-0">Wonder Style</div>
+		<div id="elapsed" class="flex-sh-0"></div>
+		<div id="music-info" class="flex-sh-1"></div>
 	</div>
 	<video id="player" loop="">
 	</video>
@@ -57,6 +54,7 @@
 	<div id="lyrics-ticker"></div>
 	<div class="bottom" id="bottombg">
 		<div id="display2"></div>
+		<div id="seek-pad"></div>
 	</div>
 	<div id="seekcontainer">
 		<div class="slider-container" id="element0">
@@ -67,14 +65,14 @@
 	</div>
 	<div id="floating_lyr" class="noselect disnone"></div>
 	</div>
-	<div id="intro">
-		<div id="welcome" class="noselect">
-			<div style="font-size: 60px;">This is a ongoing project.</div>
-			<div style="font-size: 40px;">Issues are expected. So help me to work this out! <br> If you notice one, open a issue here </div>
+	<div id="intro" class="dead-center">
+		<div class="noselect dead-center">
+			<div class="font-large">This is a ongoing project.</div>
+			<div class="font-medium">Issues are expected. So help me to work this out! <br> If you notice one, open a issue here </div>
 			<div style="padding-top: 2px;"><a class="github-button" href="https://github.com/stargazer39/stargazer39.github.io/issues" data-icon="octicon-issue-opened" data-size="large" aria-label="Issue stargazer39/stargazer39.github.io on GitHub">Issue</a></div>
-			<div style="font-size: 40px;">Thanks for visiting :)</div>
-			<div style="font-size: 40px;" id="waiting"> Waiting for HTML5 player</div>
-			<div style="font-size: 40px;" id="startshow">Hit Space bar or click <span class="playalt" style="cursor: pointer;text-decoration: underline;">here</span> to begin the show!</div>
+			<div class="font-medium">Thanks for visiting :)</div>
+			<div class="font-medium" id="waiting"> Waiting for HTML5 player</div>
+			<div class="font-medium" id="startshow">Hit Space bar or click <span class="playalt" style="cursor: pointer;text-decoration: underline;">here</span> to begin the show!</div>
 		<div>
 	</div>
 	<script type="text/javascript" src="scripts\jquery.min.js"></script>

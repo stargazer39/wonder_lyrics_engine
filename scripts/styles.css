@@ -66,14 +66,13 @@
 	/*z-index:4;*/
 	/*mix-blend-mode: difference;*/
 	text-shadow: 2px 2px black;
-	padding-bottom: 20px;
 	/*white-space: nowrap;*/
 }
 .fadetrans{  transition: opacity 1s; }
 .fadeout { opacity: 0 !important; }
 #settings{
-	width: 70px;
-	height: 70px;
+	width: var(--t-sizes);
+	height: var(--t-sizes);
 	top: 0;
 	left:0;
 	z-index: 101;
@@ -81,64 +80,96 @@
 	position: fixed;
 	background-color: white;
 }
-#panel-1{
-	top: 0;
+
+
+
+
+.panel-1{
 	position: fixed;
+	top: 0;
+	left: 0;
 	display: flex;
-	left:0;
-	z-index: 101;
-	background-color: black;
-	color: white;
-	font-family: 'Teko', sans-serif;
-	font-size: 30px;
-}
-#music-title,#elapsed,#music-info{
-	height: 70px;
-	padding: 15px 20px 20px 20px;
-	white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-#elapsed{
-	width:200px;
-}
-.icon{
-	width: 70px;
-	height: 70px;
-}
-.icon > img{
-	position: relative;
-	padding: 5px;
+	flex-wrap: wrap;
 	max-width: 100%;
-	max-height: 100%;
-	top:50%;
-	left: 50%;
-	transform: translate(-50%,-50%);
+	font-size: 30px;
+	align-items: center;
+	z-index: 100;
+	font-family: 'Teko', sans-serif;
+	font-size: 3vh;
+	color: white;
+	background-color: black;
 }
-#controls{
+.flex-sh-0{
+	flex-shrink: 0;
+}
+.flex-sh-1{
+	flex-shrink: 1;
+}
+#sub-panel-1 > div{
+	flex-shrink: 0;
+}
+#sub-panel-1{
 	display: flex;
-	/*flex: 1;
-	white-space: nowrap;*/
+	flex-shrink: 0;
 	overflow: hidden;
 	width: 0px;
-	transition: width 700ms;
+	transition: width 600ms;
 }
-#controls > div{
-	min-width: 70px;
+#music-info{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+#elapsed{
+	/*width: 120px;*/
+}
+#music-info,#elapsed,#details-0{
+	padding: 0px 20px 0px 20px;
+}
+.icon{
+	width: 8vh;
+	height: 8vh;
+	padding: 10px;
+}
+
+
+
 .anisettings{
 	transform: translate(0) !important;
 }
+#welcome{
 
+}
 #intro{
 	position: fixed;
-	right: 0;
-	bottom: 0;
 	min-width: 100%;
 	min-height: 100%;
 	background-color: black;
 	z-index: 200;
 	overflow: auto;
+}
+#intro > div {
+	position: absolute; 
+	width: 100%;
+	font-family: 'Teko', sans-serif;
+	padding:20px;
+	text-align: center;
+	color:white;
+}
+.dead-center{
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%,-50%);
+}
+.font-large{
+	font-size: 6.4vh !important;
+}
+.font-medium{
+	font-size: 4.2vh !important;
+}
+.font-small{
+	font-size: 3.2vh !important;
 }
 .introanim {
 	opacity: 0;
@@ -155,16 +186,6 @@
 	opacity: 0;
 	transition: opacity 1s;
 }
-#intro > div {
-	position: absolute; 
-	font-family: 'Teko', sans-serif;
-	text-align: center;
-	top: 50%;
-	left: 50%;
-	-webkit-transform: translate(-50%, -50%);
-	transform: translate(-50%,-50%);
-	color:white;
-}
 #startshow{
 	opacity: 0;
 }
@@ -176,7 +197,12 @@
     bottom: 0;
     z-index: 100;
     text-align: center;
+    min-height: 30px;
     width: 100%;
+    padding: 10px;
+}
+#seek-pad{
+	height: 30px;
 }
 #element0{
 	width: 80vw;
@@ -213,6 +239,7 @@
 :root{
 	--overlay-ticker:linear-gradient(to right,#9C27B0, #ff0052);
 	--big-overlay:linear-gradient(#9C27B0, #ff0052);
+	--i-size:9.5vh;
 }
 @media screen and (max-aspect-ratio: 3/4) {
   #lyrics{

@@ -2,6 +2,8 @@
 <html>
 <head>
 	<title>Hey.. :)</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link 
 	 as="style"
@@ -16,18 +18,20 @@
 			box-sizing: border-box;
 		}
 		body{
-			background-color: black;
+			background-color: #2e2e2e;
 		}
 		#song-container{
-			display: flex;
+			/*display: flex;*/
 			flex-wrap: wrap;
 			justify-content: center;
-			background-color:rgb(73 73 73);
+			background-color:rgb(247 1 165);
 			padding: 10px;
+			padding: 0px 10px 50px 10px;
+			transition: height 1000ms,width 1000ms;
 		}
 		.song{
 			width:320px;
-			height:220px;
+			height:230px;
 			background-color: black;
 			margin: 10px;
 			/*z-index: 0;*/
@@ -42,21 +46,21 @@
 			transform: scale(1.05) !important;
 		}
 		.song:hover > .song-background{
-			transform: scale(1.2) !important;
+			transform: scale(1.55) !important;
 		}
 		.song-details{
 			/*height: 100%;*/
 			color: white;
 			/*padding:40px;*/
-			height: 40px;
+			height: 50px;
 			width: 100%;
 			font-family: heisei-kaku-gothic-std, sans-serif;
 			font-size: 15px;
-			padding: 5px;
+			padding: 10px;
 			z-index: 0;
 			position: absolute;
 			text-align: center;
-			background-color: black;
+			background-color: #0000007d;
 			/*margin:0 auto;*/
 		}
 		.center{
@@ -83,7 +87,7 @@
 			padding: 10px;
 			margin-top: 20px;
 			text-align: center;
-			background-color:rgb(73 73 73);
+			background-color:rgb(195 71 178);
 			font-weight: 500;
 		}
 		.sub-title{
@@ -93,7 +97,7 @@
 			padding: 10px;
 			padding-left: 30px;
 			margin-top: 20px;
-			background-color:rgb(73 73 73);
+			background-color:rgb(33 153 195);
 		}
 		.bottom{
 			font-size: 20px;
@@ -108,15 +112,36 @@
 			font-weight: 300;
 
 		}
+		#status{
+			width:90%;
+			height: 300px;
+			position: relative;
+			background-color: black;
+			color: white;
+			font-size: 200%;
+			font-family: 'Teko', sans-serif;
+			color: white;
+			text-align: center;
+			margin: auto;
+			overflow: hidden;
+			transition: width 1000ms;
+		}
+		#status > div {
+			position: relative;
+			top:50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			padding: 50px;
+			/*transition: width 100ms;*/
+			white-space: nowrap;
+		}
 	</style>
 </head>
 <body>
 	<div id="title">Wonder Lyrics Engine</div>
 	<div class="sub-title">Songs</div>
 	<div id="song-container">
-		<div class="song">
-			<div class="song-background"></div>
-		</div>
+		<div id="status"><div> Waiting For W-L-E Server</div></div>
 	</div>
 	<div class="bottom">Built form groud 0 using jquery, on UNREGISTERED Sublime Text ;) </div>
 	<script type="text/javascript" src="scripts/dependencies.js"></script>
@@ -131,17 +156,12 @@
 				let titlediv = $('<div>')
 				let bacgrounddiv=$('<div>')
 
-				//titlediv.html(song.title)
-				//singerdiv.html(song.singer)
 
 				bacgrounddiv.css('background-image','url(https://img.youtube.com/vi/' + song.ytid + '/0.jpg)')
 				bacgrounddiv.addClass('song-background')
 				songdiv.addClass('song')
 				detailsdiv.addClass('song-details')
-				//titlediv.addClass('center')
-
-				//singerdiv.appendTo(detailsdiv)
-				//titlediv.appendTo(detailsdiv)
+				
 				detailsdiv.html(`${song.title} ft.${song.singer}`)
 				bacgrounddiv.appendTo(songdiv)
 				detailsdiv.appendTo(songdiv)
@@ -156,13 +176,18 @@
 		async function Main(){
 			var song_container = $('#song-container')
 			var all_songs = await makeRequest('GET','http://localhost?get=all_songs')
+			await sleep(100)
+			$('#status').css('width','0')
+			await sleep(1100)
+			$('#status').hide()
+			$('#song-container').css('display','flex')
 			all_songs = JSON.parse(all_songs)
 			//var songs = [{'singer' : 'Hatsune Miku', 'title' : 'Wonder Style','link':'wonderplay - normal.html','ytid' : '1s8NNPgdl5g'},{'singer' : 'Hatsune Miku', 'title' : 'The World','link':'wonderplay - normal.html','ytid' : 'yb8WuMVGLBM'},{'singer' : 'Hatsune Miku', 'title' : 'Hand in Hand','link':'wonderplay - normal.html','ytid' : '9SKA6PmcLuQ'}]
 			for(let song of all_songs){
 				let s = new Song({
 					"singer":song.singers[0],
 					"title":song.names[0],
-					"link":"wonderplay - normal.html?song_id=" + song._id,
+					"link":"wonderplay - normalv2.html?song_id=" + song._id,
 					"ytid":song.links.youtube
 				})
 				s.appendTo(song_container)
@@ -171,10 +196,6 @@
 				await sleep(150)
 				console.log($($('.song')[i]).addClass('state1'))
 			}
-			/*$.each($('.song'),async function(index,item){
-				await sleep(150)
-				$(item).addClass('state1')
-			})*/
 		}
 		Main()
 	</script>
