@@ -304,6 +304,9 @@ function playerBegin(args) {
 	var floating_down = false;
 	var floating_offset = [0,0];
 
+	if(!ObjIncludes(args,'primary')) throw `primary langguage not defined`;
+	if(!ObjIncludes(args,'secondery')) args.secondery = [];
+
 	floating.on('mousedown',function(e){
 		console.log(e);
 		floating_down = true;
@@ -340,36 +343,37 @@ function playerBegin(args) {
 			wholepage.addClass("fadeout");
 		}
 		if(args.timecode[i] < player.currentTime + sync && player.currentTime + sync < args.timecode[i+1]){
-			let line_now = $(line[i]);
-			let line_before = $(line[i-1])
-
-			line.removeClass('line_style')
-			if(!line_now.html()){
-				wholepage.addClass("fadeout");
-			}else{
-				wholepage.removeClass("fadeout");
-				ticker.css('height',`${line_now[0].getBoundingClientRect().height}px`)
-			}
-
-			switch(i){
-				case 0:
-					y -= line_now[0].getBoundingClientRect().height/2.0
-					break;
-				default:
-					y -= ((line_now[0].getBoundingClientRect().height/2.0) + line_before[0].getBoundingClientRect().height/2.0);
-			}
-			console.log()
-			display.css("transform","translate(-50%," + y + "px)");
-			
-			//second feature
-			floating.html(args.primary[i]);
-
-			display2.html(args.secondery[i]);
+			UpdateDisplay(i,args.primary[i],args.secondery[i])
 			console.log(`At ${player.currentTime + sync}, ${i} Played. Expected: ${args.timecode[i+1] || "End"}. Total Length: ${y}\n`);
 			i++;
 		}
 	}
 
+	function UpdateDisplay(index,primary,secondery){
+		let line_now = $(line[index]);
+		let line_before = $(line[index-1])
+
+		if(!line_now.html()){
+			wholepage.addClass("fadeout");
+		}else{
+			wholepage.removeClass("fadeout");
+			ticker.css('height',`${line_now.mySHeight()}px`)
+		}
+
+		switch(i){
+			case 0:
+				y -= line_now.mySHeight()/2.0
+				break;
+			default:
+				let before = (line_before[0]) ? line_before.mySHeight()/2.0 : 0
+				y -= ((line_now.mySHeight()/2.0) + before);
+		}
+		display.css("transform","translate(-50%," + y + "px)");
+		
+		//second feature
+		if(primary) floating.html(primary);
+		if(secondery) display2.html(secondery);
+	}
 	var updater;
 	var interval = true;
 	var start,stop,seek;
