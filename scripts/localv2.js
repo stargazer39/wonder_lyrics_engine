@@ -1,6 +1,8 @@
 //Begin the main programm
 var youtube = false
 var host = "localhost"
+var instance = $.fn.deviceDetector;
+console.log(instance.getInfo())
 // 2. This code loads the IFrame Player API code asynchronously.
 console.log('tag')
 if(youtube){
@@ -235,9 +237,24 @@ var startshow = $('#startshow');
 var playalt = $(".playalt");
 
 //Animation for controls
-$('#main-icon,#sub-panel-1').on('mouseover',()=>{
-	$('#sub-panel-1').css('width','145px')
+$('#main-icon,#sub-panel-1').on('mouseover touchend',()=>{
+	var width = 0;
+	$.each($('#sub-panel-1').children(),(index,value) =>{
+		width += $(value).mySWidth()
+	})
+	$('#sub-panel-1').css('width',width)
 })
+
+if(instance.getInfo().mobile){
+	var touchTimer
+	$('#main-icon,#sub-panel-1').on('touchend',()=>{
+		if(touchTimer) clearInterval(touchTimer)
+		touchTimer = setTimeout(()=>{
+			$('#sub-panel-1').css('width','0')
+		},5000)
+	})
+}
+
 $('#main-icon,#sub-panel-1').on('mouseleave',()=>{
 	$('#sub-panel-1').css('width','0')
 })

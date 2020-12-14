@@ -1,3 +1,10 @@
+$.mobileDevice = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()));
+$.fn.mySHeight = function(){
+	return this[0].getBoundingClientRect().height
+};
+$.fn.mySWidth = function(){
+	return this[0].getBoundingClientRect().width
+};
 function ObjIncludes(obj,key){
 	return (Object.keys(obj).includes(key)) ? obj[key] : false
 }

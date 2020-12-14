@@ -97,7 +97,8 @@
 	font-family: 'Teko', sans-serif;
 	font-size: 3vh;
 	color: white;
-	background-color: black;
+	background-color: #000000ab;
+	backdrop-filter: blur(2px);
 }
 .flex-sh-0{
 	flex-shrink: 0;
@@ -121,7 +122,7 @@
   text-overflow: ellipsis;
 }
 #elapsed{
-	/*width: 120px;*/
+	width: 160px;
 }
 #music-info,#elapsed,#details-0{
 	padding: 0px 20px 0px 20px;
