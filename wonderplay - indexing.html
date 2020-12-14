@@ -174,8 +174,16 @@
 		}
 
 		async function Main(){
+			var host = "https://wle-server.herokuapp.com/"
 			var song_container = $('#song-container')
-			var all_songs = await makeRequest('GET','http://localhost?get=all_songs')
+			var all_songs
+			try{
+				all_songs = await makeRequest('GET',`${host}?get=all_songs`)
+			}catch{
+				$('#status > div').html(`Server didn't respond. Please try again.`)
+				throw `Server didn't respond`
+			}
+			
 			await sleep(100)
 			$('#status').css('width','0')
 			await sleep(1100)
@@ -194,7 +202,7 @@
 			}
 			for(let i = 0; i < $('.song').length; i++){
 				await sleep(150)
-				console.log($($('.song')[i]).addClass('state1'))
+				$($('.song')[i]).addClass('state1')
 			}
 		}
 		Main()

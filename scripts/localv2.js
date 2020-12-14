@@ -1,6 +1,6 @@
 //Begin the main programm
 var youtube = false
-var host = "localhost"
+var host = "https://wle-server.herokuapp.com/"
 var instance = $.fn.deviceDetector;
 // 2. This code loads the IFrame Player API code asynchronously.
 console.log('tag')
@@ -17,16 +17,10 @@ let song_id = parseQuery('song_id',window.location.href)
 console.log(song_id)
 
 async function getDataReady(){
-	try{
-		let data = await makeRequest('GET',`http://${host}?get=lyrics&song_id=${song_id}`)
+		let data = await makeRequest('GET',`${host}?get=lyrics&song_id=${song_id}`)
 		let json = JSON.parse(data)
 		console.log(json)
 		return json
-	}catch(e){
-		console.log('An Error occured while reaching the server')
-		console.log(e)
-		return false
-	}
 }
 
 var YoutubeAPI
@@ -61,6 +55,10 @@ async function BeginMain(){
 		console.log(e)
 		stat.html(`W-L-E server could not be contracted. Tell Dehemi to fix his stuff.`)
 		throw `Node server Could not be contracted. Reqest Timeout.`
+	}
+	if(!song_data){
+		stat.html(`Something went wrong. Wrong song id?`)
+		throw `Something went wrong. Wrong song id?`
 	}
 	if(!youtube){
 		stat.html(`Waiting for HTML5 player`)
@@ -343,13 +341,13 @@ function playerBegin(args) {
 			wholepage.addClass("fadeout");
 		}
 		if(args.timecode[i] < player.currentTime + sync && player.currentTime + sync < args.timecode[i+1]){
-			UpdateDisplay(i,args.primary[i],args.secondery[i])
+			updateDisplay(i,args.primary[i],args.secondery[i])
 			console.log(`At ${player.currentTime + sync}, ${i} Played. Expected: ${args.timecode[i+1] || "End"}. Total Length: ${y}\n`);
 			i++;
 		}
 	}
 
-	function UpdateDisplay(index,primary,secondery){
+	function updateDisplay(index,primary,secondery){
 		let line_now = $(line[index]);
 		let line_before = $(line[index-1])
 
@@ -371,7 +369,6 @@ function playerBegin(args) {
 		display.css("transform","translate(-50%," + y + "px)");
 		
 		//second feature
-		if(primary) floating.html(primary);
 		if(secondery) display2.html(secondery);
 	}
 	var updater;
