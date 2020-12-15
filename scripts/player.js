@@ -396,6 +396,9 @@ function playerBegin(args) {
 		i = 0;
 		var j = 0;		
 		args.timecode.forEach(check);
+		let line_now = $(line[i]);
+		ticker.css('height',`${line_now.mySHeight()}px`)
+		display.css("transform","translate(-50%," + y + "px)");
 		/*while(true){
 			if(j == args.primary.length + 1){
 				break;
