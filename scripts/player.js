@@ -1,5 +1,5 @@
 //Begin the main programm
-var youtube = false
+var youtube = true
 var host = "https://wle-server.herokuapp.com/"
 var instance = $.fn.deviceDetector;
 // 2. This code loads the IFrame Player API code asynchronously.
@@ -109,13 +109,13 @@ async function BeginMain(){
 					})
 				},
 				get duration(){
-					return playerNew.getDuration()
+					return this.YTplayer.getDuration()
 				},
 				get currentTime(){
-					return playerNew.getCurrentTime()
+					return this.YTplayer.getCurrentTime()
 				},
 				get paused(){
-					switch(playerNew.getPlayerState()){
+					switch(this.YTplayer.getPlayerState()){
 						case 0:
 						case 5:
 						case 2:
