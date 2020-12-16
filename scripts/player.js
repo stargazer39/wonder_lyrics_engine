@@ -116,6 +116,8 @@ async function BeginMain(){
 				},
 				get paused(){
 					switch(this.YTplayer.getPlayerState()){
+						case -1:
+						case 3:
 						case 0:
 						case 5:
 						case 2:
@@ -147,6 +149,17 @@ async function BeginMain(){
 					this.YTplayer.pauseVideo()
 				}
 			}
+			function YTscale(){
+				let v_ratio = song_data.links.yt_dimen[0]/song_data.links.yt_dimen[1]
+				let d_ratio = $(window).width()/$(window).height()
+				console.log(v_ratio + " " + d_ratio)
+				let scale = (v_ratio >= d_ratio) ? v_ratio/d_ratio : d_ratio/v_ratio
+				$('#player2').css('transform','scale('+ scale +')')
+			}
+			$(window).on('resize',()=>{
+				YTscale()
+			})
+			YTscale()
 			hajimeruso(song_data)
 	    }
 		
