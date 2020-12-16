@@ -32,12 +32,12 @@ async function Main(){
 	try{
 		all_songs = await makeRequest('GET',`${host}?get=all_songs`)
 	}catch{
-		$('#status > div').html(`Server didn't respond. Please try again.`)
+		$('#status').html(`Server didn't respond. Please try again.`)
 		throw `Server didn't respond`
 	}
 	
 	await sleep(100)
-	$('#status').css('width','0')
+	$('#status').css({'width':'0','opacity':'0'})
 	await sleep(1100)
 	$('#status').hide()
 	$('#song-container').css('display','flex')

@@ -11,137 +11,15 @@
 	 href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&family=Teko:wght@300;400;500;600&display=swap" 
 	 type="text/css" 
 	 crossorigin="anonymous" />
-	 
-	<script type="text/javascript" src="scripts/jquery.min.js"></script>
-	<style type="text/css">
-		*{
-			box-sizing: border-box;
-		}
-		body{
-			background-color: #2e2e2e;
-		}
-		#song-container{
-			/*display: flex;*/
-			flex-wrap: wrap;
-			justify-content: center;
-			background-color:rgb(247 1 165);
-			padding: 10px;
-			padding: 0px 10px 50px 10px;
-			transition: height 1000ms,width 1000ms;
-		}
-		.song{
-			width:320px;
-			height:230px;
-			background-color: black;
-			margin: 10px;
-			/*z-index: 0;*/
-			overflow: hidden;
-			position: relative;
-			transition: transform 500ms,opacity 300ms;
-			transform: translate(-40px,-40px);
-			opacity: 0;
-		}
-		.song:hover{
-			transition: transform 200ms;
-			transform: scale(1.05) !important;
-		}
-		.song:hover > .song-background{
-			transform: scale(1.55) !important;
-		}
-		.song-details{
-			/*height: 100%;*/
-			color: white;
-			/*padding:40px;*/
-			height: 50px;
-			width: 100%;
-			font-family: heisei-kaku-gothic-std, sans-serif;
-			font-size: 15px;
-			padding: 10px;
-			z-index: 0;
-			position: absolute;
-			text-align: center;
-			background-color: #0000007d;
-			/*margin:0 auto;*/
-		}
-		.center{
-			text-align: center;
-		}
-		.song-background{
-			/*position: absolute;*/
-			width:320px;
-			height: 180px;
-			background-position: center;
-			background-repeat: no-repeat;
-			background-size: cover;
-			z-index: -1;
-			transition: transform 200ms;
-		}
-		.state1{
-			transform: translate(0,0) !important;
-			opacity: 1 !important;
-		}
-		#title{
-			font-size: 50px;
-			font-family: 'Teko', sans-serif;
-			color: white;
-			padding: 10px;
-			margin-top: 20px;
-			text-align: center;
-			background-color:rgb(195 71 178);
-			font-weight: 500;
-		}
-		.sub-title{
-			font-size: 40px;
-			font-family: 'Teko', sans-serif;
-			color: white;
-			padding: 10px;
-			padding-left: 30px;
-			margin-top: 20px;
-			background-color:rgb(33 153 195);
-		}
-		.bottom{
-			font-size: 20px;
-			font-family: 'Teko', sans-serif;
-			color: white;
-			text-align: center;
-			position:fixed;
-			bottom: 0;
-			width:100%;
-			padding: 10px;
-			background-color: black;
-			font-weight: 300;
 
-		}
-		#status{
-			width:90%;
-			height: 300px;
-			position: relative;
-			background-color: black;
-			color: white;
-			font-size: 200%;
-			font-family: 'Teko', sans-serif;
-			color: white;
-			text-align: center;
-			margin: auto;
-			overflow: hidden;
-			transition: width 1000ms;
-		}
-		#status > div {
-			position: relative;
-			top:50%;
-			left: 50%;
-			transform: translate(-50%,-50%);
-			padding: 50px;
-			/*transition: width 100ms;*/
-			white-space: nowrap;
-		}
-	</style>
+	<script type="text/javascript" src="scripts/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="scripts/indexer.css">
 </head>
 <body>
 	<div id="title">Wonder Lyrics Engine</div>
 	<div class="sub-title">Songs</div>
 	<div id="song-container">
-		<div id="status"><div> Waiting For W-L-E Server</div></div>
+		<div id="status">Querying Songs Collection</div>
 	</div>
 	<div class="bottom">Built form groud 0 using jquery, on UNREGISTERED Sublime Text ;) </div>
 	<script type="text/javascript" src="scripts/dependencies.js"></script>
