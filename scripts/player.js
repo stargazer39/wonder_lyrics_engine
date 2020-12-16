@@ -1,5 +1,5 @@
 //Begin the main programm
-var youtube = false
+var youtube = true
 var host = "https://wle-server.herokuapp.com/"
 var instance = $.fn.deviceDetector;
 // 2. This code loads the IFrame Player API code asynchronously.
@@ -187,6 +187,12 @@ $(document).ready(()=>{
 	BeginMain()
 })
 
+//Animation for Intro
+var intro = $('#intro');
+var waiting = $('#waiting');
+var startshow = $('#startshow');
+var playalt = $(".playalt");
+var main_play = $("#main-play")
 
 function hajimeruso(song_data){
 	console.log('Started');
@@ -219,17 +225,29 @@ function hajimeruso(song_data){
 	player.addEventListener("play",() => {
 		engine.seek()
 		engine.start()
+		mainPlay(true)
 		animation1()
 	});
 	player.addEventListener("pause",() => {
 		engine.stop()
+		mainPlay(false)
 	})
 	player.addEventListener("ended",() => {
 		console.log("ended")
 		engine.stop()
+		mainPlay(false)
 	})
 
 	playalt.on("click",function(){player.play();});
+	main_play.click(()=>{
+		if(player.paused){
+			mainPlay(true)
+			player.play()
+		}else{
+			mainPlay(false)
+			player.pause()
+		}
+	})
 	$(window).on("resize", engine.seek);
 	$(document).on('keydown', function (event) {
 	  if (event.key === ' ') {
@@ -242,19 +260,14 @@ function hajimeruso(song_data){
 	});
 }
 
+async function mainPlay(yes){
+	if(!yes){
+		main_play.css('opacity',1)
+	}else{
+		main_play.css('opacity',0)
+	}
+}
 
-
-
-
-
-
-
-
-//Animation for Intro
-var intro = $('#intro');
-var waiting = $('#waiting');
-var startshow = $('#startshow');
-var playalt = $(".playalt");
 
 //Animation for controls
 $('#main-icon,#sub-panel-1').on('mouseover touchend',()=>{
