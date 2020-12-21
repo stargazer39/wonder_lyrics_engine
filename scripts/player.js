@@ -193,20 +193,29 @@ var waiting = $('#waiting');
 var startshow = $('#startshow');
 var playalt = $(".playalt");
 var main_play = $("#main-play")
+var slider0
 
 function hajimeruso(song_data){
 	console.log('Started');
 	$('#music-info').html(`${ObjIncludes(song_data.song_info,'names')[0] || "Unknown"} Ft.${ObjIncludes(song_data.song_info,'singers')[0] || "Unknown Singer"} | Song by : ${ObjIncludes(song_data.song_info,'artists')[0] || "Unknown Artist"}`)
 	console.log('pp');
-   	slider0 = new Slider("element0",{ 
-				'min' : 0,
-				'max' : player.duration,
-				'rate' : 200,
-				 events : {
-					'mouseup':mouseup0,
-					'mousedown':mousedown0
-				},
-			});
+   	slider0 = new Slider({
+					thumb_height:'20px',
+					thumb_width:'20px',
+					slider_height:'20px',
+					slider_width:'80vw',
+					max:player.duration,
+					colors:{
+						front_color:"#00b5d8",
+						back_color:"#ff00cd",
+						thumb_color:"#000000"
+					}
+				})
+   	$('#element0').append(slider0.object)
+   	slider0.addEventListener('oninput',()=>{
+		player.currentTime = slider0.value + sync 
+		engine.seek()
+	})
    	waiting.addClass("fadeout");
 	startshow.addClass("fadein");
 	
@@ -316,7 +325,6 @@ var floating = $("#floating_lyr");
 var wholepage = $(".bottom,#lyrics,#display2,#display,#overlay,#lyrics-ticker");
 wholepage.addClass("fadeout fadetrans");
 
-var slider0;
 var control_return = [];
 var seeking = false;
 var sync = 0;
@@ -360,7 +368,7 @@ function playerBegin(args) {
 	function update() {
 		elapsed.html(player.currentTime.toFixed(4))
 		if(!seeking && (Math.floor(player.currentTime + sync)%2) == k){
-			slider0.slider_update(player.currentTime + sync);
+			slider0.value = player.currentTime + sync
 			k = (k==0) ? 1 : 0; 
 		}
 		if(player.currentTime + sync < args.timecode[0] || player.currentTime + sync > args.timecode[args.timecode.length - 1]){
@@ -470,7 +478,7 @@ function playerBegin(args) {
 	}
 	return {start,stop,seek,change};
 }
- function mousedown0(id){
+/* function mousedown0(id){
 	seeking = true;
 	//console.log("down");
 }
@@ -479,5 +487,6 @@ function mouseup0(id){
 	//console.log("up")
 	player.currentTime = slider0.slider_get() + sync;
 	engine.seek();
-}
+}*/
+
 
