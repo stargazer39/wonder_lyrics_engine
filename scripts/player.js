@@ -322,7 +322,9 @@ var display2 = $("#display2");
 //second feature
 var floating = $("#floating_lyr");
 
-var wholepage = $(".bottom,#lyrics,#display2,#display,#overlay,#lyrics-ticker");
+var masks = $("#upper-mask,#bottom-mask")
+
+var wholepage = $(".bottom,#lyrics,#display2,#display,#overlay,#lyrics-ticker,#bottom-mask,#upper-mask");
 wholepage.addClass("fadeout fadetrans");
 
 var control_return = [];
@@ -390,6 +392,7 @@ function playerBegin(args) {
 		}else{
 			wholepage.removeClass("fadeout");
 			ticker.css('height',`${line_now.mySHeight()}px`)
+			masks.css('height',`${($('#main-play').mySHeight() - line_now.mySHeight())/2.0}px`)
 		}
 
 		switch(i){
@@ -432,7 +435,8 @@ function playerBegin(args) {
 		args.timecode.forEach(check);
 		let line_now = $(line[i]);
 		ticker.css('height',`${line_now.mySHeight()}px`)
-		display.css("transform","translate(-50%," + y + "px)");
+		display.css("transform","translate(-50%," + y + "px)")
+		masks.css('height',`${($('#main-play').mySHeight() - line_now.mySHeight())/2.0}px`)
 		/*while(true){
 			if(j == args.primary.length + 1){
 				break;
