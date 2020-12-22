@@ -25,7 +25,6 @@
 	bottom:0;
 	right: 0;
 	min-width: 100%;
-	border-top: 8px solid #ff00a0;
 	transition: width 500ms,height 500ms;
 	/*min-height: 15%;*/
 	font-size:  50px;
