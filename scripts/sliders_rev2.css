@@ -1,5 +1,6 @@
 .s-wrapper{
 	position: relative;
+	cursor: pointer;
 	/*background-color: black;*/
 	height: 50px;
 	width:500px;
@@ -16,5 +17,5 @@
 	width: 55px;
 }
 .s-transition{
-	transition: all 100ms;
+	transition: all 500ms;
 }

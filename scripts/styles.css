@@ -34,6 +34,7 @@
  	-webkit-backdrop-filter: blur(10px);
 	backdrop-filter: blur(10px);
 	z-index: 3;
+	box-shadow: inset 0 0 20px 0px #01070cc4;
 }
 #lyrics {
 	 font-size:  50px;
@@ -69,7 +70,7 @@
 	left: 0;
 	width: 100%;
 	z-index: 2;
-	background-image:linear-gradient(#f818d3, #ffffff00);
+	background-image:linear-gradient(#f818d3e8, #00b5d8bf);
 	height: 100px;
 	transition: height 200ms,width 100ms;
 }
