@@ -404,6 +404,8 @@ function playerBegin(args) {
 				y -= ((line_now.mySHeight()/2.0) + before);
 		}
 		display.css("transform","translate(-50%," + y + "px)");
+		line.css('text-shadow','0px 0px white')
+		line_now.css('text-shadow','2px 2px black')
 		
 		//second feature
 		if(secondery) display2.html(secondery);

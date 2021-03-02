@@ -1,6 +1,7 @@
 class Slider{
 	constructor(args){
 		this.args = args
+		this.globalval = -1
 		console.log(args)
 		var eventFlags = {
 			thumb:false,
@@ -44,6 +45,8 @@ class Slider{
 				events.back = false
 				offset = [s_thumb.mySLeft() - s_wrapper.mySLeft(),""]
 				mouse = [e.clientX,e.clientY]
+				s_front.removeClass("s-transition")
+				s_thumb.removeClass("s-transition")
 				//console.log(e)
 			}
 		})
@@ -62,8 +65,11 @@ class Slider{
 			e.preventDefault()
 			events.back = true
 			if(eventFlags.thumb && e.button == 0){
+				this.globalval = this.getValue_()
 				doEvent("oninput")
 				events.setVal = true
+				s_front.addClass("s-transition")
+				s_thumb.addClass("s-transition")
 			}
 			eventFlags.thumb = false
 		})
@@ -71,6 +77,9 @@ class Slider{
 		s_wrapper.on('mousedown',(e)=>{
 			if(events.back){
 				e.preventDefault()
+				events.setVal = false
+				s_front.removeClass("s-transition")
+				s_thumb.removeClass("s-transition")
 				let val = e.clientX - s_wrapper.mySLeft() - (s_thumb.mySWidth()/2)
 				if(val < 0){
 					val = 0
@@ -79,9 +88,11 @@ class Slider{
 				}
 				s_thumb.css('left',val)
 				s_front.css('width',val)
-				events.setVal = false
+				this.globalval = this.getValue_();
 				doEvent("oninput")
 				events.setVal = true
+				s_front.addClass("s-transition")
+				s_thumb.addClass("s-transition")
 				console.log('down')
 			}
 		})
@@ -92,9 +103,11 @@ class Slider{
 		}
 		$(document).ready(()=>{
 			setSize()
-			/*$(window).resize(()=>{
-				setSize()
-			})*/
+			$(window).on('resize',(e)=>{
+				if(this.globalval != -1){
+					this.value = this.globalval
+				}
+			})
 		})
 
 		this.value_ = (val) =>{
@@ -131,12 +144,15 @@ class Slider{
 			}
 		}
 		s_wrapper.append(s_front,s_thumb)
+		s_front.addClass("s-transition")
+		s_thumb.addClass("s-transition")
 		this.object = s_wrapper 
 		this.events = events
 	}
 	set value(val){
 		if(this.events.setVal){
 			this.value_(val)
+			this.globalval = val
 		}
 	}
 	get value(){

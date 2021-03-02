@@ -15,8 +15,8 @@
 	bottom: 0;
 	min-width: 100%;
 	min-height: 100%;
-	/*background-color: black;*/
-	background-image: var(--big-overlay);
+	background-color: black;
+	/*background-image: var(--big-overlay);*/
 	opacity: 0.15;
 }
 .bottom{
@@ -61,6 +61,7 @@
  	background-image:var(--overlay-ticker);
  	z-index: 1;
  	transition: height 200ms,width 100ms;
+ 	opacity: 0.92;
 }
 #upper-mask{
 	position: fixed;
@@ -86,7 +87,7 @@
 	/*z-index:4;*/
 	/*mix-blend-mode: difference;*/
 	padding: 10px;
-	text-shadow: 5px 3px black;
+	text-shadow: 3px 3px black;
 	/*white-space: nowrap;*/
 }
 .fadetrans{
@@ -283,7 +284,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	backdrop-filter:blur(5px);
+	backdrop-filter: grayscale(1);
 }
 #main-play > .icon{
 	box-shadow: 0 4px 8px 0 rgb(238 236 236 / 65%), 0 6px 20px 0 rgb(255 255 255 / 66%);
