@@ -1,0 +1,132 @@
+[lyrics-romaji]
+ima kirameku koe o kasanete	
+hitotsu yume o miyou	
+tomaranai oto ni nose utau yo	
+Starry Song
+
+yoru ga hajimaru aizu o kiite	
+doa no soto e tobidashita	
+tokimeku mune ga ochitsukanai	
+soredemo ii ka na?	
+nanairo no onpu o nokosazu hiroi atsumete	
+kanaderu merodii ni	
+iro o tsukete tooku takaku uchiageru no
+ima kirameku koe o kasanete hitotsu yume o miyou	
+hitori ja mochikirenai kurai no	
+motto boryuumu o agete	
+yozora kakeru nagareboshi o	
+oinuite hibikaseru kara 
+Starry Song	
+
+surechigau hito sono hitomi ni utsuru seiza no wagamama	
+mabataite mite kietari shite	
+koko ni aru ndatte	
+manairo no onpu o nokosazu hiroi atsumete	
+kanaderu merodii o	
+ichiban kirei ni sakaseru yo kiite ite ne	
+
+ima kirameku koe o kasanete futari yume o miyou	
+itsu made mo owaranai ki ga shite	
+motto boryuumu o agete	
+yozora kakeru nagareboshi o	
+tomaranai oto ni nose utau yo 
+Starry Song	
+
+ima kirameku koe o kasanete hitotsu yume o miyou	
+mada mada samenaide itai yo	
+motto boryuumu o agete	
+yozora kakeru nagareboshi o	
+tomaranai oto ni nose utau yo 
+Starry Song	
+
+
+[lyrics-english]
+|今きらめく声を重ねて	
+|一つ夢を見よう	
+|止まらない音に乗せ 歌うよ	
+|Starry Song
+|-
+|夜が始まる合図を聞いて	
+|ドアの外へ飛び出した	
+|ときめく胸が落ち着かない	
+|それでもいいかな？	
+|七色の音符を残さず拾い集めて	
+|奏でるメロディに	
+|色をつけて 遠く高く打ち上げるの	
+|今きらめく声を重ねて 一つ夢を見よう	
+|一人じゃ持ちきれないくらいの	
+|もっとボリュームを上げて	
+|夜空駆ける流れ星を	
+|追い抜いて響かせるから 
+|Starry Song	
+|-
+|すれ違う人 その瞳に映る星座の我侭	
+|瞬いてみて 消えたりして	
+|ここにあるんだって	
+|七色の音符を残さず拾い集めて	
+|奏でるメロディを	
+|一番綺麗に咲かせるよ 聴いていてね	
+|-
+|今きらめく声を重ねて 二人夢を見よう	
+|いつまでも 終わらない気がして	
+|もっとボリュームを上げて	
+|夜空駆ける流れ星を	
+|止まらない音に乗せ 歌うよ 
+|Starry Song	
+|-
+|今きらめく声を重ねて 一つ夢を見よう	
+|まだまだ覚めないでいたいよ	
+|もっとボリュームを上げて	
+|夜空駆ける流れ星を	
+|止まらない音に乗せ 歌うよ 
+|Starry Song
+|-	
+
+[time]
+|0
+|5.565335
+|9.792549
+|14.024473
+|17.609637
+|30.748192
+|34.662817
+|38.020189
+|41.908393
+|44.455333
+|51.153474
+|55.012866
+|63.090262
+|72.539893
+|77.849234
+|81.356439
+|87.394726
+|91.608002
+|95.139011
+|108.256008
+|115.674032
+|119.592957
+|121.944495
+|128.819112
+|132.484018
+|139.695162
+|140.643585
+|150.035134
+|155.37098
+|158.357085
+|164.854798
+|169.166224
+|172.859746
+|184.968479
+|194.359562
+|199.651845
+|202.823528
+|209.049272
+|213.399152
+|219.612719
+
+
+[youtube]
+|yb8WuMVGLBM
+
+[localfile]
+|videos/01 初音ミク - Starry Song.flac

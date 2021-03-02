@@ -1,14 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Teko:wght@600&display=swap');
 * {box-sizing: border-box;}
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
 #overlay {
 	position: fixed;
 	right: 0;
 	bottom: 0;
 	min-width: 100%;
 	min-height: 100%;
-	/*background-color: black;*/
-	background-image: var(--big-overlay);
-	opacity: 0.35;
+	background-color: black;
+	/*background-image: var(--big-overlay);*/
+	opacity: 0.15;
 }
 .bottom{
 	position: fixed;
@@ -16,102 +25,190 @@
 	bottom:0;
 	right: 0;
 	min-width: 100%;
-	
+	transition: width 500ms,height 500ms;
 	/*min-height: 15%;*/
-	font-size:  7.5vmin; 
+	font-size:  50px;
  	color: white;
  	font-family: 'Teko', sans-serif;
  	text-align: center;
  	-webkit-backdrop-filter: blur(10px);
 	backdrop-filter: blur(10px);
 	z-index: 3;
+	box-shadow: inset 0 0 20px 0px #01070cc4;
 }
 #lyrics {
- font-size:  7.5vmin; 
- color: white;
- position: fixed;
- top: 50%;
- left: 50%;
- -webkit-transform: translate(-50%, 0);
- transform: translate(-50%, 0);
- text-align: center;
- font-family: 'Teko', sans-serif;
- transition: opacity 200ms,transform 200ms;
- z-index: 2;
- min-width: 100%;
- /*white-space: nowrap;*/
+	 font-size:  50px;
+	 color: white;
+	 position: fixed;
+	 top: 50%;
+	 left: 50%;
+	 -webkit-transform: translate(-50%, 0px);
+	 transform: translate(-50%, 0px);
+	 text-align: center;
+	 font-family: 'Teko', sans-serif;
+	 transition: opacity 200ms,transform 200ms;
+	 z-index: 2;
+	 min-width: 100%;
+	 padding: 0 2vw 0 2vw;
+	 /*white-space: nowrap;*/
 }
-#overlay2 {
+#lyrics-ticker{
 	position: fixed;
  	top: 50%;
  	left: 50%;
  	-webkit-transform: translate(-50%, -50%);
  	transform: translate(-50%,-50%);
- 	min-height: 72px;
  	min-width: 100%;
- 	background-color: black;
+ 	background-image:var(--overlay-ticker);
  	z-index: 1;
+ 	transition: height 200ms,width 100ms;
+ 	opacity: 0.92;
+}
+#upper-mask{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 2;
+	background-image:linear-gradient(#f818d3e8, #00b5d8bf);
+	height: 100px;
+	transition: height 200ms,width 100ms;
+}
+#bottom-mask{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	z-index: 2;
+	background-image:linear-gradient(#ffffff00, #00b5d880);
+	height: 100px;
+	transition: height 200ms,width 100ms;
 }
 #display2 {
 	/*z-index:4;*/
 	/*mix-blend-mode: difference;*/
-	text-shadow: 2px 2px black;
-	padding-bottom: 20px;
+	padding: 10px;
+	text-shadow: 3px 3px black;
 	/*white-space: nowrap;*/
 }
-.fadetrans{  transition: opacity 1s; }
-.fadeout { opacity: 0 !important; }
+.fadetrans{
+	opacity: 1; 
+}
+.fadeout{
+ 	opacity: 0 !important; 
+}
+*{
+	transition: opacity 1s;
+}
 #settings{
-	width: 70px;
-	height: 70px;
+	width: var(--t-sizes);
+	height: var(--t-sizes);
 	top: 0;
 	left:0;
 	z-index: 101;
 	transition: transform 500ms;
 	position: fixed;
-	z-index: 101;
 	background-color: white;
 }
-#settings >img {
-	max-width: 100%;
-	max-height: 100%;
-	padding: 8px;
-	position: absolute;
-}
-#controls{
+
+
+
+
+.panel-1{
 	position: fixed;
-	background-color: white;
 	top: 0;
-	left:0;
-	z-index: 102;
-	transform: translate(-70px);
-	transition: transform 500ms;
+	left: 0;
+	display: flex;
+	flex-wrap: wrap;
+	max-width: 100%;
+	font-size: 30px;
+	align-items: center;
+	z-index: 100;
+	font-family: 'Teko', sans-serif;
+	font-size: 28px;
+	color: white;
+	background-color: #000000ab;
+	backdrop-filter: blur(2px);
 }
-#controls > div{
-	width: 70px;
-	height: 70px;
-	background-color: white;
+.flex-sh-0{
+	flex-shrink: 0;
 }
-#controls img{
+.flex-sh-1{
+	flex-shrink: 1;
+}
+#sub-panel-1 > div{
+	flex-shrink: 0;
+}
+#sub-panel-1{
+	display: flex;
+	flex-shrink: 0;
+	overflow: hidden;
+	width: 0px;
+	transition: width 600ms;
+}
+#music-info{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#elapsed{
+	width: 160px;
+}
+#music-info,#elapsed,#details-0{
+	padding: 0px 20px 0px 20px;
+}
+.icon{
+	width: 75px;
+	height: 75px;
+	padding: 10px;
+	background-color: black;
+	transition: all 300ms;
+	cursor: pointer;
+}
+.icon > img{
 	max-width: 100%;
 	max-height: 100%;
-	padding: 8px;
-	position: absolute;
+}
+.icon:hover{
+	filter: invert(1);
 }
 
 .anisettings{
 	transform: translate(0) !important;
 }
+#welcome{
 
+}
 #intro{
 	position: fixed;
-	right: 0;
-	bottom: 0;
 	min-width: 100%;
 	min-height: 100%;
 	background-color: black;
 	z-index: 200;
 	overflow: auto;
+}
+#intro > div {
+	position: absolute; 
+	width: 100%;
+	font-family: 'Teko', sans-serif;
+	padding:20px;
+	text-align: center;
+	color:white;
+}
+.dead-center{
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%,-50%);
+}
+.font-large{
+	font-size: 6.4vh !important;
+}
+.font-medium{
+	font-size: 4.2vh !important;
+}
+.font-small{
+	font-size: 3.2vh !important;
 }
 .introanim {
 	opacity: 0;
@@ -128,16 +225,6 @@
 	opacity: 0;
 	transition: opacity 1s;
 }
-#intro > div {
-	position: absolute; 
-	font-family: 'Teko', sans-serif;
-	text-align: center;
-	top: 50%;
-	left: 50%;
-	-webkit-transform: translate(-50%, -50%);
-	transform: translate(-50%,-50%);
-	color:white;
-}
 #startshow{
 	opacity: 0;
 }
@@ -149,7 +236,12 @@
     bottom: 0;
     z-index: 100;
     text-align: center;
+    min-height: 30px;
     width: 100%;
+    padding: 10px;
+}
+#seek-pad{
+	height: 30px;
 }
 #element0{
 	width: 80vw;
@@ -169,18 +261,81 @@
 .line_space{
 	min-height:50px;
 }
+#floating_lyr{
+	position: fixed;
+	z-index: 100;
+	left: 100px;
+	right: 100px;
+	/*width: 100%;
+	height: 100%;*/
+	font-size:  7.5vmin; 
+	text-align: center;
+	font-family: 'Teko', sans-serif;
+	color: white;
+	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
+}
+#main-play{
+	position: fixed;
+	min-width: 100%;
+	min-height: 100%;
+	background-color: #00000054;
+	z-index: 3;
+	transition: opacity 500ms;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	backdrop-filter: grayscale(1);
+}
+#main-play > .icon{
+	box-shadow: 0 4px 8px 0 rgb(238 236 236 / 65%), 0 6px 20px 0 rgb(255 255 255 / 66%);
+}
 :root{
 	--overlay-ticker:linear-gradient(to right,#9C27B0, #ff0052);
 	--big-overlay:linear-gradient(#9C27B0, #ff0052);
+	--i-size:9.5vh;
 }
-@media screen and (max-aspect-ratio: 3/4) {
-  #lyrics{
-  	/*font-size: 30px;*/
-  }
-  #display2{
-  	/*font-size: 30px;*/
-  }
-  .line_space{
-  	/*min-height:30px;*/
-  }
+@media only screen and (max-width: 600px){
+	#lyrics,#display2{
+  		font-size: 30px;
+  	}
+  	.panel-1{
+  		font-size: 20px;
+  	}
+  	.icon {
+	    width: 50px;
+	    height: 50px;
+	}
+}
+@media only screen and (min-width: 600px){
+	#music-info,#elapsed,#details-0{
+		padding: 0px 10px 0px 10px;
+	}
+}
+@media only screen and (max-width: 768px){
+	.icon{
+  		width: 60px;
+  		height: 60px;
+  	}
+  	#music-info,#elapsed,#details-0{
+		padding: 0px 10px 0px 10px;
+	}
+}
+@media only screen and (min-width: 992px){
+
+}
+@media only screen and (min-width: 1200px){
+	.icon{
+  		width: 80px;
+  		height:80px;
+  	}
+  	.panel-1{
+  		font-size: 35px;
+  	}
+  	#lyrics,#display2{
+  		font-size: 60px;
+  	}
+  	#music-info,#elapsed,#details-0{
+		padding: 0px 20px 0px 20px;
+	}
 }

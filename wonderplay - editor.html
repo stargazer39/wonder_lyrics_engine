@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Wonder Editor</title>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link 
+	 as="style"
+	 rel="stylesheet preload prefetch" 
+	 href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&family=Teko:wght@300;400;500;600&display=swap" 
+	 type="text/css" 
+	 crossorigin="anonymous" />
+	<script type="text/javascript" src="scripts/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="scripts/editor-styles.css">
+</head>
+<body>
+	<div id="frame-1">
+		<div>
+			<video id="player" controls="">
+				<source src="videos/floating_kokoro.mp4" type="">
+			</video>
+		</div>
+	</div>
+	<div id="frame-2">
+		<div id="formatted-lyrics" class="margin-10"></div>
+		<input type="button" value="Next + Apply" id="next-apply">
+		<input type="button" value="Change" id="change">
+		<input type="button" value="Undo (Next+Apply)" id="undoapply">
+	</div>
+	<div id="frame-3">
+		<div class="title">Enter your lyrics here</div>
+		<div class="flex"><div class="margin-10">Make sure all the lines you want are broken down the way you want</div><div class="margin-10">Language : [Dropdown]</div></div>
+		<div id="lyrics-box">
+			<textarea id="lyrics"></textarea>
+			<input id="ok" type="button" value="Ok">
+		</div>
+	</div>
+	<div id="context-menu">
+		<div id="a">Add</div>
+		<div id="r">Remove</div>
+		<div id="e">Edit</div>
+	</div>
+	<script type="text/javascript" src="scripts/editor.js"></script>
+</body>
+</html>

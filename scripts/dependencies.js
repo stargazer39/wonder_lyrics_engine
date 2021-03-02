@@ -1,3 +1,13 @@
+$.mobileDevice = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()));
+$.fn.mySHeight = function(){
+	return this[0].getBoundingClientRect().height
+};
+$.fn.mySWidth = function(){
+	return this[0].getBoundingClientRect().width
+};
+function ObjIncludes(obj,key){
+	return (Object.keys(obj).includes(key)) ? obj[key] : false
+}
 function makeRequest(method, url) {
   return new Promise(function (resolve, reject) {
     var xhr = new XMLHttpRequest();
@@ -20,6 +30,15 @@ function makeRequest(method, url) {
     };
     xhr.send();
   });
+}
+
+function parseQuery( name, url ) {
+    if (!url) url = location.href;
+    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+    var regexS = "[\\?&]"+name+"=([^&#]*)";
+    var regex = new RegExp( regexS );
+    var results = regex.exec( url );
+    return results == null ? null : results[1];
 }
 
 function sleep(ms) {
@@ -80,7 +99,7 @@ function interpret(data){
 	//return displayable lyrics
 	return langr;
 }
-function process(array,seperator){
+/*function process(array,seperator){
 	console.log(Object.keys(array).length);
 	var k = 0;
 	var output = new Array();
@@ -105,4 +124,16 @@ function process(array,seperator){
 	}
 	//console.log(output);
 	return output;
+}
+*/
+function processToHTML(lines){
+	var html = []
+	for(let line of lines){
+		if(line == "-" ){
+			html.push(`<div class="line line_space"></div>`)
+		}else{
+			html.push(`<div class="line">${line}</div>`)
+		}
+	}
+	return html
 }

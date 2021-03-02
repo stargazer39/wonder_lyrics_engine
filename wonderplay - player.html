@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Wonder Style - The Lyrics Player</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="scripts/styles.css">
+	<link rel="stylesheet" href="scripts/browser.css">
+	<script async defer src="scripts/githubbuttons.js"></script>
+	<link rel="stylesheet" href="scripts\sliders_rev2.css">
+	<style type="text/css">
+		#player { 
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			-webkit-transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%);
+			min-width: 100%;
+			min-height: 100%;
+		}
+		.play{
+			z-index: 100 !important;
+		}
+		#player2{
+			height: 100vh;
+	        width: 100vw;
+	        position: fixed;
+	        top:0;
+	        left:0;
+	        transition: transform 1s;
+		}
+	</style>
+</head>
+<body>
+	<div class="panel-1">
+		<div class="icon flex-sh-0" id="main-icon">
+			<img src="assets/controls.svg">
+		</div>
+		<div id="sub-panel-1">
+			<div class="icon"><img src="assets/controls.svg"></div>
+			<div class="icon"><img src="assets/controls.svg"></div>
+		</div>
+		<div class="controls"></div>
+		<div id="details-0" class="flex-sh-0">Wonder Style</div>
+		<div id="elapsed" class="flex-sh-0"></div>
+		<div id="music-info" class="flex-sh-1"></div>
+	</div>
+	<video id="player">
+	</video>
+	<div id="player2"></div>
+	<div id="players"></div>
+	<div id="overlay"></div>
+	<div id="lyrics" class="noselect"></div>
+	<div id="main-play" class="dead-center">
+		<div class="icon"><img src="assets/play.svg"></div>
+	</div>
+	<div id="upper-mask"></div>
+	<div id="lyrics-ticker"></div>
+	<div id="bottom-mask"></div>
+	<div class="bottom" id="bottombg">
+		<div id="display2"></div>
+		<div id="seek-pad"></div>
+	</div>
+	<div id="seekcontainer">
+		<div class="slider-container" id="element0">
+		</div>
+	</div>
+	<div id="floating_lyr" class="noselect disnone"></div>
+	</div>
+	<div id="intro" class="dead-center">
+		<div class="noselect dead-center">
+			<div class="font-large">This is a ongoing project.</div>
+			<div class="font-medium">Issues are expected. So help me to work this out! <br> If you notice one, open a issue here </div>
+			<div style="padding-top: 2px;"><a class="github-button" href="https://github.com/stargazer39/stargazer39.github.io/issues" data-icon="octicon-issue-opened" data-size="large" aria-label="Issue stargazer39/stargazer39.github.io on GitHub">Issue</a></div>
+			<div class="font-medium">Thanks for visiting :)</div>
+			<div class="font-medium" id="waiting"></div>
+			<div class="font-medium" id="startshow">Hit Space bar or click <span class="playalt" style="cursor: pointer;text-decoration: underline;">here</span> to begin the show!</div>
+		<div>
+	</div>
+	<script type="text/javascript" src="scripts\jquery.min.js"></script>
+	<script src="scripts\sliders_rev2.js"></script>
+	<script type="text/javascript" src="scripts\dependencies.js"></script>
+	<script type="text/javascript" src="scripts\jquery.device.detector.min.js"></script>
+	<script type="text/javascript" src="scripts\player.js"></script>
+</body>
+</html>
