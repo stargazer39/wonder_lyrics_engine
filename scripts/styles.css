@@ -15,9 +15,9 @@
 	bottom: 0;
 	min-width: 100%;
 	min-height: 100%;
-	/*background-color: black;*/
-	background-image: var(--big-overlay);
-	opacity: 0.35;
+	background-color: black;
+	/*background-image: var(--big-overlay);*/
+	opacity: 0.15;
 }
 .bottom{
 	position: fixed;
@@ -25,18 +25,19 @@
 	bottom:0;
 	right: 0;
 	min-width: 100%;
-	
+	transition: width 500ms,height 500ms;
 	/*min-height: 15%;*/
-	font-size:  7.5vmin; 
+	font-size:  50px;
  	color: white;
  	font-family: 'Teko', sans-serif;
  	text-align: center;
  	-webkit-backdrop-filter: blur(10px);
 	backdrop-filter: blur(10px);
 	z-index: 3;
+	box-shadow: inset 0 0 20px 0px #01070cc4;
 }
 #lyrics {
-	 font-size:  7.5vmin; 
+	 font-size:  50px;
 	 color: white;
 	 position: fixed;
 	 top: 50%;
@@ -61,15 +62,44 @@
  	background-image:var(--overlay-ticker);
  	z-index: 1;
  	transition: height 200ms,width 100ms;
+ 	opacity: 0.92;
+}
+#upper-mask{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 2;
+	background-image:linear-gradient(#f818d3e8, #00b5d8bf);
+	height: 100px;
+	transition: height 200ms,width 100ms;
+}
+#bottom-mask{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	z-index: 2;
+	background-image:linear-gradient(#ffffff00, #00b5d880);
+	height: 100px;
+	transition: height 200ms,width 100ms;
 }
 #display2 {
 	/*z-index:4;*/
 	/*mix-blend-mode: difference;*/
-	text-shadow: 2px 2px black;
+	padding: 10px;
+	text-shadow: 3px 3px black;
 	/*white-space: nowrap;*/
 }
-.fadetrans{  transition: opacity 1s; }
-.fadeout { opacity: 0 !important; }
+.fadetrans{
+	opacity: 1; 
+}
+.fadeout{
+ 	opacity: 0 !important; 
+}
+*{
+	transition: opacity 1s;
+}
 #settings{
 	width: var(--t-sizes);
 	height: var(--t-sizes);
@@ -131,12 +161,17 @@
 	width: 75px;
 	height: 75px;
 	padding: 10px;
+	background-color: black;
+	transition: all 300ms;
+	cursor: pointer;
 }
 .icon > img{
 	max-width: 100%;
 	max-height: 100%;
 }
-
+.icon:hover{
+	filter: invert(1);
+}
 
 .anisettings{
 	transform: translate(0) !important;
@@ -244,13 +279,13 @@
 	position: fixed;
 	min-width: 100%;
 	min-height: 100%;
-	background-color: #000000a1;
+	background-color: #00000054;
 	z-index: 3;
-	transition: opacity 150ms;
+	transition: opacity 500ms;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	backdrop-filter:blur(10px);
+	backdrop-filter: grayscale(1);
 }
 #main-play > .icon{
 	box-shadow: 0 4px 8px 0 rgb(238 236 236 / 65%), 0 6px 20px 0 rgb(255 255 255 / 66%);
@@ -261,7 +296,7 @@
 	--i-size:9.5vh;
 }
 @media only screen and (max-width: 600px){
-	#lyrics{
+	#lyrics,#display2{
   		font-size: 30px;
   	}
   	.panel-1{
@@ -297,8 +332,8 @@
   	.panel-1{
   		font-size: 35px;
   	}
-  	#lyrics{
-  		font-size: 65px;
+  	#lyrics,#display2{
+  		font-size: 60px;
   	}
   	#music-info,#elapsed,#details-0{
 		padding: 0px 20px 0px 20px;

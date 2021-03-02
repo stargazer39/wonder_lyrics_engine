@@ -1,0 +1,21 @@
+.s-wrapper{
+	position: relative;
+	cursor: pointer;
+	/*background-color: black;*/
+	height: 50px;
+	width:500px;
+}
+.s-front{
+	/*background-color: blue;*/
+	height: 100%;
+	width:100%;
+}
+.s-thumb{
+	position: absolute;
+	/*background-color: yellow;*/
+	height: 55px;
+	width: 55px;
+}
+.s-transition{
+	transition: all 500ms;
+}
