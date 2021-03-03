@@ -70,7 +70,7 @@
 	left: 0;
 	width: 100%;
 	z-index: 2;
-	background-image:linear-gradient(#f818d3e8, #00b5d8bf);
+	background-image:linear-gradient(#f818d3e8, #ffffff00);
 	height: 100px;
 	transition: height 200ms,width 100ms;
 }
